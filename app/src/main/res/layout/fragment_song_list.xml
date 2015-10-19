@@ -5,9 +5,13 @@
     android:orientation="vertical">
 
     <ListView
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
         android:id="@+id/song_list"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     </ListView>
 
 </LinearLayout>

@@ -5,6 +5,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -16,6 +17,7 @@ import com.bmustapha.ultramediaplayer.R;
 import com.bmustapha.ultramediaplayer.database.PlayListDB;
 import com.bmustapha.ultramediaplayer.fragments.MusicFragment;
 import com.bmustapha.ultramediaplayer.shared.PlayListSync;
+import com.bmustapha.ultramediaplayer.utilities.AlbumArtLoader;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
         PlayListDB playListDB = new PlayListDB(this);
         PlayListSync.updateDatabaseHandler(playListDB);
+        AlbumArtLoader.setDefaultArt(getResources().getDrawable(R.drawable.default_art));
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 

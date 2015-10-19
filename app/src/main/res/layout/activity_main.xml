@@ -32,6 +32,67 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"/>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:background="@drawable/shadow"/>
+
+            <LinearLayout
+                android:background="#FFFFFF"
+                android:id="@+id/main_controls"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:id="@+id/album_art"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginRight="5dp"/>
+
+                    <TextView
+                        android:id="@+id/track_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@+id/album_art"
+                        android:layout_toRightOf="@+id/album_art"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:scrollHorizontally="true"
+                        android:singleLine="true"
+                        android:textColor="#FFFFFF"/>
+
+                    <TextView
+                        android:id="@+id/track_artist"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/track_name"
+                        android:layout_toEndOf="@+id/album_art"
+                        android:layout_toRightOf="@+id/album_art"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:scrollHorizontally="true"
+                        android:singleLine="true"
+                        android:textColor="#FFFFFF"/>
+
+                </RelativeLayout>
+
+                <ImageView
+                    android:id="@+id/play_pause_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:src="@drawable/ic_activity_play"/>
+
+
+            </LinearLayout>
+
         </LinearLayout>
 
         <android.support.design.widget.NavigationView
@@ -41,6 +102,7 @@
             android:layout_gravity="start"
             app:headerLayout="@layout/drawer_header"
             app:menu="@menu/drawer"/>
+
     </android.support.v4.widget.DrawerLayout>
 
 </RelativeLayout>

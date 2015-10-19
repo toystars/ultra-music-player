@@ -6,7 +6,6 @@
         <item name="colorPrimary">@color/ColorPrimary</item>
         <item name="colorPrimaryDark">@color/ColorPrimaryDark</item>
         <item name="colorAccent">@color/ColorAccent</item>
-        <!--<item name="colorPrimaryText">@color/ColorPrimaryText</item>-->
     </style>
 
     <style name="MyCustomTabLayout" parent="Widget.Design.TabLayout">
