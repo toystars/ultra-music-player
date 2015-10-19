@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group>
+        <item android:id="@+id/add_to_playlist"
+              android:icon="@drawable/ic_playlist_add_black"
+              android:title="@string/song_list_add_to_playlist" />
+    </group>
+    <group>
+        <item
+            android:id="@+id/add_to_favourite"
+            android:icon="@drawable/ic_favorite_black"
+            android:title="@string/song_list_add_to_favourite" />
+    </group>
+    <group>
+        <item
+            android:id="@+id/set_ringtone"
+            android:icon="@drawable/ic_phone_android"
+            android:title="@string/song_list_set_as_ringtone" />
+    </group>
+</menu>
