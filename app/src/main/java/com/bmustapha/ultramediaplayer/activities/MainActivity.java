@@ -1,8 +1,8 @@
-package com.bmustapha.ultramediaplayer;
+package com.bmustapha.ultramediaplayer.activities;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -10,8 +10,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
+
+import com.bmustapha.ultramediaplayer.R;
+import com.bmustapha.ultramediaplayer.fragments.MusicFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,27 +31,26 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
                 menuItem.setChecked(true);
-                mDrawerLayout.closeDrawers();
-                Toast.makeText(MainActivity.this, menuItem.getTitle(), Toast.LENGTH_LONG).show();
+                displayView((String) menuItem.getTitle());
+                // Toast.makeText(MainActivity.this, menuItem.getTitle(), Toast.LENGTH_LONG).show();
                 return true;
-            }
-        });
-
-        FloatingActionButton fab = (FloatingActionButton)findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "Playlist Created", Toast.LENGTH_LONG).show();
             }
         });
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
         actionBar.setDisplayHomeAsUpEnabled(true);
+
+        if (savedInstanceState == null) {
+            // on first time display view for first nav item
+            displayView("Music");
+        }
     }
 
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -67,9 +68,46 @@ public class MainActivity extends AppCompatActivity {
             case android.R.id.home:
                 mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;
-            case R.id.action_settings:
+            case R.id.playlist_add:
+                Toast.makeText(this, "Playlist Added", Toast.LENGTH_SHORT).show();
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void displayView(String title) {
+        // update the main content by replacing fragments
+        Fragment fragment = null;
+        switch (title) {
+            case "Music":
+                fragment = new MusicFragment();
+                // PlayListSync.updateAdapter(null);
+                break;
+            case "Videos":
+                // fragment = new FavouritesFragment();
+                // PlayListSync.updateAdapter(null);
+                break;
+            case "Images":
+                // fragment = new PlayListFragment();
+                break;
+            case "Deezer":
+                // fragment = new VideoFragment();
+                // PlayListSync.updateAdapter(null);
+                break;
+            case "Youtube":
+                // fragment = new VideoFragment();
+                // PlayListSync.updateAdapter(null);
+                break;
+            default:
+                break;
+        }
+
+        try {
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
+            // close drawer
+            mDrawerLayout.closeDrawers();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

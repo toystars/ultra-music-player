@@ -7,8 +7,9 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme" >
-        <activity android:name="com.bmustapha.ultramediaplayer.MainActivity" >
+        android:theme="@style/AppTheme"
+        android:name=".config.UltraMediaPlayerApplication">
+        <activity android:name=".activities.MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
