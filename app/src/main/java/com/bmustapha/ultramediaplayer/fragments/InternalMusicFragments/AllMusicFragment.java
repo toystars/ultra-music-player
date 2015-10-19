@@ -14,6 +14,7 @@ import android.widget.ListView;
 import com.bmustapha.ultramediaplayer.R;
 import com.bmustapha.ultramediaplayer.adapters.SongAdapter;
 import com.bmustapha.ultramediaplayer.models.Song;
+import com.bmustapha.ultramediaplayer.services.MusicService;
 import com.bmustapha.ultramediaplayer.utilities.SongListHelper;
 
 import java.util.ArrayList;
@@ -27,6 +28,8 @@ public class AllMusicFragment extends Fragment {
     private ListView songView;
     private ArrayList<Song> songList;
     private Typeface face;
+    private MusicService musicService;
+    private boolean firstTime;
 
     @Override
     public void onStart() {
@@ -39,7 +42,10 @@ public class AllMusicFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_song_list, container, false);
 
+        musicService = MusicService.musicService;
+
         songView = (ListView) view.findViewById(R.id.song_list);
+
         songList = new ArrayList<>();
         face = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Lato-Regular.ttf");
         songView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -55,7 +61,10 @@ public class AllMusicFragment extends Fragment {
     }
 
     private void selectSong(int position) {
-
+        firstTime = false;
+        musicService.setSongList(songList);
+        musicService.startSong(position);
+        musicService.getPlayPauseButton().setImageResource(R.drawable.ic_activity_pause);
     }
 
     // helper method to help get song info
@@ -68,7 +77,6 @@ public class AllMusicFragment extends Fragment {
         protected Void doInBackground(Void... params) {
             // get all songs
             getSongList();
-
             // sort the songs alphabetically
             Collections.sort(songList);
             return null;

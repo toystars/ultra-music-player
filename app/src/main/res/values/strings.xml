@@ -19,5 +19,7 @@
     <string name="song_list_add_to_playlist">Add to Playlist</string>
     <string name="song_list_set_as_ringtone">Set as Ringtone</string>
     <string name="favourite_remove_song">Remove Song</string>
+    <string name="main_activity_playback_control">Main Activity Playback Control</string>
+    <string name="main_activity_playback_album_art">Main Activity Playback AlbumArt</string>
 
 </resources>

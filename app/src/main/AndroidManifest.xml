@@ -21,10 +21,9 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <service android:name=".services.MusicService"/>
 
-        <service android:name="com.bmustapha.ultramediaplayer.services.MusicService"/>
-
-        <receiver android:name="com.bmustapha.ultramediaplayer.broadcasts.MusicServiceStartBroadcast">
+        <receiver android:name=".broadcasts.MusicServiceStartBroadcast">
             <intent-filter>
                 <action android:name="android.intent.action.QUICKBOOT_POWERON"/>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
@@ -35,9 +34,14 @@
             android:name=".activities.MainActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait">
+        </activity>
+
+        <activity
+            android:name=".activities.LauncherActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>

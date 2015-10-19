@@ -60,12 +60,11 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
     //current position
     private int currentPosition;
 
-    ImageView FragmentAlbumArt;
-    TextView FragmentTrackTitle;
-    TextView FragmentTrackArtist;
-    ImageView FragmentPlayPauseButton;
-    ImageView FragmentNextButton;
-    ImageView FragmentPreviousButton;
+    private LinearLayout controlLayout;
+    private ImageView controlPlayPauseButton;
+    private ImageView controlAlbumArt;
+    private TextView controlTrackName;
+    private TextView controlArtistName;
 
     boolean shuffle = false;
     boolean repeat = false;
@@ -88,10 +87,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
     public static MusicService musicService;
 
     private NotificationBroadcast notificationBroadcast;
-
-    private NotificationManager notificationManager;
     private ImageView pausePlay;
-    private LinearLayout FragmentControlLayout;
 
 
     @Override
@@ -206,14 +202,12 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
     }
 
     // method to set control objects
-    public void setParams(LinearLayout controlLayout, ImageView albumArt, TextView songTitle, TextView artist, ImageView playPauseButton, ImageView previousButton, ImageView nextButton) {
-        FragmentAlbumArt = albumArt;
-        FragmentTrackTitle = songTitle;
-        FragmentTrackArtist = artist;
-        FragmentPlayPauseButton = playPauseButton;
-        FragmentNextButton = previousButton;
-        FragmentPreviousButton = nextButton;
-        FragmentControlLayout = controlLayout;
+    public void setParams(LinearLayout controlLayout, ImageView controlPlayPauseButton, ImageView controlAlbumArt, TextView controlTrackName, TextView controlArtistName) {
+        this.controlLayout = controlLayout;
+        this.controlPlayPauseButton = controlPlayPauseButton;
+        this.controlAlbumArt = controlAlbumArt;
+        this.controlTrackName = controlTrackName;
+        this.controlArtistName = controlArtistName;
     }
 
     // method to play song
@@ -301,18 +295,18 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
     public void toggleState() {
         if (mediaPlayer.isPlaying()) {
             mediaPlayer.pause();
-            // FragmentPlayPauseButton.setImageResource(R.drawable.play);
+            controlPlayPauseButton.setImageResource(R.drawable.ic_activity_play);
             newNotification();
         } else {
             mediaPlayer.start();
-            // FragmentPlayPauseButton.setImageResource(R.drawable.pause);
+            controlPlayPauseButton.setImageResource(R.drawable.ic_activity_pause);
             newNotification();
         }
         if (isFullScreen) {
             if (mediaPlayer.isPlaying()) {
-                // pausePlay.setImageResource(R.drawable.ic_action_pause);
+                // controlPlayPauseButton.setImageResource(R.drawable.ic_activity_pause);
             } else {
-                // pausePlay.setImageResource(R.drawable.ic_action_play);
+                // controlPlayPauseButton.setImageResource(R.drawable.ic_activity_play);
             }
         }
     }
@@ -362,14 +356,14 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
 
     @Override
     public void onPrepared(MediaPlayer mediaPlayer) {
-        FragmentTrackTitle.setText(currentSong.getTitle());
-        FragmentTrackArtist.setText(currentSong.getArtist());
+        controlTrackName.setText(currentSong.getTitle());
+        controlArtistName.setText(currentSong.getArtist());
         Picasso.with(this)
                 .load(currentSong.getAlbumArtUri())
                 .error(AlbumArtLoader.getDefaultArt())
-                .into(FragmentAlbumArt);
-        if (FragmentControlLayout.getVisibility() != View.VISIBLE) {
-            FragmentControlLayout.setVisibility(View.VISIBLE);
+                .into(controlAlbumArt);
+        if (controlLayout.getVisibility() != View.VISIBLE) {
+            controlLayout.setVisibility(View.VISIBLE);
         }
         // check if in full screen mode
         if (isFullScreen) {
@@ -398,6 +392,10 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
 
     public Song getCurrentSong() {
         return currentSong;
+    }
+
+    public ImageView getPlayPauseButton() {
+        return controlPlayPauseButton;
     }
 
     public void setFullScreenParams(ImageView fullMusicLayout, Activity activity, TextView totalTime, TextView songTitle, TextView songArtist, ImageView pausePlay) {
@@ -478,7 +476,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         Bitmap albumArt = null;
 
         String notificationService = Context.NOTIFICATION_SERVICE;
-        notificationManager = (NotificationManager) getSystemService(notificationService);
+        NotificationManager notificationManager = (NotificationManager) getSystemService(notificationService);
 
         RemoteViews simpleContentView = new RemoteViews(getApplicationContext().getPackageName(), R.layout.custom_notification);
 

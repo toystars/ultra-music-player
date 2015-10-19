@@ -11,13 +11,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bmustapha.ultramediaplayer.R;
 import com.bmustapha.ultramediaplayer.database.PlayListDB;
 import com.bmustapha.ultramediaplayer.fragments.MusicFragment;
+import com.bmustapha.ultramediaplayer.models.Song;
+import com.bmustapha.ultramediaplayer.services.MusicService;
 import com.bmustapha.ultramediaplayer.shared.PlayListSync;
 import com.bmustapha.ultramediaplayer.utilities.AlbumArtLoader;
+import com.squareup.picasso.Picasso;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,9 +35,49 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        final MusicService musicService = MusicService.musicService;
         PlayListDB playListDB = new PlayListDB(this);
         PlayListSync.updateDatabaseHandler(playListDB);
         AlbumArtLoader.setDefaultArt(getResources().getDrawable(R.drawable.default_art));
+
+        LinearLayout controlLayout = (LinearLayout) findViewById(R.id.main_controls);
+        ImageView playPauseButton = (ImageView) findViewById(R.id.play_pause_button);
+        ImageView albumArt = (ImageView) findViewById(R.id.album_art);
+        TextView trackName = (TextView) findViewById(R.id.track_name);
+        TextView artistName = (TextView) findViewById(R.id.track_artist);
+
+        // check if music service contains songs is playing to determine if the control layout should be displayed or not
+        if (musicService.getCurrentSong() != null) {
+            controlLayout.setVisibility(View.VISIBLE);
+        } else {
+            controlLayout.setVisibility(View.GONE);
+        }
+
+        musicService.setParams(controlLayout, playPauseButton, albumArt, trackName, artistName);
+
+        if (musicService.getCurrentSong() != null) {
+            Song song = musicService.getCurrentSong();
+            // a song is either currently playing or has been selected, update the track details
+            trackName.setText(song.getTitle());
+            artistName.setText(song.getArtist());
+            if (musicService.isPlaying()) {
+                playPauseButton.setImageResource(R.drawable.ic_activity_pause);
+            } else {
+                playPauseButton.setImageResource(R.drawable.ic_activity_play);
+            }
+            Picasso.with(this)
+                    .load(song.getAlbumArtUri())
+                    .error(AlbumArtLoader.getDefaultArt())
+                    .into(albumArt);
+            controlLayout.setEnabled(true);
+        }
+
+        playPauseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                musicService.toggleState();
+            }
+        });
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
