@@ -95,11 +95,3 @@ public class AllMusicFragment extends Fragment {
         }
     }
 }
-
-
-
-
-
-
-
-
