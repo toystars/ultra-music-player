@@ -23,5 +23,9 @@
     <string name="main_activity_playback_album_art">Main Activity Playback AlbumArt</string>
     <string name="playlist_album_art">Playlist album art</string>
     <string name="playlist_more_button">Playlist More Button</string>
+    <string name="play_playlist_songs">Play Songs</string>
+    <string name="add_songs_to_playlist">Add Songs</string>
+    <string name="edit_playlist">Edit Playlist</string>
+    <string name="delete_playlist">Delete Playlist</string>
 
 </resources>

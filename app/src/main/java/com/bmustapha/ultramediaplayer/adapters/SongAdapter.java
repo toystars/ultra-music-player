@@ -213,23 +213,9 @@ public class SongAdapter extends BaseAdapter implements PopupMenu.OnMenuItemClic
             message = "Error adding song to Favourites";
         } finally {
             Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+            PlayListSync.refreshFavouritesSongs();
         }
 
-    }
-
-    private void removeSongFromFavourites() {
-        String message = "";
-        try {
-            PlayListSync.getDataBaseHandler().deleteFavSong(currentSong.getID());
-            message = "Song removed from Favourites";
-        } catch (Exception e) {
-            e.printStackTrace();
-            message = "Error removing song from Favourites";
-        } finally {
-            Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-            // refresh the list of songs in the favourites
-            PlayListSync.refreshFavouritesSongs(this);
-        }
     }
 
     @Override
@@ -244,8 +230,6 @@ public class SongAdapter extends BaseAdapter implements PopupMenu.OnMenuItemClic
             case R.id.set_ringtone:
                 setRingTone();
                 return true;
-            case R.id.remove_fav_song:
-                removeSongFromFavourites();
             default:
                 return false;
         }

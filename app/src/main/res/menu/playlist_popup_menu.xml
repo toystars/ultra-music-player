@@ -1,20 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group>
+        <item android:id="@+id/play_playlist_songs"
+              android:icon="@drawable/ic_play"
+              android:title="@string/play_playlist_songs" />
+    </group>
+    <group>
         <item android:id="@+id/add_songs"
               android:icon="@drawable/ic_queue"
-              android:title="Add Songs" />
+              android:title="@string/add_songs_to_playlist" />
     </group>
     <group>
         <item
             android:id="@+id/edit_play_list"
             android:icon="@drawable/ic_edit"
-            android:title="Edit Playlist" />
+            android:title="@string/edit_playlist" />
     </group>
     <group>
         <item
             android:id="@+id/delete_play_list"
             android:icon="@drawable/ic_delete"
-            android:title="Delete Playlist" />
+            android:title="@string/delete_playlist" />
     </group>
 </menu>

@@ -21,6 +21,7 @@ import com.bmustapha.ultramediaplayer.database.PlayListDB;
 import com.bmustapha.ultramediaplayer.modals.PlayListModal;
 import com.bmustapha.ultramediaplayer.models.PlayList;
 import com.bmustapha.ultramediaplayer.models.Song;
+import com.bmustapha.ultramediaplayer.services.MusicService;
 import com.bmustapha.ultramediaplayer.shared.PlayListSync;
 import com.bmustapha.ultramediaplayer.utilities.SongListHelper;
 
@@ -42,12 +43,17 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.ViewHo
     private SongAdapter songAdapter;
     private int playListPosition;
 
+    private MusicService musicService;
+
+    private ArrayList<Song> playListSongs;
+
     public PlayListAdapter(ArrayList<PlayList> playLists, Activity context, Typeface face) {
         super();
         this.playLists = playLists;
         this.context = context;
         this.face = face;
         playListDB = PlayListSync.getDataBaseHandler();
+        musicService = MusicService.musicService;
     }
 
     @Override
@@ -99,6 +105,9 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.ViewHo
     @Override
     public boolean onMenuItemClick(final MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.play_playlist_songs:
+                playPlayListSongs();
+                return true;
             case R.id.add_songs:
                 addSong();
                 return true;
@@ -111,6 +120,14 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.ViewHo
                 return true;
             default:
                 return false;
+        }
+    }
+
+    private void playPlayListSongs() {
+        playListSongs = playListDB.getAllPlayListSongs(playLists.get(playListPosition).getDbId());
+        if (playListSongs.size() > 0) {
+            musicService.setSongList(playListSongs);
+            musicService.startSong(0);
         }
     }
 

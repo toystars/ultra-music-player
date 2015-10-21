@@ -121,7 +121,7 @@ public class PlayListDB extends SQLiteOpenHelper {
     public Integer deletePlayList(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
         // find all songs linked to the playlist
-        ArrayList<Song> songs = getAllSongs(id);
+        ArrayList<Song> songs = getAllPlayListSongs(id);
         // loop through the songs ArrayList to delete each song
         if (songs.size() > 0) {
             for (int x = 0; x < songs.size(); x++) {
@@ -224,7 +224,7 @@ public class PlayListDB extends SQLiteOpenHelper {
         return false;
     }
 
-    public ArrayList<Song> getAllSongs(int playListId) {
+    public ArrayList<Song> getAllPlayListSongs(int playListId) {
         ArrayList<Song> allSongs = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res =  db.rawQuery("select * from song where playListId=" + playListId, null );

@@ -386,6 +386,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
             }
         }
         mediaPlayer.start();
+        controlPlayPauseButton.setImageResource(R.drawable.ic_activity_pause);
         // FragmentPlayPauseButton.setImageResource(R.drawable.pause);
         newNotification();
     }

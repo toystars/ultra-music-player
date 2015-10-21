@@ -5,14 +5,14 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
 import com.bmustapha.ultramediaplayer.R;
-import com.bmustapha.ultramediaplayer.adapters.SongAdapter;
+import com.bmustapha.ultramediaplayer.adapters.FavouritesAdapter;
 import com.bmustapha.ultramediaplayer.database.PlayListDB;
 import com.bmustapha.ultramediaplayer.models.Song;
 import com.bmustapha.ultramediaplayer.services.MusicService;
@@ -26,10 +26,11 @@ import java.util.ArrayList;
 public class FavouriteFragment extends Fragment {
 
     private ArrayList<Song> favouriteSongs;
-    private ListView favouriteSongListView;
     private PlayListDB playListDB;
     private Typeface face;
     private MusicService musicService;
+    private RecyclerView favouritesRecyclerView;
+    private GridLayoutManager layoutManager;
 
     @Override
     public void onStart() {
@@ -43,16 +44,13 @@ public class FavouriteFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_favourite, container, false);
 
         favouriteSongs = new ArrayList<Song>();
-        favouriteSongListView = (ListView) view.findViewById(R.id.favourites_song_list);
         playListDB = PlayListSync.getDataBaseHandler();
         face = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Lato-Regular.ttf");
 
-        favouriteSongListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                selectSong(position);
-            }
-        });
+        favouritesRecyclerView = (RecyclerView) view.findViewById(R.id.fav_recycler_view);
+        favouritesRecyclerView.setHasFixedSize(true);
+        layoutManager = new GridLayoutManager(getActivity(), 2);
+        favouritesRecyclerView.setLayoutManager(layoutManager);
 
         new getFavouriteSongs().execute();
 
@@ -88,9 +86,9 @@ public class FavouriteFragment extends Fragment {
 
         @Override
         protected void onPostExecute(Void result) {
-            // create adapter and set to list view
-            SongAdapter favSongListAdapter =  new SongAdapter(getActivity(), favouriteSongs, face, true, true);
-            favouriteSongListView.setAdapter(favSongListAdapter);
+            FavouritesAdapter favouritesAdapter = new FavouritesAdapter(favouriteSongs, getActivity(), face);
+            favouritesRecyclerView.setAdapter(favouritesAdapter);
+            PlayListSync.updateFavouritesAdapter(favouritesAdapter);
         }
     }
 }
