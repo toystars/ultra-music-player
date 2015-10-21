@@ -1,5 +1,6 @@
 package com.bmustapha.ultramediaplayer.shared;
 
+import android.support.v7.widget.RecyclerView;
 import android.widget.RelativeLayout;
 
 import com.bmustapha.ultramediaplayer.adapters.PlayListAdapter;
@@ -28,7 +29,7 @@ public class PlayListSync {
         mPlayListAdapter = playListAdapter;
     }
 
-    public static PlayListAdapter getPlayListAdapter() {
+    public static RecyclerView.Adapter getPlayListAdapter() {
         return mPlayListAdapter;
     }
 

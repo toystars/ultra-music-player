@@ -21,5 +21,7 @@
     <string name="favourite_remove_song">Remove Song</string>
     <string name="main_activity_playback_control">Main Activity Playback Control</string>
     <string name="main_activity_playback_album_art">Main Activity Playback AlbumArt</string>
+    <string name="playlist_album_art">Playlist album art</string>
+    <string name="playlist_more_button">Playlist More Button</string>
 
 </resources>

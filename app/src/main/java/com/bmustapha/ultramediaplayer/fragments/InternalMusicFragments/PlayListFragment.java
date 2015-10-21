@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +20,7 @@ import android.widget.Toast;
 
 import com.bmustapha.ultramediaplayer.R;
 import com.bmustapha.ultramediaplayer.adapters.PlayListAdapter;
+import com.bmustapha.ultramediaplayer.adapters.PlayListAdapter2;
 import com.bmustapha.ultramediaplayer.adapters.SongAdapter;
 import com.bmustapha.ultramediaplayer.database.PlayListDB;
 import com.bmustapha.ultramediaplayer.modals.PlayListModal;
@@ -40,10 +43,14 @@ public class PlayListFragment extends Fragment implements PopupMenu.OnMenuItemCl
     private ArrayList<PlayList> playLists;
     private ListView playListView;
     private PlayListDB playListDB;
-    private PlayListAdapter playListAdapter;
+    private PlayListAdapter2 playListAdapter2;
     private Typeface face;
     private int playListPosition;
     private SongAdapter songAdapter;
+
+    RecyclerView.LayoutManager layoutManager;
+    private RecyclerView recyclerView;
+    PlayListAdapter recyclerAdapter;
 
     @Override
     public void onStart() {
@@ -54,37 +61,69 @@ public class PlayListFragment extends Fragment implements PopupMenu.OnMenuItemCl
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_playlist, container, false);
+        View view = inflater.inflate(R.layout.fragment_playlist_recycler, container, false);
 
         playLists = new ArrayList<>();
         playListView = (ListView) view.findViewById(R.id.playlist_listview);
         playListDB = PlayListSync.getDataBaseHandler();
 
-        playListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                playListPosition = position;
-                getPlayListSongs(position);
-            }
-        });
+        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        recyclerView.setHasFixedSize(true);
+        layoutManager = new GridLayoutManager(getActivity(), 2);
+        recyclerView.setLayoutManager(layoutManager);
 
-        playListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                playListPosition = position;
-                showMenu(view);
-                return true;
-            }
-        });
+
+//        playListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                playListPosition = position;
+//                getPlayListSongs(position);
+//            }
+//        });
+//
+//        playListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+//            @Override
+//            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+//                playListPosition = position;
+//                showMenu(view);
+//                return true;
+//            }
+//        });
 
         new getPlayLists().execute();
 
         return view;
     }
 
+    private class getPlayLists extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... params) {
+            // set font
+            face = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Lato-Regular.ttf");
+            // get all play lists (if any)
+            getPlayLists();
+            return null;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            // create adapter and set to list view
+            // playListAdapter2 = new PlayListAdapter2(getActivity(), playLists, face);
+            // playListView.setAdapter(playListAdapter2);
+            recyclerAdapter = new PlayListAdapter(playLists, getActivity());
+            recyclerView.setAdapter(recyclerAdapter);
+            PlayListSync.updateAdapter(recyclerAdapter);
+        }
+    }
+
     private void getPlayListSongs(int position) {
         // change to activity containing playList songs
-//        PlayList playList = playListAdapter.getItem(position);
+//        PlayList playList = playListAdapter2.getItem(position);
 //        Intent intent = new Intent(getActivity(), PlayListSongs.class);
 //        intent.putExtra("PLAYLIST_ID", playList.getDbId());
 //        intent.putExtra("PLAYLIST_NAME", playList.getName());
@@ -103,11 +142,11 @@ public class PlayListFragment extends Fragment implements PopupMenu.OnMenuItemCl
     public boolean onMenuItemClick(final MenuItem item) {
         switch (item.getItemId()) {
             case R.id.add_songs:
-                addSong(playListAdapter);
+                addSong(playListAdapter2);
                 return true;
             case R.id.edit_play_list:
                 View view = getActivity().getLayoutInflater().inflate(R.layout.add_playlist, null);
-                new PlayListModal(getActivity(), playListAdapter.getItem(playListPosition), true).showDialog(view);
+                new PlayListModal(getActivity(), playListAdapter2.getItem(playListPosition), true).showDialog(view);
                 return true;
             case R.id.delete_play_list:
                 deletePlayList();
@@ -117,7 +156,7 @@ public class PlayListFragment extends Fragment implements PopupMenu.OnMenuItemCl
         }
     }
 
-    private void addSong(PlayListAdapter playListAdapter) {
+    private void addSong(PlayListAdapter2 playListAdapter2) {
         ArrayList<Song> songList = SongListHelper.getAllSongs(getActivity());
         Collections.sort(songList);
         songAdapter = new SongAdapter(getActivity(), songList, face, false, false);
@@ -153,7 +192,7 @@ public class PlayListFragment extends Fragment implements PopupMenu.OnMenuItemCl
         Song song = songAdapter.getItem(position);
         String message = "";
         try {
-            PlayList playList = playListAdapter.getItem(playListPosition);
+            PlayList playList = playListAdapter2.getItem(playListPosition);
             message = playList.addSong(song);
         } catch (Exception e) {
             e.printStackTrace();
@@ -175,7 +214,7 @@ public class PlayListFragment extends Fragment implements PopupMenu.OnMenuItemCl
                 .setCancelable(false)
                 .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        PlayList playList = playListAdapter.getItem(playListPosition);
+                        PlayList playList = playListAdapter2.getItem(playListPosition);
                         String message = "";
                         try {
                             playListDB.deletePlayList(playList.getDbId());
@@ -222,29 +261,5 @@ public class PlayListFragment extends Fragment implements PopupMenu.OnMenuItemCl
             return;
         }
         popup.show();
-    }
-
-    private class getPlayLists extends AsyncTask<Void, Void, Void> {
-        @Override
-        protected Void doInBackground(Void... params) {
-            // set font
-            face = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Lato-Regular.ttf");
-            // get all play lists (if any)
-            getPlayLists();
-            return null;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-            // create adapter and set to list view
-            playListAdapter = new PlayListAdapter(getActivity(), playLists, face);
-            playListView.setAdapter(playListAdapter);
-            PlayListSync.updateAdapter(playListAdapter);
-        }
     }
 }

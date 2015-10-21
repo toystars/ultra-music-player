@@ -1,12 +1,13 @@
 package com.bmustapha.ultramediaplayer.adapters;
 
 import android.content.Context;
-import android.graphics.Typeface;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bmustapha.ultramediaplayer.R;
 import com.bmustapha.ultramediaplayer.models.PlayList;
@@ -14,66 +15,57 @@ import com.bmustapha.ultramediaplayer.models.PlayList;
 import java.util.ArrayList;
 
 /**
- * Created by tunde on 9/11/15.
+ * Created by tunde on 10/21/15.
  */
-public class PlayListAdapter extends BaseAdapter {
 
+public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.ViewHolder> {
 
-    private LayoutInflater playlistInflater;
     private ArrayList<PlayList> playLists;
-    private Typeface face;
+    private Context context;
 
-    public PlayListAdapter(Context context, ArrayList<PlayList> playLists, Typeface face) {
+    public PlayListAdapter(ArrayList<PlayList> playLists, Context context) {
+        super();
         this.playLists = playLists;
-        this.playlistInflater = LayoutInflater.from(context);
-        this.face = face;
+        this.context = context;
     }
 
     @Override
-    public int getCount() {
+    public PlayListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.playlist_recycler, parent, false);
+        return new ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(PlayListAdapter.ViewHolder holder, final int position) {
+        final PlayList playList = playLists.get(position);
+        holder.name.setText(playList.getName());
+        holder.description.setText(playList.getDescription());
+        holder.moreButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context, playLists.get(position).getName(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override
+    public int getItemCount() {
         return playLists.size();
     }
 
-    @Override
-    public PlayList getItem(int position) {
-        return playLists.get(position);
-    }
+    public class ViewHolder extends RecyclerView.ViewHolder{
 
-    @Override
-    public long getItemId(int position) {
-        return 0;
-    }
+        public TextView name;
+        public TextView description;
+        public ImageView moreButton;
+        public ImageView playlistArt;
 
-    public class ViewHolder {
-        TextView playListName;
-        TextView playListDescription;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-
-        ViewHolder holder;
-
-        if (convertView == null) {
-            convertView = playlistInflater.inflate(R.layout.playlist, parent, false);
-            holder = new ViewHolder();
-            holder.playListName = (TextView) convertView.findViewById(R.id.play_list_name);
-            holder.playListName.setTypeface(face);
-            holder.playListDescription = (TextView) convertView.findViewById(R.id.play_list_description);
-            holder.playListDescription.setTypeface(face);
-
-            convertView.setTag(holder);
-        } else {
-            holder = (ViewHolder) convertView.getTag();
+        public ViewHolder(View itemView) {
+            super(itemView);
+            name = (TextView) itemView.findViewById(R.id.playlist_name);
+            description = (TextView) itemView.findViewById(R.id.playlist_description);
+            moreButton = (ImageView) itemView.findViewById(R.id.playlist_more_button);
         }
-
-        //get song using position
-        PlayList playList = playLists.get(position);
-        //get title and artist strings
-        holder.playListName.setText(playList.getName());
-        holder.playListDescription.setText(playList.getDescription());
-
-        return convertView;
     }
 
     public void setPlayLists(ArrayList<PlayList> newPlayLists) {
