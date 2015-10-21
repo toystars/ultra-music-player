@@ -68,7 +68,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/ic_playlist_more"
                     android:contentDescription="@string/playlist_more_button"
-                    android:padding="5dp"
+                    android:padding="10dp"
                     android:layout_gravity="center"/>
 
             </LinearLayout>

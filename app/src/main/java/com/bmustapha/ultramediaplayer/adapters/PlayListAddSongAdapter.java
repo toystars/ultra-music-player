@@ -16,14 +16,16 @@ import java.util.ArrayList;
 /**
  * Created by tunde on 9/11/15.
  */
-public class PlayListAdapter2 extends BaseAdapter {
+public class PlayListAddSongAdapter extends BaseAdapter {
 
 
+    private Context context;
     private LayoutInflater playlistInflater;
     private ArrayList<PlayList> playLists;
     private Typeface face;
 
-    public PlayListAdapter2(Context context, ArrayList<PlayList> playLists, Typeface face) {
+    public PlayListAddSongAdapter(Context context, ArrayList<PlayList> playLists, Typeface face) {
+        this.context = context;
         this.playLists = playLists;
         this.playlistInflater = LayoutInflater.from(context);
         this.face = face;

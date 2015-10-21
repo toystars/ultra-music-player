@@ -143,7 +143,7 @@ public class SongAdapter extends BaseAdapter implements PopupMenu.OnMenuItemClic
         alertDialog.show();
 
         ListView listView = (ListView) view.findViewById(R.id.play_list_view);
-        PlayListAdapter2 playListAdapter2 = new PlayListAdapter2(activity, playLists, face);
+        PlayListAddSongAdapter playListAdapter2 = new PlayListAddSongAdapter(activity, playLists, face);
         listView.setAdapter(playListAdapter2);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
