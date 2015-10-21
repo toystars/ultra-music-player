@@ -106,7 +106,8 @@ public class PlayListFragment extends Fragment implements PopupMenu.OnMenuItemCl
                 addSong(playListAdapter);
                 return true;
             case R.id.edit_play_list:
-                editPlayList();
+                View view = getActivity().getLayoutInflater().inflate(R.layout.add_playlist, null);
+                new PlayListModal(getActivity(), playListAdapter.getItem(playListPosition), true).showDialog(view);
                 return true;
             case R.id.delete_play_list:
                 deletePlayList();
@@ -116,7 +117,7 @@ public class PlayListFragment extends Fragment implements PopupMenu.OnMenuItemCl
         }
     }
 
-    public void addSong(PlayListAdapter playListAdapter) {
+    private void addSong(PlayListAdapter playListAdapter) {
         ArrayList<Song> songList = SongListHelper.getAllSongs(getActivity());
         Collections.sort(songList);
         songAdapter = new SongAdapter(getActivity(), songList, face, false, false);
@@ -135,6 +136,7 @@ public class PlayListFragment extends Fragment implements PopupMenu.OnMenuItemCl
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity())
                 .setTitle("Add song to Playlist")
                 .setView(view)
+                .setIcon(android.R.drawable.ic_input_add)
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -162,12 +164,7 @@ public class PlayListFragment extends Fragment implements PopupMenu.OnMenuItemCl
         }
     }
 
-    public void editPlayList() {
-        PlayList playList = playListAdapter.getItem(playListPosition);
-        PlayListModal.newInstance(playList.getName(), playList.getDescription(), playList.getDbId(), true).show(getFragmentManager(), "PlayListFragment");
-    }
-
-    public void deletePlayList() {
+    private void deletePlayList() {
         // confirm if user wants to delete playlist
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         // set title
@@ -176,8 +173,8 @@ public class PlayListFragment extends Fragment implements PopupMenu.OnMenuItemCl
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setMessage("Deletion is irreversible!")
                 .setCancelable(false)
-                .setPositiveButton("Yes",new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog,int id) {
+                .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
                         PlayList playList = playListAdapter.getItem(playListPosition);
                         String message = "";
                         try {
@@ -192,8 +189,8 @@ public class PlayListFragment extends Fragment implements PopupMenu.OnMenuItemCl
                         }
                     }
                 })
-                .setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog,int id) {
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
                         // if this button is clicked, just close
                         // the dialog box and do nothing
                         dialog.cancel();
@@ -251,12 +248,3 @@ public class PlayListFragment extends Fragment implements PopupMenu.OnMenuItemCl
         }
     }
 }
-
-
-
-
-
-
-
-
-
