@@ -30,7 +30,7 @@ import java.util.ArrayList;
 public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.ViewHolder> implements PopupMenu.OnMenuItemClickListener {
 
     private final PlayListDB playListDB;
-    private ArrayList<Song> songs;
+    private ArrayList<Song> favouriteSongs;
     private Activity context;
     private Typeface face;
 
@@ -41,9 +41,9 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.Vi
 
     private ArrayList<Song> playListSongs;
 
-    public FavouritesAdapter(ArrayList<Song> songs, Activity context, Typeface face) {
+    public FavouritesAdapter(ArrayList<Song> favouriteSongs, Activity context, Typeface face) {
         super();
-        this.songs = songs;
+        this.favouriteSongs = favouriteSongs;
         this.context = context;
         this.face = face;
         playListDB = PlayListSync.getDataBaseHandler();
@@ -58,7 +58,7 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.Vi
 
     @Override
     public void onBindViewHolder(FavouritesAdapter.ViewHolder holder, final int position) {
-        Song song = songs.get(position);
+        Song song = favouriteSongs.get(position);
         holder.songName.setText(song.getTitle());
         holder.artistName.setText(song.getArtist());
         holder.moreButton.setOnClickListener(new View.OnClickListener() {
@@ -72,11 +72,17 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.Vi
                 .load(song.getAlbumArtUri())
                 .error(AlbumArtLoader.getDefaultArt())
                 .into(holder.favouriteAlbumArt);
+        holder.favouriteAlbumArt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectSong(position);
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return songs.size();
+        return favouriteSongs.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
@@ -97,12 +103,18 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.Vi
         }
     }
 
+    public void selectSong(int position) {
+        musicService.setSongList(favouriteSongs);
+        musicService.startSong(position);
+        musicService.getPlayPauseButton().setImageResource(R.drawable.ic_activity_pause);
+    }
+
     public void setPlayLists(ArrayList<Song> newSongs) {
-        songs = newSongs;
+        favouriteSongs = newSongs;
     }
 
     public ArrayList<Song> getPlayLists() {
-        return songs;
+        return favouriteSongs;
     }
 
     public void showMenu(View v) {
@@ -139,7 +151,7 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.Vi
     private void removeSongFromFavourites() {
         String message = "";
         try {
-            PlayListSync.getDataBaseHandler().deleteFavSong(songs.get(songPosition).getID());
+            PlayListSync.getDataBaseHandler().deleteFavSong(favouriteSongs.get(songPosition).getID());
             message = "Song removed from Favourites";
         } catch (Exception e) {
             e.printStackTrace();
@@ -150,7 +162,7 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.Vi
         }
     }
 
-    public void setSongs(ArrayList<Song> newSongs) {
-        songs = newSongs;
+    public void setFavouriteSongs(ArrayList<Song> newSongs) {
+        favouriteSongs = newSongs;
     }
 }

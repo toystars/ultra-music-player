@@ -65,12 +65,6 @@ public class FavouriteFragment extends Fragment {
         }
     }
 
-    public void selectSong(int position) {
-        musicService.setSongList(favouriteSongs);
-        musicService.startSong(position);
-        musicService.getPlayPauseButton().setImageResource(R.drawable.ic_activity_pause);
-    }
-
     private class getFavouriteSongs extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... params) {

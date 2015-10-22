@@ -44,7 +44,7 @@ public class PlayListSync {
     }
 
     public static void refreshFavouritesSongs() {
-        mFavouritesAdapter.setSongs(mPlayListDB.getAllFavSongs());
+        mFavouritesAdapter.setFavouriteSongs(mPlayListDB.getAllFavSongs());
         mFavouritesAdapter.notifyDataSetChanged();
     }
 

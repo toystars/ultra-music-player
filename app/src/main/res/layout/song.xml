@@ -23,7 +23,6 @@
         android:orientation="vertical">
 
         <TextView
-            android:text="I believe I can fly"
             android:id="@+id/song_title"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -40,9 +39,8 @@
             android:orientation="horizontal">
 
             <TextView
-                android:text="R.Kelly"
                 android:id="@+id/song_artist"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ellipsize="end"
@@ -53,7 +51,6 @@
                 android:textStyle="bold"/>
 
             <TextView
-                android:text="4:54"
                 android:id="@+id/song_duration"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
