@@ -95,6 +95,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
     private RelativeLayout playListFullAlbumArt;
     private boolean isFromPlayList = false;
     private int playListId;
+    private ImageView fullPlayListPlayPauseButton;
 
 
     @Override
@@ -196,24 +197,6 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
                 // if (mMediaPlayer.isPlaying()) mMediaPlayer.setVolume(0.1f, 0.1f);
                 break;
         }
-    }
-
-    // method to get song list from activity
-    public void setSongList(ArrayList<Song> songList) {
-        songs = songList;
-    }
-
-    public void setSongListFromPlayList(ArrayList<Song> songList, boolean isFromPlayList, int playListId, RelativeLayout currentAlbumArt) {
-        songs = songList;
-        this.isFromPlayList = isFromPlayList;
-        this.playListId = playListId;
-        this.playListFullAlbumArt = currentAlbumArt;
-    }
-
-    public void clearFullPlaylistParams() {
-        this.isFromPlayList = false;
-        this.playListId = -1;
-        this.playListFullAlbumArt = null;
     }
 
     @Override
@@ -417,6 +400,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
                 fullScreenAlbumArt.setImageDrawable(AlbumArtLoader.getDefaultArt());
             }
         }
+
         mediaPlayer.start();
         controlPlayPauseButton.setImageResource(R.drawable.ic_activity_pause);
         // FragmentPlayPauseButton.setImageResource(R.drawable.pause);
@@ -449,9 +433,43 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         pausePlay = null;
     }
 
+    // method to get song list from activity
+    public void setSongList(ArrayList<Song> songList) {
+        songs = songList;
+    }
+
+    public void setSongListFromPlayList(ArrayList<Song> songList, boolean isFromPlayList,
+                                        int playListId, RelativeLayout currentAlbumArt, ImageView fullPlayListPlayPauseButton) {
+        songs = songList;
+        this.isFromPlayList = isFromPlayList;
+        this.playListId = playListId;
+        this.playListFullAlbumArt = currentAlbumArt;
+        this.fullPlayListPlayPauseButton = fullPlayListPlayPauseButton;
+    }
+
+    public void setSongListFromPlayList(boolean isFromPlayList, RelativeLayout currentAlbumArt, ImageView fullPlayListPlayPauseButton) {
+        this.isFromPlayList = isFromPlayList;
+        this.playListFullAlbumArt = currentAlbumArt;
+        this.fullPlayListPlayPauseButton = fullPlayListPlayPauseButton;
+    }
+
+    public void clearFullPlaylistParams() {
+        this.isFromPlayList = false;
+        this.playListFullAlbumArt = null;
+        this.fullPlayListPlayPauseButton = null;
+    }
+
+    public int getPlayListId() {
+        return playListId;
+    }
+
     public void setUpHandler() {
         handler.removeCallbacks(sendUpdatesToUI);
         handler.postDelayed(sendUpdatesToUI, 1000);
+    }
+
+    public void disableHandler() {
+        handler.removeCallbacks(sendUpdatesToUI);
     }
 
     private Runnable sendUpdatesToUI = new Runnable() {
@@ -469,6 +487,8 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
             seekIntent.putExtra("counter", String.valueOf(mediaPosition));
             seekIntent.putExtra("mediaMax", String.valueOf(mediaMax));
             seekIntent.putExtra("formattedTime", TimeFormatter.getTimeString(mediaPosition));
+            seekIntent.putExtra("songName", currentSong.getTitle());
+            seekIntent.putExtra("artistName", currentSong.getArtist());
             sendBroadcast(seekIntent);
         }
     }
@@ -494,10 +514,6 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
     private void closeNotificationBar() {
         Intent closeDialog = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
         sendBroadcast(closeDialog);
-    }
-
-    public void disableHandler() {
-        handler.removeCallbacks(sendUpdatesToUI);
     }
 
     @SuppressLint("NewApi")

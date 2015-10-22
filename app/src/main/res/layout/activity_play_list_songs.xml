@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.bmustapha.ultramediaplayer.activities.PlayListSongs">
 
     <LinearLayout
@@ -14,10 +14,10 @@
 
         <RelativeLayout
             android:id="@+id/current_album_art"
-            android:background="@drawable/default_art"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:background="@drawable/default_art">
 
             <View
                 android:layout_width="match_parent"
@@ -32,34 +32,115 @@
                 android:background="@android:color/transparent"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark"/>
 
-            <SeekBar
+            <TextView
+                android:id="@+id/full_playlist_song_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/full_playlist_artist_name"
                 android:layout_centerInParent="true"
+                android:ellipsize="marquee"
+                android:gravity="center_horizontal"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#FFFFFF"/>
+
+            <TextView
+                android:id="@+id/full_playlist_artist_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/full_playlist_seekbar"
+                android:layout_centerInParent="true"
+                android:layout_marginBottom="10dp"
+                android:ellipsize="marquee"
+                android:gravity="center_horizontal"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#FFFFFF"/>
+
+            <SeekBar
+                style="@style/SeekBarAppTheme"
+                android:id="@+id/full_playlist_seekbar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"/>
+
+            <LinearLayout
+                android:id="@+id/full_playlist_control_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/full_playlist_seekbar"
+                android:layout_marginTop="15dp"
+                android:baselineAligned="false"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:id="@+id/full_playlist_previous"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/ic_playlist_full_skip_previous"
+                        />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:id="@+id/full_playlist_pause_play"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/ic_playlist_full_play_pause"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:id="@+id/full_playlist_next"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/ic_playlist_full_skip_next"/>
+
+                </RelativeLayout>
+            </LinearLayout>
 
         </RelativeLayout>
 
         <ListView
-            android:padding="10dp"
+            android:id="@+id/full_playlist_song_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/ColorPrimaryDark"
             android:divider="@color/ColorDivider"
             android:dividerHeight="1dp"
-            android:background="@color/ColorPrimaryDark"
-            android:id="@+id/full_playlist_song_list_view"
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"/>
+            android:padding="10dp"
+            android:scrollbars="none"/>
 
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/play_all_songs"
-        android:layout_marginRight="10dp"
         android:layout_width="wrap_content"
-        app:backgroundTint="@color/ColorPrimary"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|end"
+        android:layout_marginRight="10dp"
         android:src="@drawable/ic_play_white"
-        app:borderWidth="0dp"
-        android:layout_gravity="center_vertical|end"/>
+        app:backgroundTint="@color/ColorPrimary"
+        app:borderWidth="0dp"/>
 
 
 </FrameLayout>

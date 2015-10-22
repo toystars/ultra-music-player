@@ -1,6 +1,12 @@
 package com.bmustapha.ultramediaplayer.activities;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -9,14 +15,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.bmustapha.ultramediaplayer.R;
 import com.bmustapha.ultramediaplayer.adapters.FullScreenPlayListSongsAdapter;
 import com.bmustapha.ultramediaplayer.models.Song;
 import com.bmustapha.ultramediaplayer.services.MusicService;
 import com.bmustapha.ultramediaplayer.shared.PlayListSync;
+import com.bmustapha.ultramediaplayer.utilities.AlbumArtLoader;
 
 import java.util.ArrayList;
 
@@ -29,6 +40,12 @@ public class PlayListSongs extends AppCompatActivity {
     ListView listView;
     int currentPosition;
     private RelativeLayout currentAlbumArt;
+    private boolean isRegistered = false;
+    private SeekBar fullPlayListSeekBar;
+    private ImageView fullPlayListPlayPauseButton;
+    private LinearLayout fullPlayListControlLayout;
+    private TextView fullPlayListSongName;
+    private TextView fullPlayListArtistName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,11 +63,43 @@ public class PlayListSongs extends AppCompatActivity {
 
         currentAlbumArt = (RelativeLayout) findViewById(R.id.current_album_art);
         listView = (ListView) findViewById(R.id.full_playlist_song_list_view);
+        fullPlayListSeekBar = (SeekBar) findViewById(R.id.full_playlist_seekbar);
+        ImageView fullPlayListPreviousButton = (ImageView) findViewById(R.id.full_playlist_previous);
+        fullPlayListPlayPauseButton = (ImageView) findViewById(R.id.full_playlist_pause_play);
+        ImageView fullPlayListNextButton = (ImageView) findViewById(R.id.full_playlist_next);
+        fullPlayListControlLayout = (LinearLayout) findViewById(R.id.full_playlist_control_layout);
+        fullPlayListSongName = (TextView) findViewById(R.id.full_playlist_song_name);
+        fullPlayListArtistName = (TextView) findViewById(R.id.full_playlist_artist_name);
+
         musicService = MusicService.musicService;
         playListSongs = new ArrayList<>();
 
         actionBar.setTitle(playListName);
         getAllPlayListSongs(playListId);
+
+        if (musicService.getPlayListId() == playListId) {
+            Song currentSong = musicService.getCurrentSong();
+            musicService.setSongListFromPlayList(playListSongs, true, playListId, currentAlbumArt, fullPlayListPlayPauseButton);
+            if (musicService.isPlaying()) {
+                fullPlayListPlayPauseButton.setImageResource(R.drawable.ic_playlist_full_pause);
+            } else {
+                fullPlayListPlayPauseButton.setImageResource(R.drawable.ic_playlist_full_play_pause);
+            }
+            Bitmap fullPlayListBitmap = AlbumArtLoader.getTrackCoverArt(this, currentSong.getAlbumArtUri());
+            if (fullPlayListBitmap != null) {
+                currentAlbumArt.setBackgroundDrawable(new BitmapDrawable(fullPlayListBitmap));
+            } else {
+                currentAlbumArt.setBackgroundDrawable(AlbumArtLoader.getDefaultArt());
+            }
+            fullPlayListSongName.setText(currentSong.getTitle());
+            fullPlayListArtistName.setText(currentSong.getArtist());
+            setUpUpdates();
+            setUpControls();
+        } else {
+            musicService.setSongListFromPlayList(true, currentAlbumArt, fullPlayListPlayPauseButton);
+            fullPlayListControlLayout.setVisibility(View.GONE);
+            fullPlayListSeekBar.setVisibility(View.GONE);
+        }
 
         Typeface face = Typeface.createFromAsset(this.getAssets(), "fonts/Lato-Regular.ttf");
         FullScreenPlayListSongsAdapter fullScreenPlayListSongsAdapter = new FullScreenPlayListSongsAdapter(this, playListSongs, face);
@@ -62,12 +111,91 @@ public class PlayListSongs extends AppCompatActivity {
                 selectSong();
             }
         });
+
+        fullPlayListPreviousButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                musicService.playPrevious();
+            }
+        });
+
+        fullPlayListPlayPauseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                musicService.toggleState();
+                if (musicService.isPlaying()) {
+                    fullPlayListPlayPauseButton.setImageResource(R.drawable.ic_playlist_full_pause);
+                } else {
+                    fullPlayListPlayPauseButton.setImageResource(R.drawable.ic_playlist_full_play_pause);
+                }
+            }
+        });
+
+        fullPlayListNextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                musicService.playNext();
+            }
+        });
+
+    }
+
+    private void setUpControls() {
+        fullPlayListSeekBar.setMax(musicService.getDuration());
+        fullPlayListSeekBar.setProgress(musicService.getCurrentPosition());
+    }
+
+    private void setUpUpdates() {
+        musicService.setUpHandler();
+        registerReceiver(broadcastReceiver, new IntentFilter(MusicService.BROADCAST_ACTION));
+        isRegistered = true;
+    }
+
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            updateUI(intent);
+        }
+    };
+
+    private void updateUI(Intent intent) {
+        String counter = intent.getStringExtra("counter");
+        String mediaMax = intent.getStringExtra("mediaMax");
+        String formattedTime = intent.getStringExtra("formattedTime");
+        String songName = intent.getStringExtra("songName");
+        String artistName = intent.getStringExtra("artistName");
+
+        int seekProgress = Integer.parseInt(counter);
+        int seekMax = Integer.parseInt(mediaMax);
+
+
+        fullPlayListSeekBar.setMax(seekMax);
+        fullPlayListSeekBar.setProgress(seekProgress);
+
+        if (!songName.equals(fullPlayListSongName.getText().toString())) {
+            fullPlayListSongName.setText(songName);
+        }
+
+        if (!artistName.equals(fullPlayListArtistName.getText().toString())) {
+            fullPlayListArtistName.setText(artistName);
+        }
+
+        // set timer
+        // currentTime.setText(formattedTime);
     }
 
     private void selectSong() {
-        musicService.setSongListFromPlayList(playListSongs, true, playListId, currentAlbumArt);
+        musicService.setSongListFromPlayList(playListSongs, true, playListId, currentAlbumArt, fullPlayListPlayPauseButton);
         musicService.startSong(currentPosition);
         musicService.getPlayPauseButton().setImageResource(R.drawable.ic_activity_pause);
+        fullPlayListPlayPauseButton.setImageResource(R.drawable.ic_playlist_full_pause);
+        if (fullPlayListControlLayout.getVisibility() == View.GONE) {
+            fullPlayListControlLayout.setVisibility(View.VISIBLE);
+            fullPlayListSeekBar.setVisibility(View.VISIBLE);
+        }
+        if (!isRegistered) {
+            setUpUpdates();
+        }
     }
 
     @Override
@@ -83,6 +211,15 @@ public class PlayListSongs extends AppCompatActivity {
 
         switch (id) {
             case android.R.id.home:
+                if (isRegistered) {
+                    try {
+                        unregisterReceiver(broadcastReceiver);
+                        isRegistered = false;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                musicService.disableHandler();
                 musicService.clearFullPlaylistParams();
                 finish();
                 return true;
@@ -93,6 +230,15 @@ public class PlayListSongs extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        if (isRegistered) {
+            try {
+                unregisterReceiver(broadcastReceiver);
+                isRegistered = false;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        musicService.disableHandler();
         musicService.clearFullPlaylistParams();
         finish();
     }
