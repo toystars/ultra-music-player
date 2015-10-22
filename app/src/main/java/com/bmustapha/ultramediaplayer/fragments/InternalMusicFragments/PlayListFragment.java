@@ -81,15 +81,6 @@ public class PlayListFragment extends Fragment {
         }
     }
 
-    private void getPlayListSongs(int position) {
-        // change to activity containing playList songs
-//        PlayList playList = playListAdapter2.getItem(position);
-//        Intent intent = new Intent(getActivity(), PlayListSongs.class);
-//        intent.putExtra("PLAYLIST_ID", playList.getDbId());
-//        intent.putExtra("PLAYLIST_NAME", playList.getName());
-//        startActivity(intent);
-    }
-
     private void getPlayLists() {
         try {
             playLists = playListDB.getAllPlayLists();

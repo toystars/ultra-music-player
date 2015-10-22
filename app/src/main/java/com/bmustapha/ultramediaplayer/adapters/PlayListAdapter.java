@@ -2,6 +2,7 @@ package com.bmustapha.ultramediaplayer.adapters;
 
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bmustapha.ultramediaplayer.R;
+import com.bmustapha.ultramediaplayer.activities.PlayListSongs;
 import com.bmustapha.ultramediaplayer.database.PlayListDB;
 import com.bmustapha.ultramediaplayer.modals.PlayListModal;
 import com.bmustapha.ultramediaplayer.models.PlayList;
@@ -74,11 +76,44 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.ViewHo
                 showMenu(view);
             }
         });
+        holder.playListArt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                playListPosition = position;
+                openPlayList();
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return playLists.size();
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder{
+
+        public TextView name;
+        public TextView description;
+        public ImageView moreButton;
+        public ImageView playListArt;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            name = (TextView) itemView.findViewById(R.id.playlist_name);
+            name.setTypeface(face);
+            description = (TextView) itemView.findViewById(R.id.playlist_description);
+            description.setTypeface(face);
+            moreButton = (ImageView) itemView.findViewById(R.id.playlist_more_button);
+            playListArt = (ImageView) itemView.findViewById(R.id.playlist_art);
+        }
+    }
+
+    private void openPlayList() {
+        PlayList playList = playLists.get(playListPosition);
+        Intent intent = new Intent(context, PlayListSongs.class);
+        intent.putExtra("PLAYLIST_ID", playList.getDbId());
+        intent.putExtra("PLAYLIST_NAME", playList.getName());
+        context.startActivity(intent);
     }
 
     public void showMenu(View v) {
@@ -158,15 +193,11 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.ViewHo
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        // if this button is clicked, just close
-                        // the dialog box and do nothing
                         dialog.cancel();
                     }
                 });
 
-        // create alert dialog
         AlertDialog alertDialog = alertDialogBuilder.create();
-        // show it
         alertDialog.show();
     }
 
@@ -214,22 +245,6 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.ViewHo
         } finally {
             PlayListSync.refreshPlayLists();
             Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    public class ViewHolder extends RecyclerView.ViewHolder{
-
-        public TextView name;
-        public TextView description;
-        public ImageView moreButton;
-
-        public ViewHolder(View itemView) {
-            super(itemView);
-            name = (TextView) itemView.findViewById(R.id.playlist_name);
-            name.setTypeface(face);
-            description = (TextView) itemView.findViewById(R.id.playlist_description);
-            description.setTypeface(face);
-            moreButton = (ImageView) itemView.findViewById(R.id.playlist_more_button);
         }
     }
 

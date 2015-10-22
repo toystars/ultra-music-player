@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -22,6 +23,7 @@ import android.support.v4.app.NotificationCompat;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.RemoteViews;
 import android.widget.TextView;
 
@@ -88,6 +90,11 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
 
     private NotificationBroadcast notificationBroadcast;
     private ImageView pausePlay;
+
+
+    private RelativeLayout playListFullAlbumArt;
+    private boolean isFromPlayList = false;
+    private int playListId;
 
 
     @Override
@@ -194,6 +201,19 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
     // method to get song list from activity
     public void setSongList(ArrayList<Song> songList) {
         songs = songList;
+    }
+
+    public void setSongListFromPlayList(ArrayList<Song> songList, boolean isFromPlayList, int playListId, RelativeLayout currentAlbumArt) {
+        songs = songList;
+        this.isFromPlayList = isFromPlayList;
+        this.playListId = playListId;
+        this.playListFullAlbumArt = currentAlbumArt;
+    }
+
+    public void clearFullPlaylistParams() {
+        this.isFromPlayList = false;
+        this.playListId = -1;
+        this.playListFullAlbumArt = null;
     }
 
     @Override
@@ -358,13 +378,25 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
     public void onPrepared(MediaPlayer mediaPlayer) {
         controlTrackName.setText(currentSong.getTitle());
         controlArtistName.setText(currentSong.getArtist());
+
         Picasso.with(this)
                 .load(currentSong.getAlbumArtUri())
                 .error(AlbumArtLoader.getDefaultArt())
                 .into(controlAlbumArt);
+
         if (controlLayout.getVisibility() != View.VISIBLE) {
             controlLayout.setVisibility(View.VISIBLE);
         }
+
+        if (isFromPlayList) {
+            Bitmap fullPlayListBitmap = AlbumArtLoader.getTrackCoverArt(this, currentSong.getAlbumArtUri());
+            if (fullPlayListBitmap != null) {
+                playListFullAlbumArt.setBackgroundDrawable(new BitmapDrawable(fullPlayListBitmap));
+            } else {
+                playListFullAlbumArt.setBackgroundDrawable(AlbumArtLoader.getDefaultArt());
+            }
+        }
+
         // check if in full screen mode
         if (isFullScreen) {
             totalTime.setText(TimeFormatter.getTimeString(getDuration()));

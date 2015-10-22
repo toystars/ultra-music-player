@@ -14,7 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bmustapha.ultramediaplayer.R;
-import com.bmustapha.ultramediaplayer.database.PlayListDB;
 import com.bmustapha.ultramediaplayer.models.Song;
 import com.bmustapha.ultramediaplayer.services.MusicService;
 import com.bmustapha.ultramediaplayer.shared.PlayListSync;
@@ -29,24 +28,19 @@ import java.util.ArrayList;
  */
 public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.ViewHolder> implements PopupMenu.OnMenuItemClickListener {
 
-    private final PlayListDB playListDB;
     private ArrayList<Song> favouriteSongs;
     private Activity context;
     private Typeface face;
 
-    private SongAdapter songAdapter;
     private int songPosition;
 
     private MusicService musicService;
-
-    private ArrayList<Song> playListSongs;
 
     public FavouritesAdapter(ArrayList<Song> favouriteSongs, Activity context, Typeface face) {
         super();
         this.favouriteSongs = favouriteSongs;
         this.context = context;
         this.face = face;
-        playListDB = PlayListSync.getDataBaseHandler();
         musicService = MusicService.musicService;
     }
 
@@ -107,14 +101,6 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.Vi
         musicService.setSongList(favouriteSongs);
         musicService.startSong(position);
         musicService.getPlayPauseButton().setImageResource(R.drawable.ic_activity_pause);
-    }
-
-    public void setPlayLists(ArrayList<Song> newSongs) {
-        favouriteSongs = newSongs;
-    }
-
-    public ArrayList<Song> getPlayLists() {
-        return favouriteSongs;
     }
 
     public void showMenu(View v) {

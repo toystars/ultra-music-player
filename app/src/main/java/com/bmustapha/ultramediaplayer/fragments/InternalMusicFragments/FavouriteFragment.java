@@ -15,7 +15,6 @@ import com.bmustapha.ultramediaplayer.R;
 import com.bmustapha.ultramediaplayer.adapters.FavouritesAdapter;
 import com.bmustapha.ultramediaplayer.database.PlayListDB;
 import com.bmustapha.ultramediaplayer.models.Song;
-import com.bmustapha.ultramediaplayer.services.MusicService;
 import com.bmustapha.ultramediaplayer.shared.PlayListSync;
 
 import java.util.ArrayList;
@@ -28,14 +27,11 @@ public class FavouriteFragment extends Fragment {
     private ArrayList<Song> favouriteSongs;
     private PlayListDB playListDB;
     private Typeface face;
-    private MusicService musicService;
     private RecyclerView favouritesRecyclerView;
-    private GridLayoutManager layoutManager;
 
     @Override
     public void onStart() {
         super.onStart();
-        musicService = MusicService.musicService;
     }
 
     @Nullable
@@ -49,8 +45,7 @@ public class FavouriteFragment extends Fragment {
 
         favouritesRecyclerView = (RecyclerView) view.findViewById(R.id.fav_recycler_view);
         favouritesRecyclerView.setHasFixedSize(true);
-        layoutManager = new GridLayoutManager(getActivity(), 2);
-        favouritesRecyclerView.setLayoutManager(layoutManager);
+        favouritesRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
 
         new getFavouriteSongs().execute();
 
