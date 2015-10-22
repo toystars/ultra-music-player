@@ -23,6 +23,8 @@ import com.bmustapha.ultramediaplayer.R;
 import com.bmustapha.ultramediaplayer.models.PlayList;
 import com.bmustapha.ultramediaplayer.models.Song;
 import com.bmustapha.ultramediaplayer.shared.PlayListSync;
+import com.bmustapha.ultramediaplayer.utilities.AlbumArtLoader;
+import com.squareup.picasso.Picasso;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -65,6 +67,7 @@ public class SongAdapter extends BaseAdapter implements PopupMenu.OnMenuItemClic
 
 
     public class ViewHolder {
+        ImageView albumArt;
         TextView songTitle;
         TextView songArtist;
         TextView songDuration;
@@ -91,7 +94,9 @@ public class SongAdapter extends BaseAdapter implements PopupMenu.OnMenuItemClic
             holder.songDuration = (TextView) convertView.findViewById(R.id.song_duration);
             holder.songDuration.setTypeface(face);
             if (isMainSongList) {
+                holder.albumArt = (ImageView) convertView.findViewById(R.id.song_list_album_art);
                 holder.moreButton = (ImageView) convertView.findViewById(R.id.more_button);
+
             }
             convertView.setTag(holder);
         } else {
@@ -112,6 +117,10 @@ public class SongAdapter extends BaseAdapter implements PopupMenu.OnMenuItemClic
                     showMenu(v);
                 }
             });
+            Picasso.with(context)
+                    .load(currSong.getAlbumArtUri())
+                    .error(AlbumArtLoader.getDefaultArt())
+                    .into(holder.albumArt);
         }
 
         return convertView;
