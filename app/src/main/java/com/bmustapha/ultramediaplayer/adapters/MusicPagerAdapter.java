@@ -3,7 +3,7 @@ package com.bmustapha.ultramediaplayer.adapters;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ImageSpan;
@@ -17,7 +17,7 @@ import com.bmustapha.ultramediaplayer.utilities.ContextProvider;
 /**
  * Created by andela on 10/19/15.
  */
-public class MusicPagerAdapter extends FragmentStatePagerAdapter {
+public class MusicPagerAdapter extends FragmentPagerAdapter {
 
     private int[] imageResId = {
             R.drawable.ic_action_music,

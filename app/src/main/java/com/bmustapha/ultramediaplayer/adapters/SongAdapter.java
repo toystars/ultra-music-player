@@ -3,7 +3,9 @@ package com.bmustapha.ultramediaplayer.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.RingtoneManager;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -24,7 +26,6 @@ import com.bmustapha.ultramediaplayer.models.PlayList;
 import com.bmustapha.ultramediaplayer.models.Song;
 import com.bmustapha.ultramediaplayer.shared.PlayListSync;
 import com.bmustapha.ultramediaplayer.utilities.AlbumArtLoader;
-import com.squareup.picasso.Picasso;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -117,10 +118,17 @@ public class SongAdapter extends BaseAdapter implements PopupMenu.OnMenuItemClic
                     showMenu(v);
                 }
             });
-            Picasso.with(context)
-                    .load(currSong.getAlbumArtUri())
-                    .error(AlbumArtLoader.getDefaultArt())
-                    .into(holder.albumArt);
+            Bitmap fullPlayListBitmap = AlbumArtLoader.getTrackCoverArt(activity, currSong.getAlbumArtUri());
+            if (fullPlayListBitmap != null) {
+                holder.albumArt.setBackgroundDrawable(new BitmapDrawable(fullPlayListBitmap));
+            } else {
+                holder.albumArt.setBackgroundDrawable(AlbumArtLoader.getDefaultArt());
+            }
+
+//            Picasso.with(context)
+//                    .load(currSong.getAlbumArtUri())
+//                    .error(AlbumArtLoader.getDefaultArt())
+//                    .into(holder.albumArt);
         }
 
         return convertView;

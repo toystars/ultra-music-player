@@ -296,6 +296,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
     }
 
     public void toggleState() {
+
         if (mediaPlayer.isPlaying()) {
             mediaPlayer.pause();
             controlPlayPauseButton.setImageResource(R.drawable.ic_activity_play);
@@ -305,11 +306,20 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
             controlPlayPauseButton.setImageResource(R.drawable.ic_activity_pause);
             newNotification();
         }
+
         if (isFullScreen) {
             if (mediaPlayer.isPlaying()) {
                 // controlPlayPauseButton.setImageResource(R.drawable.ic_activity_pause);
             } else {
                 // controlPlayPauseButton.setImageResource(R.drawable.ic_activity_play);
+            }
+        }
+
+        if (isFromPlayList) {
+            if (mediaPlayer.isPlaying()) {
+                fullPlayListPlayPauseButton.setImageResource(R.drawable.ic_playlist_full_pause);
+            } else {
+                fullPlayListPlayPauseButton.setImageResource(R.drawable.ic_playlist_full_play_pause);
             }
         }
     }

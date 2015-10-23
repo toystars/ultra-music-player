@@ -58,8 +58,8 @@
                 android:textColor="#FFFFFF"/>
 
             <SeekBar
-                style="@style/SeekBarAppTheme"
                 android:id="@+id/full_playlist_seekbar"
+                style="@style/SeekBarAppTheme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"/>
@@ -76,15 +76,25 @@
                 <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1">
+                    android:layout_weight="2">
 
                     <ImageView
                         android:id="@+id/full_playlist_previous"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:src="@drawable/ic_playlist_full_skip_previous"
-                        />
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:src="@drawable/ic_playlist_full_skip_previous"/>
+
+                    <ImageView
+                        android:id="@+id/full_playlist_repeat"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_alignParentStart="true"
+                        android:src="@drawable/ic_playlist_full_repeat_disabled"/>
 
                 </RelativeLayout>
 
@@ -105,14 +115,25 @@
                 <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1">
+                    android:layout_weight="2">
 
                     <ImageView
                         android:id="@+id/full_playlist_next"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
                         android:src="@drawable/ic_playlist_full_skip_next"/>
+
+                    <ImageView
+                        android:id="@+id/full_playlist_shuffle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:src="@drawable/ic_playlist_full_shuffle_disabled"/>
 
                 </RelativeLayout>
             </LinearLayout>

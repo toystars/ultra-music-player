@@ -70,6 +70,8 @@ public class PlayListSongs extends AppCompatActivity {
         fullPlayListControlLayout = (LinearLayout) findViewById(R.id.full_playlist_control_layout);
         fullPlayListSongName = (TextView) findViewById(R.id.full_playlist_song_name);
         fullPlayListArtistName = (TextView) findViewById(R.id.full_playlist_artist_name);
+        final ImageView fullPlayListRepeatButton = (ImageView) findViewById(R.id.full_playlist_repeat);
+        final ImageView fullPlayListShuffleButton = (ImageView) findViewById(R.id.full_playlist_shuffle);
 
         musicService = MusicService.musicService;
         playListSongs = new ArrayList<>();
@@ -80,19 +82,35 @@ public class PlayListSongs extends AppCompatActivity {
         if (musicService.getPlayListId() == playListId) {
             Song currentSong = musicService.getCurrentSong();
             musicService.setSongListFromPlayList(playListSongs, true, playListId, currentAlbumArt, fullPlayListPlayPauseButton);
+
             if (musicService.isPlaying()) {
                 fullPlayListPlayPauseButton.setImageResource(R.drawable.ic_playlist_full_pause);
             } else {
                 fullPlayListPlayPauseButton.setImageResource(R.drawable.ic_playlist_full_play_pause);
             }
+
             Bitmap fullPlayListBitmap = AlbumArtLoader.getTrackCoverArt(this, currentSong.getAlbumArtUri());
             if (fullPlayListBitmap != null) {
                 currentAlbumArt.setBackgroundDrawable(new BitmapDrawable(fullPlayListBitmap));
             } else {
                 currentAlbumArt.setBackgroundDrawable(AlbumArtLoader.getDefaultArt());
             }
+
             fullPlayListSongName.setText(currentSong.getTitle());
             fullPlayListArtistName.setText(currentSong.getArtist());
+
+            if (musicService.getRepeatState()) {
+                fullPlayListRepeatButton.setImageResource(R.drawable.ic_playlist_full_repeat_enabled);
+            } else {
+                fullPlayListRepeatButton.setImageResource(R.drawable.ic_playlist_full_repeat_disabled);
+            }
+
+            if (musicService.getShuffledState()) {
+                fullPlayListShuffleButton.setImageResource(R.drawable.ic_playlist_full_shuffle_enabled);
+            } else {
+                fullPlayListShuffleButton.setImageResource(R.drawable.ic_playlist_full_shuffle_disabled);
+            }
+
             setUpUpdates();
             setUpControls();
         } else {
@@ -109,6 +127,30 @@ public class PlayListSongs extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 currentPosition = position;
                 selectSong();
+            }
+        });
+
+        fullPlayListRepeatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                musicService.toggleRepeat();
+                if (musicService.getRepeatState()) {
+                    fullPlayListRepeatButton.setImageResource(R.drawable.ic_playlist_full_repeat_enabled);
+                } else {
+                    fullPlayListRepeatButton.setImageResource(R.drawable.ic_playlist_full_repeat_disabled);
+                }
+            }
+        });
+
+        fullPlayListShuffleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                musicService.toggleShuffle();
+                if (musicService.getShuffledState()) {
+                    fullPlayListShuffleButton.setImageResource(R.drawable.ic_playlist_full_shuffle_enabled);
+                } else {
+                    fullPlayListShuffleButton.setImageResource(R.drawable.ic_playlist_full_shuffle_disabled);
+                }
             }
         });
 

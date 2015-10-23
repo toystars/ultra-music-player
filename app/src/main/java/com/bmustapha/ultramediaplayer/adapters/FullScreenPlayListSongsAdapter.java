@@ -1,7 +1,9 @@
 package com.bmustapha.ultramediaplayer.adapters;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +14,6 @@ import android.widget.TextView;
 import com.bmustapha.ultramediaplayer.R;
 import com.bmustapha.ultramediaplayer.models.Song;
 import com.bmustapha.ultramediaplayer.utilities.AlbumArtLoader;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -64,10 +65,12 @@ public class FullScreenPlayListSongsAdapter extends BaseAdapter {
         holder.songTitle.setText(song.getTitle());
         holder.songArtist.setText(song.getArtist());
 
-        Picasso.with(activity)
-                .load(song.getAlbumArtUri())
-                .error(AlbumArtLoader.getDefaultArt())
-                .into(holder.albumArt);
+        Bitmap fullPlayListBitmap = AlbumArtLoader.getTrackCoverArt(activity, song.getAlbumArtUri());
+        if (fullPlayListBitmap != null) {
+            holder.albumArt.setBackgroundDrawable(new BitmapDrawable(fullPlayListBitmap));
+        } else {
+            holder.albumArt.setBackgroundDrawable(AlbumArtLoader.getDefaultArt());
+        }
 
         return view;
     }
