@@ -2,7 +2,6 @@ package com.bmustapha.ultramediaplayer.services;
 
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -19,6 +18,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.NotificationCompat;
 import android.view.View;
 import android.widget.ImageView;
@@ -74,11 +74,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
 
     // variables to control full screen
     private boolean isFullScreen = false;
-    private ImageView fullScreenAlbumArt;
-    private Activity fullScreenActivity;
-    private TextView totalTime;
-    private TextView songTitle;
-    private TextView songArtist;
+    private LinearLayout fullScreenAlbumArt;
 
     private final Handler handler = new Handler();
     public static final String BROADCAST_ACTION = "com.bmustapha.gaimediaplayer.services.seekProgres";
@@ -89,7 +85,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
     public static MusicService musicService;
 
     private NotificationBroadcast notificationBroadcast;
-    private ImageView pausePlay;
+    private FloatingActionButton pausePlay;
 
 
     private RelativeLayout playListFullAlbumArt;
@@ -326,9 +322,9 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
 
         if (isFullScreen) {
             if (mediaPlayer.isPlaying()) {
-                // controlPlayPauseButton.setImageResource(R.drawable.ic_activity_pause);
+                pausePlay.setImageResource(R.drawable.ic_pause);
             } else {
-                // controlPlayPauseButton.setImageResource(R.drawable.ic_activity_play);
+                pausePlay.setImageResource(R.drawable.ic_play_arrow);
             }
         }
 
@@ -399,10 +395,11 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         }
 
         // check if in full screen mode
+
+        mediaPlayer.start();
+        controlPlayPauseButton.setImageResource(R.drawable.ic_activity_pause);
+
         if (isFullScreen) {
-            totalTime.setText(TimeFormatter.getTimeString(getDuration()));
-            songTitle.setText(currentSong.getTitle());
-            songArtist.setText(currentSong.getArtist());
             // set layout image
             Bitmap albumArt = null;
             try {
@@ -412,16 +409,15 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
             }
             if (albumArt != null) {
                 // set from bitmap
-                fullScreenAlbumArt.setImageBitmap(albumArt);
+                fullScreenAlbumArt.setBackgroundDrawable(new BitmapDrawable(albumArt));
+            }
+
+            if (mediaPlayer.isPlaying()) {
+                pausePlay.setImageResource(R.drawable.ic_pause);
             } else {
-                // set from drawable
-                fullScreenAlbumArt.setImageDrawable(AlbumArtLoader.getDefaultArt());
+                pausePlay.setImageResource(R.drawable.ic_play_arrow);
             }
         }
-
-        mediaPlayer.start();
-        controlPlayPauseButton.setImageResource(R.drawable.ic_activity_pause);
-        // FragmentPlayPauseButton.setImageResource(R.drawable.pause);
 
         if (isFromPlayList) {
             Bitmap fullPlayListBitmap = AlbumArtLoader.getTrackCoverArt(this, currentSong.getAlbumArtUri());
@@ -449,22 +445,16 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         return controlPlayPauseButton;
     }
 
-    public void setFullScreenParams(ImageView fullMusicLayout, Activity activity, TextView totalTime, TextView songTitle, TextView songArtist, ImageView pausePlay) {
+    public void setFullScreenParams(LinearLayout fullMusicLayout, FloatingActionButton pausePlay) {
         isFullScreen = true;
         this.fullScreenAlbumArt = fullMusicLayout;
-        this.fullScreenActivity = activity;
-        this.totalTime = totalTime;
-        this.songTitle = songTitle;
-        this.songArtist = songArtist;
         this.pausePlay = pausePlay;
     }
 
     public void clearFullScreenParams() {
         isFullScreen = false;
-        fullScreenActivity = null;
         fullScreenAlbumArt = null;
-        totalTime = null;
-        pausePlay = null;
+        this.pausePlay = null;
     }
 
     public void setSongList(ArrayList<Song> songList) {
@@ -527,6 +517,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
             seekIntent.putExtra("formattedTime", TimeFormatter.getTimeString(mediaPosition));
             seekIntent.putExtra("songName", currentSong.getTitle());
             seekIntent.putExtra("artistName", currentSong.getArtist());
+            seekIntent.putExtra("albumName", currentSong.getAlbum());
             sendBroadcast(seekIntent);
         }
     }
