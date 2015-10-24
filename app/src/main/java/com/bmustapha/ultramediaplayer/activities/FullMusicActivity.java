@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -57,6 +58,7 @@ public class FullMusicActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle("");
 
+        Typeface face = Typeface.createFromAsset(this.getAssets(), "fonts/Lato-Regular.ttf");
         fullScreenAlbumArt = (LinearLayout) findViewById(R.id.full_screen_album_art);
         fullScreenSongTitle = (TextView) findViewById(R.id.full_music_screen_song_title);
         fullScreenArtistName = (TextView) findViewById(R.id.full_music_screen_artist_name);
@@ -69,6 +71,10 @@ public class FullMusicActivity extends AppCompatActivity {
         fullScreenNextButton = (ImageView) findViewById(R.id.full_music_screen_next_button);
         fullScreenShuffleButton = (ImageView) findViewById(R.id.full_music_screen_shuffle_button);
         fullScreenAlbumName = (TextView) findViewById(R.id.full_music_screen_album);
+
+//        fullScreenSongTitle.setTypeface(face);
+//        fullScreenArtistName.setTypeface(face);
+//        fullScreenAlbumName.setTypeface(face);
 
         String albumName = "Album: " + currentSong.getAlbum();
         fullScreenAlbumName.setText(albumName);
