@@ -96,6 +96,9 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
     private boolean isFromPlayList = false;
     private int playListId;
     private ImageView fullPlayListPlayPauseButton;
+    private AudioManager audioManager;
+
+    private boolean isMute = false;
 
 
     @Override
@@ -160,7 +163,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         mediaPlayer.setOnErrorListener(this);
         mediaPlayer.setOnSeekCompleteListener(this);
 
-        AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         int result = audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC,
                 AudioManager.AUDIOFOCUS_GAIN);
     }
@@ -236,6 +239,20 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
 
         Thread thread = new Thread(runnable);
         thread.start();
+    }
+
+    public void toggleMute() {
+        if (isMute) {
+            audioManager.setStreamMute(AudioManager.STREAM_MUSIC, false);
+            isMute = false;
+        } else {
+            audioManager.setStreamMute(AudioManager.STREAM_MUSIC, true);
+            isMute = true;
+        }
+    }
+
+    public boolean getMuteState() {
+        return isMute;
     }
 
     public void startSong(int position) {
@@ -381,15 +398,6 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
             controlLayout.setVisibility(View.VISIBLE);
         }
 
-        if (isFromPlayList) {
-            Bitmap fullPlayListBitmap = AlbumArtLoader.getTrackCoverArt(this, currentSong.getAlbumArtUri());
-            if (fullPlayListBitmap != null) {
-                playListFullAlbumArt.setBackgroundDrawable(new BitmapDrawable(fullPlayListBitmap));
-            } else {
-                playListFullAlbumArt.setBackgroundDrawable(AlbumArtLoader.getDefaultArt());
-            }
-        }
-
         // check if in full screen mode
         if (isFullScreen) {
             totalTime.setText(TimeFormatter.getTimeString(getDuration()));
@@ -414,6 +422,22 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         mediaPlayer.start();
         controlPlayPauseButton.setImageResource(R.drawable.ic_activity_pause);
         // FragmentPlayPauseButton.setImageResource(R.drawable.pause);
+
+        if (isFromPlayList) {
+            Bitmap fullPlayListBitmap = AlbumArtLoader.getTrackCoverArt(this, currentSong.getAlbumArtUri());
+            if (fullPlayListBitmap != null) {
+                playListFullAlbumArt.setBackgroundDrawable(new BitmapDrawable(fullPlayListBitmap));
+            } else {
+                playListFullAlbumArt.setBackgroundDrawable(AlbumArtLoader.getDefaultArt());
+            }
+
+            if (mediaPlayer.isPlaying()) {
+                fullPlayListPlayPauseButton.setImageResource(R.drawable.ic_playlist_full_pause);
+            } else {
+                fullPlayListPlayPauseButton.setImageResource(R.drawable.ic_playlist_full_play_pause);
+            }
+        }
+
         newNotification();
     }
 

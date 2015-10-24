@@ -29,7 +29,6 @@ public class AllMusicFragment extends Fragment {
     private ArrayList<Song> songList;
     private Typeface face;
     private MusicService musicService;
-    private boolean firstTime;
 
     @Override
     public void onStart() {
@@ -61,7 +60,6 @@ public class AllMusicFragment extends Fragment {
     }
 
     private void selectSong(int position) {
-        firstTime = false;
         musicService.setSongList(songList);
         musicService.startSong(position);
         musicService.getPlayPauseButton().setImageResource(R.drawable.ic_activity_pause);

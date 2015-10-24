@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -72,12 +73,31 @@ public class PlayListSongs extends AppCompatActivity {
         fullPlayListArtistName = (TextView) findViewById(R.id.full_playlist_artist_name);
         final ImageView fullPlayListRepeatButton = (ImageView) findViewById(R.id.full_playlist_repeat);
         final ImageView fullPlayListShuffleButton = (ImageView) findViewById(R.id.full_playlist_shuffle);
+        final FloatingActionButton muteButton = (FloatingActionButton) findViewById(R.id.mute_floating_button);
 
         musicService = MusicService.musicService;
         playListSongs = new ArrayList<>();
 
         actionBar.setTitle(playListName);
         getAllPlayListSongs(playListId);
+
+        if (musicService.getRepeatState()) {
+            fullPlayListRepeatButton.setImageResource(R.drawable.ic_playlist_full_repeat_enabled);
+        } else {
+            fullPlayListRepeatButton.setImageResource(R.drawable.ic_playlist_full_repeat_disabled);
+        }
+
+        if (musicService.getShuffledState()) {
+            fullPlayListShuffleButton.setImageResource(R.drawable.ic_playlist_full_shuffle_enabled);
+        } else {
+            fullPlayListShuffleButton.setImageResource(R.drawable.ic_playlist_full_shuffle_disabled);
+        }
+
+        if (musicService.getMuteState()) {
+            muteButton.setImageResource(R.drawable.ic_volume_mute);
+        } else {
+            muteButton.setImageResource(R.drawable.ic_volume_up);
+        }
 
         if (musicService.getPlayListId() == playListId) {
             Song currentSong = musicService.getCurrentSong();
@@ -93,23 +113,11 @@ public class PlayListSongs extends AppCompatActivity {
             if (fullPlayListBitmap != null) {
                 currentAlbumArt.setBackgroundDrawable(new BitmapDrawable(fullPlayListBitmap));
             } else {
-                currentAlbumArt.setBackgroundDrawable(AlbumArtLoader.getDefaultArt());
+                currentAlbumArt.setBackgroundDrawable(getResources().getDrawable(R.drawable.default_art));
             }
 
             fullPlayListSongName.setText(currentSong.getTitle());
             fullPlayListArtistName.setText(currentSong.getArtist());
-
-            if (musicService.getRepeatState()) {
-                fullPlayListRepeatButton.setImageResource(R.drawable.ic_playlist_full_repeat_enabled);
-            } else {
-                fullPlayListRepeatButton.setImageResource(R.drawable.ic_playlist_full_repeat_disabled);
-            }
-
-            if (musicService.getShuffledState()) {
-                fullPlayListShuffleButton.setImageResource(R.drawable.ic_playlist_full_shuffle_enabled);
-            } else {
-                fullPlayListShuffleButton.setImageResource(R.drawable.ic_playlist_full_shuffle_disabled);
-            }
 
             setUpUpdates();
             setUpControls();
@@ -177,6 +185,18 @@ public class PlayListSongs extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 musicService.playNext();
+            }
+        });
+
+        muteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                musicService.toggleMute();
+                if (musicService.getMuteState()) {
+                    muteButton.setImageResource(R.drawable.ic_volume_mute);
+                } else {
+                    muteButton.setImageResource(R.drawable.ic_volume_up);
+                }
             }
         });
 

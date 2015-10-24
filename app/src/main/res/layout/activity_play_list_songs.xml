@@ -12,6 +12,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <!-- Start-->
         <RelativeLayout
             android:id="@+id/current_album_art"
             android:layout_width="match_parent"
@@ -139,6 +140,7 @@
             </LinearLayout>
 
         </RelativeLayout>
+        <!-- End -->
 
         <ListView
             android:id="@+id/full_playlist_song_list_view"
@@ -154,12 +156,12 @@
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/play_all_songs"
+        android:id="@+id/mute_floating_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|end"
         android:layout_marginRight="10dp"
-        android:src="@drawable/ic_play_white"
+        android:src="@drawable/ic_volume_up"
         app:backgroundTint="@color/ColorPrimary"
         app:borderWidth="0dp"/>
 
