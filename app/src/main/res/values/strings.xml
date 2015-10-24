@@ -27,5 +27,6 @@
     <string name="add_songs_to_playlist">Add Songs</string>
     <string name="edit_playlist">Edit Playlist</string>
     <string name="delete_playlist">Delete Playlist</string>
+    <string name="full_playlist_song_list_remove_song_label">Remove Song</string>
 
 </resources>

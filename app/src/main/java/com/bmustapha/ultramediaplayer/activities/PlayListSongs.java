@@ -128,7 +128,7 @@ public class PlayListSongs extends AppCompatActivity {
         }
 
         Typeface face = Typeface.createFromAsset(this.getAssets(), "fonts/Lato-Regular.ttf");
-        FullScreenPlayListSongsAdapter fullScreenPlayListSongsAdapter = new FullScreenPlayListSongsAdapter(this, playListSongs, face);
+        FullScreenPlayListSongsAdapter fullScreenPlayListSongsAdapter = new FullScreenPlayListSongsAdapter(this, playListSongs, face, playListId);
         listView.setAdapter(fullScreenPlayListSongsAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
