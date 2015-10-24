@@ -290,6 +290,18 @@ public class PlayListSongs extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        overridePendingTransition(R.anim.slide_in_down, R.anim.slide_out_down);
+    }
+
+    @Override
     public void onBackPressed() {
         super.onBackPressed();
         if (isRegistered) {

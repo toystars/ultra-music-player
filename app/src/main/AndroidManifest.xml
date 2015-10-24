@@ -47,6 +47,8 @@
         </activity>
         <activity android:name=".activities.PlayListSongs" >
         </activity>
+        <activity android:name=".activities.FullMusicActivity" >
+        </activity>
     </application>
 
 </manifest>

@@ -31,4 +31,10 @@
         <item name="android:thumb">@drawable/apptheme_scrubber_control_selector_holo_dark</item>
     </style>
 
+    <style name="SeekBarSeekBarTheme" parent="android:Widget.SeekBar">
+        <item name="android:progressDrawable">@drawable/seekbartheme_scrubber_progress_horizontal_holo_light</item>
+        <item name="android:indeterminateDrawable">@drawable/seekbartheme_scrubber_progress_horizontal_holo_light</item>
+        <item name="android:thumb">@drawable/seekbartheme_scrubber_control_selector_holo_light</item>
+    </style>
+
 </resources>

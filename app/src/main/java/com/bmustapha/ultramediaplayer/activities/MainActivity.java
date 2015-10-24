@@ -1,5 +1,6 @@
 package com.bmustapha.ultramediaplayer.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -75,6 +76,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 musicService.toggleState();
+            }
+        });
+
+        albumArt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent fullMusicActivityIntent = new Intent(MainActivity.this, FullMusicActivity.class);
+                startActivity(fullMusicActivityIntent);
             }
         });
 

@@ -467,9 +467,13 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         pausePlay = null;
     }
 
-    // method to get song list from activity
     public void setSongList(ArrayList<Song> songList) {
         songs = songList;
+    }
+
+    public void setSongList(ArrayList<Song> songList, int playListId) {
+        songs = songList;
+        this.playListId = playListId;
     }
 
     public void setSongListFromPlayList(ArrayList<Song> songList, boolean isFromPlayList,

@@ -161,7 +161,7 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.ViewHo
     private void playPlayListSongs() {
         playListSongs = playListDB.getAllPlayListSongs(playLists.get(playListPosition).getDbId());
         if (playListSongs.size() > 0) {
-            musicService.setSongList(playListSongs);
+            musicService.setSongList(playListSongs, playLists.get(playListPosition).getDbId());
             musicService.startSong(0);
         }
     }
