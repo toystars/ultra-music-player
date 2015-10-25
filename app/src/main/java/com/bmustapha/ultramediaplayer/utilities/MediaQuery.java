@@ -81,6 +81,34 @@ public class MediaQuery {
         }
         return albums;
     }
+
+    public static ArrayList<Song> getAlbumSongs(Context context, String albumName) {
+
+        String where = android.provider.MediaStore.Audio.Media.ALBUM + "=?";
+        String whereVal[] = { albumName };
+        String orderBy = android.provider.MediaStore.Audio.Media.TITLE;
+        ArrayList<Song> songList = new ArrayList<>();
+        Cursor cursor = context.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null, where, whereVal, orderBy);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                long id = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID));
+                long albumId = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID));
+                String artist = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST));
+                String album = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM));
+                String title = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE));
+                Uri trackUri = ContentUris.withAppendedId(android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, id);
+                int duration = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION));
+
+                final Uri ART_CONTENT_URI = Uri.parse("content://media/external/audio/albumart");
+                Uri albumArtUri = ContentUris.withAppendedId(ART_CONTENT_URI, albumId);
+                //add songs to list
+                songList.add(new Song(id, artist, title, duration, album, albumArtUri, trackUri));
+            } while (cursor.moveToNext());
+        }
+
+        return songList;
+    }
 }
 
 

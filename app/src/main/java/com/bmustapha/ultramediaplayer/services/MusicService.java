@@ -275,11 +275,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
     public void playPrevious() {
         if (!repeat) {
             if (shuffle) {
-                int newPosition = currentPosition;
-                while (newPosition == currentPosition) {
-                    newPosition = rand.nextInt(songs.size());
-                }
-                currentPosition = newPosition;
+                currentPosition = rand.nextInt(songs.size());
             } else {
                 currentPosition -= 1;
                 if (currentPosition < 0) {
@@ -293,11 +289,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
     public void playNext() {
         if (!repeat) {
             if (shuffle) {
-                int newPosition = currentPosition;
-                while (newPosition == currentPosition) {
-                    newPosition = rand.nextInt(songs.size());
-                }
-                currentPosition = newPosition;
+                currentPosition = rand.nextInt(songs.size());
             } else {
                 currentPosition += 1;
                 if (currentPosition >= songs.size()) {
@@ -485,6 +477,12 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         this.isFromPlayList = false;
         this.playListFullAlbumArt = null;
         this.fullPlayListPlayPauseButton = null;
+    }
+
+    public void setSongsFromAlbum(ArrayList<Song> songsList) {
+        this.songs = songsList;
+        shuffle = true;
+        playNext();
     }
 
     public int getPlayListId() {

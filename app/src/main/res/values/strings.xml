@@ -28,5 +28,8 @@
     <string name="edit_playlist">Edit Playlist</string>
     <string name="delete_playlist">Delete Playlist</string>
     <string name="full_playlist_song_list_remove_song_label">Remove Song</string>
+    <string name="album_shuffle_title">Shuffle Songs</string>
+    <string name="add_album_to_playlist">Add to Playlist</string>
+    <string name="go_to_artist">Go to Artist</string>
 
 </resources>

@@ -37,7 +37,7 @@ public class AlbumFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_album, container, false);
 
-        albums = new ArrayList<Album>();
+        albums = new ArrayList<>();
         face = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Lato-Regular.ttf");
 
         albumRecyclerView = (RecyclerView) view.findViewById(R.id.album_recycler_view);
@@ -60,7 +60,6 @@ public class AlbumFragment extends Fragment {
     private class getAlbumList extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... params) {
-            // get all play lists (if any)
             getAllAlbums();
             return null;
         }

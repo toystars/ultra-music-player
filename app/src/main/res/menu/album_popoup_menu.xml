@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group>
+        <item android:id="@+id/shuffle_album_songs"
+              android:icon="@drawable/ic_album_shuffle"
+              android:title="@string/album_shuffle_title" />
+    </group>
+    <group>
+        <item android:id="@+id/add_album_to_playlist"
+              android:icon="@drawable/ic_album_playlist_add"
+              android:title="@string/add_album_to_playlist" />
+    </group>
+    <group>
+        <item android:id="@+id/go_to_album_artist"
+              android:icon="@drawable/ic_go_to_album_artist"
+              android:title="@string/go_to_artist" />
+    </group>
+</menu>

@@ -261,9 +261,6 @@ public class PlayListSongs extends AppCompatActivity {
         if (!artistName.equals(fullPlayListArtistName.getText().toString())) {
             fullPlayListArtistName.setText(artistName);
         }
-
-        // set timer
-        // currentTime.setText(formattedTime);
     }
 
     private void selectSong() {
