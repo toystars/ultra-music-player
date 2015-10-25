@@ -1,20 +1,28 @@
 package com.bmustapha.ultramediaplayer.adapters;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.graphics.Typeface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bmustapha.ultramediaplayer.R;
 import com.bmustapha.ultramediaplayer.models.Album;
+import com.bmustapha.ultramediaplayer.models.PlayList;
+import com.bmustapha.ultramediaplayer.models.Song;
 import com.bmustapha.ultramediaplayer.services.MusicService;
+import com.bmustapha.ultramediaplayer.shared.PlayListSync;
 import com.bmustapha.ultramediaplayer.utilities.AlbumArtLoader;
 import com.bmustapha.ultramediaplayer.utilities.MediaQuery;
 import com.squareup.picasso.Picasso;
@@ -138,7 +146,47 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
     }
 
     private void addAlbumToPlaylist() {
+        // get a list of playLists available on the device
+        final ArrayList<PlayList> playLists = PlayListSync.getDataBaseHandler().getAllPlayLists();
+        // get the view
+        final LayoutInflater inflater = activity.getLayoutInflater();
+        View view = inflater.inflate(R.layout.playlist_fragment, null);
 
+        // create dialog
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity)
+                .setMessage("Add song to Playlist")
+                .setView(view)
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // cancel dialog
+                    }
+                });
+
+        final AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+
+        ListView listView = (ListView) view.findViewById(R.id.play_list_view);
+        PlayListAddSongAdapter playListAdapter2 = new PlayListAddSongAdapter(activity, playLists, face);
+        listView.setAdapter(playListAdapter2);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // add song to playList if not in playlist before...
+                ArrayList<Song> albumSongs = MediaQuery.getAlbumSongs(activity, albums.get(albumPosition).getName());
+                String message = "";
+                try {
+                    message = processPlayListAdd(albumSongs, playLists.get(position));
+                    // message = playList.addSong(currentSong);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    message = "Unable to add song.";
+                } finally {
+                    alertDialog.dismiss();
+                    Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     private void gotoAlbumArtist() {
@@ -147,5 +195,16 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
 
     private void gotoFullAlbumPage() {
 
+    }
+
+    private String processPlayListAdd(ArrayList<Song> songs, PlayList playList) {
+        boolean status = true;
+        for (int count = 0; count < songs.size(); count++) {
+            String message = playList.addSong(songs.get(count));
+            if (message.equals("Song already in playlist")) {
+                status = false;
+            }
+        }
+        return (status) ? "Album added to " + playList.getName() : "Album added to " + playList.getName();
     }
 }
