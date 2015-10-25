@@ -33,6 +33,8 @@ public class MusicFragment extends Fragment {
         final ViewPager viewPager = (ViewPager) view.findViewById(R.id.viewpager);
         viewPager.setAdapter(adapter);
         final TabLayout tabLayout = (TabLayout) view.findViewById(R.id.tab_layout);
+        tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
+        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
 
         tabLayout.post(new Runnable() {
             @Override

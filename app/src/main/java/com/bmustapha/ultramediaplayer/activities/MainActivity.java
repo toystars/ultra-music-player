@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        albumArt.setOnClickListener(new View.OnClickListener() {
+        controlLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent fullMusicActivityIntent = new Intent(MainActivity.this, FullMusicActivity.class);

@@ -25,7 +25,7 @@ import com.bmustapha.ultramediaplayer.models.PlayList;
 import com.bmustapha.ultramediaplayer.models.Song;
 import com.bmustapha.ultramediaplayer.services.MusicService;
 import com.bmustapha.ultramediaplayer.shared.PlayListSync;
-import com.bmustapha.ultramediaplayer.utilities.SongListHelper;
+import com.bmustapha.ultramediaplayer.utilities.MediaQuery;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -202,7 +202,7 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.ViewHo
     }
 
     private void addSong() {
-        ArrayList<Song> songList = SongListHelper.getAllSongs(context);
+        ArrayList<Song> songList = MediaQuery.getAllSongs(context);
         Collections.sort(songList);
         songAdapter = new SongAdapter(context, songList, face, false, false);
         final LayoutInflater inflater = context.getLayoutInflater();

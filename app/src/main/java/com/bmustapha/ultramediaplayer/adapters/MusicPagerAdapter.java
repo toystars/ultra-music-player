@@ -9,6 +9,7 @@ import android.text.SpannableString;
 import android.text.style.ImageSpan;
 
 import com.bmustapha.ultramediaplayer.R;
+import com.bmustapha.ultramediaplayer.fragments.InternalMusicFragments.AlbumFragment;
 import com.bmustapha.ultramediaplayer.fragments.InternalMusicFragments.AllMusicFragment;
 import com.bmustapha.ultramediaplayer.fragments.InternalMusicFragments.FavouriteFragment;
 import com.bmustapha.ultramediaplayer.fragments.InternalMusicFragments.PlayListFragment;
@@ -21,6 +22,7 @@ public class MusicPagerAdapter extends FragmentPagerAdapter {
 
     private int[] imageResId = {
             R.drawable.ic_action_music,
+            R.drawable.ic_album,
             R.drawable.ic_favorite,
             R.drawable.ic_playlist
     };
@@ -35,8 +37,10 @@ public class MusicPagerAdapter extends FragmentPagerAdapter {
             case 0:
                 return new AllMusicFragment();
             case 1:
-                return new FavouriteFragment();
+                return new AlbumFragment();
             case 2:
+                return new FavouriteFragment();
+            case 3:
                 return new PlayListFragment();
         }
         return null;
@@ -44,7 +48,7 @@ public class MusicPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 3;
+        return 4;
     }
 
     @Override
@@ -54,8 +58,10 @@ public class MusicPagerAdapter extends FragmentPagerAdapter {
             case 0:
                 return getTitle(position, "All Songs");
             case 1:
-                return getTitle(position, "Favourites");
+                return getTitle(position, "Albums");
             case 2:
+                return getTitle(position, "Favourites");
+            case 3:
                 return getTitle(position, "Playlists");
             default:
                 return null;

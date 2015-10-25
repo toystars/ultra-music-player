@@ -15,7 +15,7 @@ import com.bmustapha.ultramediaplayer.R;
 import com.bmustapha.ultramediaplayer.adapters.SongAdapter;
 import com.bmustapha.ultramediaplayer.models.Song;
 import com.bmustapha.ultramediaplayer.services.MusicService;
-import com.bmustapha.ultramediaplayer.utilities.SongListHelper;
+import com.bmustapha.ultramediaplayer.utilities.MediaQuery;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -67,7 +67,7 @@ public class AllMusicFragment extends Fragment {
 
     // helper method to help get song info
     private void getSongList() {
-        songList = SongListHelper.getAllSongs(getActivity());
+        songList = MediaQuery.getAllSongs(getActivity());
     }
 
     private class getAllSongs extends AsyncTask<Void, Void, Void> {
