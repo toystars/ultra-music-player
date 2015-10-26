@@ -83,8 +83,7 @@ public class MediaQuery {
     }
 
     public static ArrayList<Song> getAlbumSongs(Context context, String albumName) {
-
-        String where = android.provider.MediaStore.Audio.Media.ALBUM + "=?";
+        String where = MediaStore.Audio.Media.ALBUM + "=?";
         String whereVal[] = { albumName };
         String orderBy = android.provider.MediaStore.Audio.Media.TITLE;
         ArrayList<Song> songList = new ArrayList<>();
@@ -106,7 +105,9 @@ public class MediaQuery {
                 songList.add(new Song(id, artist, title, duration, album, albumArtUri, trackUri));
             } while (cursor.moveToNext());
         }
-
+        if (cursor != null) {
+            cursor.close();
+        }
         return songList;
     }
 }

@@ -71,13 +71,6 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
                 .load(album.getArt())
                 .error(AlbumArtLoader.getDefaultArt())
                 .into(holder.albumArt);
-        holder.albumArt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                albumPosition = position;
-                gotoFullAlbumPage();
-            }
-        });
     }
 
     @Override
@@ -133,9 +126,6 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
             case R.id.add_album_to_playlist:
                 addAlbumToPlaylist();
                 return true;
-            case R.id.go_to_album_artist:
-                gotoAlbumArtist();
-                return true;
             default:
                 return false;
         }
@@ -187,14 +177,6 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
                 }
             }
         });
-    }
-
-    private void gotoAlbumArtist() {
-
-    }
-
-    private void gotoFullAlbumPage() {
-
     }
 
     private String processPlayListAdd(ArrayList<Song> songs, PlayList playList) {
