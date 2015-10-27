@@ -1,4 +1,4 @@
-package com.bmustapha.ultramediaplayer.fragments.InternalMusicFragments;
+package com.bmustapha.ultramediaplayer.fragments;
 
 import android.graphics.Typeface;
 import android.os.AsyncTask;
@@ -12,59 +12,52 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bmustapha.ultramediaplayer.R;
-import com.bmustapha.ultramediaplayer.adapters.playlist.PlayListAdapter;
-import com.bmustapha.ultramediaplayer.adapters.song.SongAdapter;
-import com.bmustapha.ultramediaplayer.database.PlayListDB;
-import com.bmustapha.ultramediaplayer.models.PlayList;
-import com.bmustapha.ultramediaplayer.shared.PlayListSync;
+import com.bmustapha.ultramediaplayer.adapters.video.VideoAdapter;
+import com.bmustapha.ultramediaplayer.models.Video;
+import com.bmustapha.ultramediaplayer.utilities.MediaQuery;
 
 import java.util.ArrayList;
 
 /**
- * Created by tunde on 10/19/15.
+ * Created by tunde on 10/27/15.
  */
-public class PlayListFragment extends Fragment {
+public class VideoFragment extends Fragment {
 
-    private ArrayList<PlayList> playLists;
-    private PlayListDB playListDB;
-    private Typeface face;
-    private SongAdapter songAdapter;
-
-    RecyclerView.LayoutManager layoutManager;
+    private ArrayList<Video> videos;
     private RecyclerView recyclerView;
-    PlayListAdapter recyclerAdapter;
+    RecyclerView.LayoutManager layoutManager;
+    private Typeface face;
+    private VideoAdapter recyclerAdapter;
 
     @Override
     public void onStart() {
         super.onStart();
+        getActivity().setTitle("Videos");
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_playlist_recycler, container, false);
+        View view = inflater.inflate(R.layout.fragment_video, container, false);
 
-        playLists = new ArrayList<>();
-        playListDB = PlayListSync.getDataBaseHandler();
-
+        videos = new ArrayList<>();
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         layoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(layoutManager);
 
-
-        new getPlayLists().execute();
+        new getVideos().execute();
 
         return view;
     }
 
-    private class getPlayLists extends AsyncTask<Void, Void, Void> {
+    private class getVideos extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... params) {
             // set font
             face = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Lato-Regular.ttf");
             // get all play lists (if any)
-            getPlayLists();
+            getVideos();
             return null;
         }
 
@@ -75,17 +68,17 @@ public class PlayListFragment extends Fragment {
 
         @Override
         protected void onPostExecute(Void result) {
-            recyclerAdapter = new PlayListAdapter(playLists, getActivity(), face);
+            recyclerAdapter = new VideoAdapter(videos, face);
             recyclerView.setAdapter(recyclerAdapter);
-            PlayListSync.updateAdapter(recyclerAdapter);
         }
     }
 
-    private void getPlayLists() {
+    private void getVideos() {
         try {
-            playLists = playListDB.getAllPlayLists();
+            videos = MediaQuery.getAllVideos(getActivity());
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 }

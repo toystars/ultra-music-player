@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.bmustapha.ultramediaplayer.R;
 import com.bmustapha.ultramediaplayer.database.PlayListDB;
 import com.bmustapha.ultramediaplayer.fragments.MusicFragment;
+import com.bmustapha.ultramediaplayer.fragments.VideoFragment;
 import com.bmustapha.ultramediaplayer.modals.PlayListModal;
 import com.bmustapha.ultramediaplayer.models.Song;
 import com.bmustapha.ultramediaplayer.services.MusicService;
@@ -147,8 +148,7 @@ public class MainActivity extends AppCompatActivity {
                 // PlayListSync.updateAdapter(null);
                 break;
             case "Videos":
-                // fragment = new FavouritesFragment();
-                // PlayListSync.updateAdapter(null);
+                fragment = new VideoFragment();
                 break;
             case "Images":
                 // fragment = new PlayListFragment();

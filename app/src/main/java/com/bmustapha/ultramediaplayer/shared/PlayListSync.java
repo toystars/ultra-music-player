@@ -2,9 +2,9 @@ package com.bmustapha.ultramediaplayer.shared;
 
 import android.widget.RelativeLayout;
 
-import com.bmustapha.ultramediaplayer.adapters.FavouritesAdapter;
-import com.bmustapha.ultramediaplayer.adapters.PlayListAdapter;
-import com.bmustapha.ultramediaplayer.adapters.SongAdapter;
+import com.bmustapha.ultramediaplayer.adapters.song.FavouritesAdapter;
+import com.bmustapha.ultramediaplayer.adapters.playlist.PlayListAdapter;
+import com.bmustapha.ultramediaplayer.adapters.song.SongAdapter;
 import com.bmustapha.ultramediaplayer.database.PlayListDB;
 
 /**

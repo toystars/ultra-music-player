@@ -1,4 +1,4 @@
-package com.bmustapha.ultramediaplayer.adapters;
+package com.bmustapha.ultramediaplayer.adapters.playlist;
 
 import android.content.Context;
 import android.graphics.Typeface;

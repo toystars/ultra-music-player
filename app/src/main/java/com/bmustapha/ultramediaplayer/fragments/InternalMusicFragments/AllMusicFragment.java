@@ -12,7 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.bmustapha.ultramediaplayer.R;
-import com.bmustapha.ultramediaplayer.adapters.SongAdapter;
+import com.bmustapha.ultramediaplayer.adapters.song.SongAdapter;
 import com.bmustapha.ultramediaplayer.models.Song;
 import com.bmustapha.ultramediaplayer.services.MusicService;
 import com.bmustapha.ultramediaplayer.utilities.MediaQuery;

@@ -1,4 +1,4 @@
-package com.bmustapha.ultramediaplayer.adapters;
+package com.bmustapha.ultramediaplayer.adapters.playlist;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.bmustapha.ultramediaplayer.R;
 import com.bmustapha.ultramediaplayer.activities.PlayListSongs;
+import com.bmustapha.ultramediaplayer.adapters.song.SongAdapter;
 import com.bmustapha.ultramediaplayer.database.PlayListDB;
 import com.bmustapha.ultramediaplayer.modals.PlayListModal;
 import com.bmustapha.ultramediaplayer.models.PlayList;

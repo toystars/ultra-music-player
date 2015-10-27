@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bmustapha.ultramediaplayer.R;
-import com.bmustapha.ultramediaplayer.adapters.AlbumAdapter;
+import com.bmustapha.ultramediaplayer.adapters.song.AlbumAdapter;
 import com.bmustapha.ultramediaplayer.models.Album;
 import com.bmustapha.ultramediaplayer.utilities.MediaQuery;
 

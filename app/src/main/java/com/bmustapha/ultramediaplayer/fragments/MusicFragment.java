@@ -13,7 +13,7 @@ import com.bmustapha.ultramediaplayer.R;
 import com.bmustapha.ultramediaplayer.adapters.MusicPagerAdapter;
 
 /**
- * Created by andela on 10/19/15.
+ * Created by tunde on 10/19/15.
  */
 public class MusicFragment extends Fragment {
 

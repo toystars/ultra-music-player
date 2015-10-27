@@ -139,7 +139,9 @@ public class MediaQuery {
                 videoList.add(video);
             } while (cursor.moveToNext());
         }
-
+        if (cursor != null) {
+            cursor.close();
+        }
         return videoList;
     }
 }

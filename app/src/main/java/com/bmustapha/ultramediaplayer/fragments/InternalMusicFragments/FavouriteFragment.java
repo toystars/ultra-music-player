@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bmustapha.ultramediaplayer.R;
-import com.bmustapha.ultramediaplayer.adapters.FavouritesAdapter;
+import com.bmustapha.ultramediaplayer.adapters.song.FavouritesAdapter;
 import com.bmustapha.ultramediaplayer.database.PlayListDB;
 import com.bmustapha.ultramediaplayer.models.Song;
 import com.bmustapha.ultramediaplayer.shared.PlayListSync;

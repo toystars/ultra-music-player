@@ -1,4 +1,4 @@
-package com.bmustapha.ultramediaplayer.adapters;
+package com.bmustapha.ultramediaplayer.adapters.song;
 
 import android.app.Activity;
 import android.content.Context;
@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bmustapha.ultramediaplayer.R;
+import com.bmustapha.ultramediaplayer.adapters.playlist.PlayListAddSongAdapter;
 import com.bmustapha.ultramediaplayer.models.PlayList;
 import com.bmustapha.ultramediaplayer.models.Song;
 import com.bmustapha.ultramediaplayer.shared.PlayListSync;

@@ -24,7 +24,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.bmustapha.ultramediaplayer.R;
-import com.bmustapha.ultramediaplayer.adapters.FullScreenPlayListSongsAdapter;
+import com.bmustapha.ultramediaplayer.adapters.playlist.FullScreenPlayListSongsAdapter;
 import com.bmustapha.ultramediaplayer.models.Song;
 import com.bmustapha.ultramediaplayer.services.MusicService;
 import com.bmustapha.ultramediaplayer.shared.PlayListSync;

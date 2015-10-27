@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 
 /**
- * Created by andela on 10/27/15.
+ * Created by tunde on 10/27/15.
  */
 public class Video {
 

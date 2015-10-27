@@ -9,7 +9,7 @@ public class ContextProvider {
 
     private static Context context;
 
-    public ContextProvider(Context context) {
+    public ContextProvider (Context context) {
         ContextProvider.context = context;
     }
 
