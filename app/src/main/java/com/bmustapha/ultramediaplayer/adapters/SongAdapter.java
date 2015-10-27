@@ -3,7 +3,9 @@ package com.bmustapha.ultramediaplayer.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.RingtoneManager;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -23,6 +25,7 @@ import com.bmustapha.ultramediaplayer.R;
 import com.bmustapha.ultramediaplayer.models.PlayList;
 import com.bmustapha.ultramediaplayer.models.Song;
 import com.bmustapha.ultramediaplayer.shared.PlayListSync;
+import com.bmustapha.ultramediaplayer.utilities.AlbumArtLoader;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -68,6 +71,7 @@ public class SongAdapter extends BaseAdapter implements PopupMenu.OnMenuItemClic
         TextView songTitle;
         TextView songArtist;
         TextView songDuration;
+        ImageView albumArt;
         ImageView moreButton;
     }
 
@@ -92,7 +96,7 @@ public class SongAdapter extends BaseAdapter implements PopupMenu.OnMenuItemClic
             holder.songDuration.setTypeface(face);
             if (isMainSongList) {
                 holder.moreButton = (ImageView) convertView.findViewById(R.id.more_button);
-
+                holder.albumArt = (ImageView) convertView.findViewById(R.id.song_album_art);
             }
             convertView.setTag(holder);
         } else {
@@ -100,12 +104,20 @@ public class SongAdapter extends BaseAdapter implements PopupMenu.OnMenuItemClic
         }
 
         //get song using position
-        Song currSong = songs.get(position);
+        Song curentSong = songs.get(position);
         //get title and artist strings
-        holder.songTitle.setText(currSong.getTitle());
-        holder.songArtist.setText(currSong.getArtist());
-        holder.songDuration.setText(currSong.getFormattedTime());
+        holder.songTitle.setText(curentSong.getTitle());
+        holder.songArtist.setText(curentSong.getArtist());
+        holder.songDuration.setText(curentSong.getFormattedTime());
         if (isMainSongList) {
+
+            Bitmap fullPlayListBitmap = AlbumArtLoader.getTrackCoverArt(activity, curentSong.getAlbumArtUri());
+            if (fullPlayListBitmap != null) {
+                holder.albumArt.setBackgroundDrawable(new BitmapDrawable(fullPlayListBitmap));
+            } else {
+                holder.albumArt.setBackgroundDrawable(AlbumArtLoader.getDefaultArt());
+            }
+
             holder.moreButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -2,6 +2,7 @@ package com.bmustapha.ultramediaplayer.utilities;
 
 import android.app.ActivityManager;
 import android.content.Context;
+import android.os.Build;
 
 public class UtilFunctions {
 
@@ -13,5 +14,9 @@ public class UtilFunctions {
             }
         }
         return false;
+    }
+
+    public static boolean isAndroidM() {
+        return "MNC".equals(Build.VERSION.CODENAME);
     }
 }
