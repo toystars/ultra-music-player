@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.bmustapha.ultramediaplayer.R;
 import com.bmustapha.ultramediaplayer.activities.FullVideoActivity;
 import com.bmustapha.ultramediaplayer.models.Video;
+import com.bmustapha.ultramediaplayer.services.MusicService;
 import com.bmustapha.ultramediaplayer.utilities.ContextProvider;
 
 import java.util.ArrayList;
@@ -23,8 +24,6 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
 
     ArrayList<Video> videos;
     Typeface face;
-
-    int videoPosition;
 
     public VideoAdapter(ArrayList<Video> videos, Typeface face) {
         this.videos = videos;
@@ -47,6 +46,11 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
         holder.thumbnail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // pause music player if it is on
+                if (MusicService.musicService.isPlaying()) {
+                    MusicService.musicService.toggleState();
+                }
+                // open and play video
                 Intent videoIntent = new Intent(ContextProvider.getContext(), FullVideoActivity.class);
                 videoIntent.setData(videos.get(position).getUri());
                 videoIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

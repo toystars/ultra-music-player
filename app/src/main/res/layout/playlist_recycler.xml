@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:card_view="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical">
@@ -22,9 +21,9 @@
                 android:id="@+id/playlist_art"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
+                android:contentDescription="@string/playlist_album_art"
                 android:scaleType="fitXY"
-                android:src="@drawable/default_art"
-                android:contentDescription="@string/playlist_album_art"/>
+                android:src="@drawable/default_art"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -38,27 +37,27 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:scrollHorizontally="true"
                         android:id="@+id/playlist_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingTop="5dp"
-                        android:paddingRight="5dp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
                         android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="5dp"
+                        android:scrollHorizontally="true"
                         android:textSize="17sp"/>
 
                     <TextView
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:scrollHorizontally="true"
                         android:id="@+id/playlist_description"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingRight="5dp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:paddingBottom="5dp"
                         android:paddingLeft="5dp"
-                        android:paddingBottom="5dp"/>
+                        android:paddingRight="5dp"
+                        android:scrollHorizontally="true"/>
 
                 </LinearLayout>
 
@@ -66,10 +65,10 @@
                     android:id="@+id/playlist_more_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:background="@drawable/ic_playlist_more"
                     android:contentDescription="@string/playlist_more_button"
-                    android:padding="10dp"
-                    android:layout_gravity="center"/>
+                    android:padding="10dp"/>
 
             </LinearLayout>
 

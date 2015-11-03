@@ -45,7 +45,7 @@ public class FavouriteFragment extends Fragment {
 
         favouritesRecyclerView = (RecyclerView) view.findViewById(R.id.fav_recycler_view);
         favouritesRecyclerView.setHasFixedSize(true);
-        favouritesRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        favouritesRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
 
         new getFavouriteSongs().execute();
 
