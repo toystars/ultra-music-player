@@ -47,13 +47,11 @@ public class FullVideoActivity extends Activity implements SurfaceHolder.Callbac
     @Override
     protected void onPause() {
         super.onPause();
-        videoMediaPlayer.pause();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        videoMediaPlayer.start();
     }
 
     @Override
