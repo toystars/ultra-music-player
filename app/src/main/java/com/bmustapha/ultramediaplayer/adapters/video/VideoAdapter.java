@@ -53,6 +53,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
                 // open and play video
                 Intent videoIntent = new Intent(ContextProvider.getContext(), FullVideoActivity.class);
                 videoIntent.setData(videos.get(position).getUri());
+                videoIntent.putExtra("VIDEO_NAME", videos.get(position).getName());
                 videoIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 ContextProvider.getContext().startActivity(videoIntent);
             }

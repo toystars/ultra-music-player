@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/UltraMediaPlayer.iml" filepath="$PROJECT_DIR$/UltraMediaPlayer.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ultra-media-player.iml" filepath="$PROJECT_DIR$/ultra-media-player.iml" />
     </modules>
   </component>
 </project>

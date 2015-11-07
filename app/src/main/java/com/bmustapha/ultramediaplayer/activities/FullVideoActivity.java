@@ -10,8 +10,10 @@ import android.os.Handler;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.bmustapha.ultramediaplayer.R;
 
@@ -27,7 +29,12 @@ public class FullVideoActivity extends Activity implements SurfaceHolder.Callbac
     private CountDownTimer countDownTimer;
     private SeekBar seekBar;
 
+    private String videoName;
+
     private final Handler handler = new Handler();
+    private LinearLayout videoDetailsLayout;
+    private TextView videoNameTextView;
+    private ImageView playPauseButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +47,13 @@ public class FullVideoActivity extends Activity implements SurfaceHolder.Callbac
     @Override
     protected void onPause() {
         super.onPause();
-        // videoMediaPlayer.pause();
+        videoMediaPlayer.pause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        videoMediaPlayer.start();
     }
 
     @Override
@@ -104,6 +117,7 @@ public class FullVideoActivity extends Activity implements SurfaceHolder.Callbac
 
         surfaceView.setClickable(true);
         videoMediaPlayer.start();
+        videoNameTextView.setText(videoName);
         setUpHandler();
         startTimer();
     }
@@ -130,10 +144,14 @@ public class FullVideoActivity extends Activity implements SurfaceHolder.Callbac
         videoMediaPlayer = new MediaPlayer();
 
         videoControlLayout = (LinearLayout) findViewById(R.id.video_control_layout);
+        videoDetailsLayout = (LinearLayout) findViewById(R.id.video_detail_layout);
+        videoNameTextView = (TextView) findViewById(R.id.video_name);
+        playPauseButton = (ImageView) findViewById(R.id.video_play_pause_button);
         seekBar = (SeekBar) findViewById(R.id.video_seek_bar);
 
         try {
             videoUri = getIntent().getData();
+            videoName = getIntent().getStringExtra("VIDEO_NAME");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -168,13 +186,26 @@ public class FullVideoActivity extends Activity implements SurfaceHolder.Callbac
 
             }
         });
+
+        playPauseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (videoMediaPlayer.isPlaying()) {
+                    videoMediaPlayer.pause();
+                    playPauseButton.setImageResource(R.drawable.ic_video_play);
+                } else {
+                    videoMediaPlayer.start();
+                    playPauseButton.setImageResource(R.drawable.ic_video_pause);
+                }
+            }
+        });
     }
 
     private void toggleView() {
         if (controlVisible) {
             hideViews();
         } else {
-            showView();
+            showViews();
         }
     }
 
@@ -185,12 +216,14 @@ public class FullVideoActivity extends Activity implements SurfaceHolder.Callbac
         // Start the animation
         videoControlLayout.animate()
                 .translationY(videoControlLayout.getHeight());
+        videoDetailsLayout.setVisibility(View.GONE);
         controlVisible = false;
     }
 
-    private void showView() {
+    private void showViews() {
         videoControlLayout.animate()
                 .translationY(0);
+        videoDetailsLayout.setVisibility(View.VISIBLE);
         controlVisible = true;
     }
 
