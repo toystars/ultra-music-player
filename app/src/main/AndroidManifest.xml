@@ -17,7 +17,7 @@
     <uses-permission-sdk-23 android:name="android.permission.WRITE_SETTINGS"/>
 
     <application
-        android:name=".config.UltraMediaPlayerApplication"
+        android:name="com.bmustapha.ultramediaplayer.config.UltraMediaPlayerApplication"
         android:allowBackup="true"
         android:fullBackupContent="false"
         android:icon="@drawable/ic_launcher"
@@ -26,10 +26,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <service android:name=".services.MusicService"/>
-        <service android:name=".services.VideoService"/>
+        <service android:name="com.bmustapha.ultramediaplayer.services.MusicService"/>
+        <service android:name="com.bmustapha.ultramediaplayer.services.VideoService"/>
 
-        <receiver android:name=".broadcasts.MediaServiceStartBroadcast">
+        <receiver android:name="com.bmustapha.ultramediaplayer.broadcasts.MediaServiceStartBroadcast">
             <intent-filter>
                 <action android:name="android.intent.action.QUICKBOOT_POWERON"/>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
@@ -37,13 +37,13 @@
         </receiver>
 
         <activity
-            android:name=".activities.MainActivity"
+            android:name="com.bmustapha.ultramediaplayer.activities.MainActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait">
         </activity>
 
         <activity
-            android:name=".activities.LauncherActivity"
+            android:name="com.bmustapha.ultramediaplayer.activities.LauncherActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -53,14 +53,14 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activities.PlayListSongs">
+        <activity android:name="com.bmustapha.ultramediaplayer.activities.PlayListSongs">
         </activity>
 
-        <activity android:name=".activities.FullMusicActivity">
+        <activity android:name="com.bmustapha.ultramediaplayer.activities.FullMusicActivity">
         </activity>
 
         <activity
-            android:name=".activities.FullVideoActivity">
+            android:name="com.bmustapha.ultramediaplayer.activities.FullVideoActivity">
         </activity>
     </application>
 

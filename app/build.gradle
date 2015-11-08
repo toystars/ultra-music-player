@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.0"
 
     defaultConfig {
-        applicationId "com.bmustapha.gaimediaplayer"
+        applicationId "com.bmustapha.ultramediaplayer"
         minSdkVersion 14
         targetSdkVersion 23
         versionCode 2
