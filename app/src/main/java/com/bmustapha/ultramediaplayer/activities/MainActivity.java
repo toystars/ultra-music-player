@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bmustapha.ultramediaplayer.R;
 import com.bmustapha.ultramediaplayer.database.PlayListDB;
@@ -142,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
     private void displayView(String title) {
         // update the main content by replacing fragments
         Fragment fragment = null;
+        boolean isActivityStart = false;
         switch (title) {
             case "Music":
                 fragment = new MusicFragment();
@@ -150,14 +152,15 @@ public class MainActivity extends AppCompatActivity {
             case "Videos":
                 fragment = new VideoFragment();
                 break;
-            case "Images":
-                // fragment = new PlayListFragment();
-                break;
             case "Deezer":
+                isActivityStart = true;
+                // Intent deezerIntent = new Intent(this, DeezerActivity.class);
+                Toast.makeText(MainActivity.this, "Deezer!", Toast.LENGTH_SHORT).show();
                 // fragment = new VideoFragment();
                 // PlayListSync.updateAdapter(null);
                 break;
             case "Youtube":
+                isActivityStart = true;
                 // fragment = new VideoFragment();
                 // PlayListSync.updateAdapter(null);
                 break;
@@ -165,12 +168,14 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
 
-        try {
-            getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
-            // close drawer
-            mDrawerLayout.closeDrawers();
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (!isActivityStart) {
+            try {
+                getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
+                // close drawer
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+        mDrawerLayout.closeDrawers();
     }
 }

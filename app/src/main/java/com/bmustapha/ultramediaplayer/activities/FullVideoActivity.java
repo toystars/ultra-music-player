@@ -21,12 +21,10 @@ public class FullVideoActivity extends Activity implements SurfaceHolder.Callbac
         MediaPlayer.OnCompletionListener, MediaPlayer.OnSeekCompleteListener {
 
     private SurfaceView surfaceView;
-    private SurfaceHolder surfaceHolder;
     private MediaPlayer videoMediaPlayer;
     private Uri videoUri;
     private LinearLayout videoControlLayout;
     private boolean controlVisible = true;
-    private CountDownTimer countDownTimer;
     private SeekBar seekBar;
 
     private String videoName;
@@ -127,15 +125,13 @@ public class FullVideoActivity extends Activity implements SurfaceHolder.Callbac
 
     @Override
     public void onBackPressed() {
-        videoMediaPlayer.release();
-        disableHandler();
-        finish();
+        finishActivity();
     }
 
     private void setUp() {
         getWindow().setFormat(PixelFormat.UNKNOWN);
         surfaceView = (SurfaceView) findViewById(R.id.video_surface_view);
-        surfaceHolder = surfaceView.getHolder();
+        SurfaceHolder surfaceHolder = surfaceView.getHolder();
         // surfaceHolder.setFixedSize(800, 480);
         surfaceHolder.addCallback(this);
         surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
@@ -226,7 +222,7 @@ public class FullVideoActivity extends Activity implements SurfaceHolder.Callbac
     }
 
     private void startTimer() {
-        countDownTimer = new CountDownTimer(3000, 1000) {
+        CountDownTimer countDownTimer = new CountDownTimer(3000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
 
@@ -260,5 +256,11 @@ public class FullVideoActivity extends Activity implements SurfaceHolder.Callbac
     private void updateUI() {
         seekBar.setMax(videoMediaPlayer.getDuration());
         seekBar.setProgress(videoMediaPlayer.getCurrentPosition());
+    }
+
+    private void finishActivity() {
+        videoMediaPlayer.release();
+        disableHandler();
+        finish();
     }
 }
