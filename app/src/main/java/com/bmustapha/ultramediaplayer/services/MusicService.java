@@ -201,6 +201,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
     @Override
     public void onSeekComplete(MediaPlayer mediaPlayer) {
         mediaPlayer.start();
+        newNotification();
     }
 
     // method to set control objects
@@ -535,7 +536,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
 //        Intent fullMusicScreenIntent = new Intent(getApplicationContext(), FullMusicScreen.class);
 //        fullMusicScreenIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //        startActivity(fullMusicScreenIntent);
-        closeNotificationBar();
+        // closeNotificationBar();
     }
 
     private void closeNotificationBar() {
