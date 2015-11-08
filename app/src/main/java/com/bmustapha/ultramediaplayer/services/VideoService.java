@@ -193,9 +193,4 @@ public class VideoService extends Service implements MediaPlayer.OnPreparedListe
     public IBinder onBind(Intent intent) {
         return null;
     }
-
-//
-//    public static VideoService videoService;
-//    public static final String BROADCAST_ACTION = "com.bmustapha.gaimediaplayer.services.seekProgres";
-//    Intent seekIntent;
 }
