@@ -25,9 +25,11 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <service android:name=".services.MusicService"/>
 
-        <receiver android:name=".broadcasts.MusicServiceStartBroadcast">
+        <service android:name=".services.MusicService"/>
+        <service android:name=".services.VideoService"/>
+
+        <receiver android:name=".broadcasts.MediaServiceStartBroadcast">
             <intent-filter>
                 <action android:name="android.intent.action.QUICKBOOT_POWERON"/>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>

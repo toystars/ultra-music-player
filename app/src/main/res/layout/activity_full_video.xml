@@ -117,14 +117,22 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:background="@android:color/transparent"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:padding="8dp">
 
         <TextView
             android:id="@+id/video_name"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:textColor="#FFFFFF"/>
+
+        <ImageView
+            android:id="@+id/full_screen_video_rotate_button"
+            android:src="@drawable/ic_screen_rotation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/full_video_screen_rotation_button" />
 
     </LinearLayout>
 

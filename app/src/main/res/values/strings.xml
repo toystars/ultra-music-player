@@ -26,5 +26,6 @@
     <string name="album_shuffle_title">Shuffle Songs</string>
     <string name="add_album_to_playlist">Add to Playlist</string>
     <string name="go_to_artist">Go to Artist</string>
+    <string name="full_video_screen_rotation_button">Full Video Screen Screen Rotation Button</string>
 
 </resources>

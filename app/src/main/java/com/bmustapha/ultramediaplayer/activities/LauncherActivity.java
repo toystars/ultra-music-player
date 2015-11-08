@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.bmustapha.ultramediaplayer.R;
 import com.bmustapha.ultramediaplayer.services.MusicService;
+import com.bmustapha.ultramediaplayer.services.VideoService;
 import com.bmustapha.ultramediaplayer.utilities.Constants;
 import com.bmustapha.ultramediaplayer.utilities.UtilFunctions;
 import com.victor.loading.newton.NewtonCradleLoading;
@@ -66,10 +67,13 @@ public class LauncherActivity extends Activity {
     }
 
     private void goToMainActivity() {
-        boolean isServiceRunning = UtilFunctions.isServiceRunning(MusicService.class.getName(), getApplicationContext());
-        if (!isServiceRunning || (MusicService.musicService == null)) {
+        boolean isMusicServiceRunning = UtilFunctions.isServiceRunning(MusicService.class.getName(), getApplicationContext());
+        boolean isVideoServiceRunning = UtilFunctions.isServiceRunning(VideoService.class.getName(), getApplicationContext());
+        if ((!isMusicServiceRunning || (MusicService.musicService == null)) && (!isVideoServiceRunning || (VideoService.videoService == null))) {
             Intent musicServiceIntent = new Intent(getApplicationContext(), MusicService.class);
             startService(musicServiceIntent);
+            Intent videoServiceIntent = new Intent(getApplicationContext(), VideoService.class);
+            startService(videoServiceIntent);
             // pause for a while to get the service running before moving to main screen...
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {

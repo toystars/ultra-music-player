@@ -13,6 +13,7 @@ import com.bmustapha.ultramediaplayer.R;
 import com.bmustapha.ultramediaplayer.activities.FullVideoActivity;
 import com.bmustapha.ultramediaplayer.models.Video;
 import com.bmustapha.ultramediaplayer.services.MusicService;
+import com.bmustapha.ultramediaplayer.shared.CurrentPlayingVideoKeeper;
 import com.bmustapha.ultramediaplayer.utilities.ContextProvider;
 
 import java.util.ArrayList;
@@ -50,10 +51,10 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
                 if (MusicService.musicService.isPlaying()) {
                     MusicService.musicService.toggleState();
                 }
+                // save selected video in static variable
+                CurrentPlayingVideoKeeper.setCurrentPlayingVideo(videos.get(position));
                 // open and play video
                 Intent videoIntent = new Intent(ContextProvider.getContext(), FullVideoActivity.class);
-                videoIntent.setData(videos.get(position).getUri());
-                videoIntent.putExtra("VIDEO_NAME", videos.get(position).getName());
                 videoIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 ContextProvider.getContext().startActivity(videoIntent);
             }
