@@ -5,6 +5,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.view.SurfaceHolder;
@@ -12,6 +13,7 @@ import android.view.SurfaceView;
 import android.widget.TextView;
 
 import com.bmustapha.ultramediaplayer.models.Video;
+import com.bmustapha.ultramediaplayer.utilities.TimeFormatter;
 
 /**
  * Created by toystars on 11/8/15.
@@ -28,20 +30,51 @@ public class VideoService extends Service implements MediaPlayer.OnPreparedListe
     private Uri currentVideoUri = null;
     private SurfaceHolder surfaceHolder;
 
+    public static final String BROADCAST_ACTION = "com.bmustapha.gaimediaplayer.services.seekProgres";
+    Intent seekIntent;
+    private final Handler handler = new Handler();
+
     @Override
     public void onCreate() {
         //create the service
         super.onCreate();
         videoService = this;
         videoMediaPlayer = new MediaPlayer();
-
-        // seekIntent = new Intent(BROADCAST_ACTION);
+        seekIntent = new Intent(BROADCAST_ACTION);
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);
         return START_STICKY;
+    }
+
+    public void setUpHandler() {
+        handler.removeCallbacks(updateSeekBar);
+        handler.postDelayed(updateSeekBar, 1000);
+    }
+
+    public void disableHandler() {
+        handler.removeCallbacks(updateSeekBar);
+    }
+
+    private Runnable updateSeekBar = new Runnable() {
+        @Override
+        public void run() {
+            sendVideoState();
+            handler.postDelayed(this, 1000);
+        }
+    };
+
+    private void sendVideoState() {
+        if (videoMediaPlayer.isPlaying()) {
+            int mediaPosition = videoMediaPlayer.getCurrentPosition();
+            int mediaMax = videoMediaPlayer.getDuration();
+            seekIntent.putExtra("counter", String.valueOf(mediaPosition));
+            seekIntent.putExtra("mediaMax", String.valueOf(mediaMax));
+            seekIntent.putExtra("formattedTime", TimeFormatter.getTimeString(mediaPosition));
+            sendBroadcast(seekIntent);
+        }
     }
 
     public void setActivityParams(Activity activity, SurfaceView surfaceView, TextView textView, Video video, SurfaceHolder surfaceHolder) {

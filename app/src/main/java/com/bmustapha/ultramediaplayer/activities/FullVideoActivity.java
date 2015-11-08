@@ -1,6 +1,10 @@
 package com.bmustapha.ultramediaplayer.activities;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.graphics.PixelFormat;
 import android.net.Uri;
@@ -28,10 +32,9 @@ public class FullVideoActivity extends Activity implements SurfaceHolder.Callbac
 
     private final Handler handler = new Handler();
     private LinearLayout videoDetailsLayout;
-    private TextView videoNameTextView;
     private ImageView playPauseButton;
     private ImageView rotateScreenButton;
-    private SurfaceHolder surfaceHolder;
+    private boolean isRegistered = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,17 +44,43 @@ public class FullVideoActivity extends Activity implements SurfaceHolder.Callbac
         setUp();
     }
 
+    private void setUpUpdates() {
+        VideoService.videoService.setUpHandler();
+        registerReceiver(broadcastReceiver, new IntentFilter(VideoService.BROADCAST_ACTION));
+        isRegistered = true;
+    }
+
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            updateUI(intent);
+        }
+    };
+
+    private void updateUI(Intent intent) {
+        String counter = intent.getStringExtra("counter");
+        String mediaMax = intent.getStringExtra("mediaMax");
+        String formattedTime = intent.getStringExtra("formattedTime");
+
+        int seekProgress = Integer.parseInt(counter);
+        int seekMax = Integer.parseInt(mediaMax);
+
+
+        seekBar.setMax(seekMax);
+        seekBar.setProgress(seekProgress);
+    }
+
     private void setUp() {
         getWindow().setFormat(PixelFormat.UNKNOWN);
         surfaceView = (SurfaceView) findViewById(R.id.video_surface_view);
-        surfaceHolder = surfaceView.getHolder();
+        SurfaceHolder surfaceHolder = surfaceView.getHolder();
         // surfaceHolder.setFixedSize(800, 480);
         surfaceHolder.addCallback(this);
         surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 
         videoControlLayout = (LinearLayout) findViewById(R.id.video_control_layout);
         videoDetailsLayout = (LinearLayout) findViewById(R.id.video_detail_layout);
-        videoNameTextView = (TextView) findViewById(R.id.video_name);
+        TextView videoNameTextView = (TextView) findViewById(R.id.video_name);
         playPauseButton = (ImageView) findViewById(R.id.video_play_pause_button);
         seekBar = (SeekBar) findViewById(R.id.video_seek_bar);
         rotateScreenButton = (ImageView) findViewById(R.id.full_screen_video_rotate_button);
@@ -75,6 +104,7 @@ public class FullVideoActivity extends Activity implements SurfaceHolder.Callbac
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (fromUser) {
                     VideoService.videoService.getVideoMediaPlayer().seekTo(progress);
+                    playPauseButton.setImageResource(R.drawable.ic_video_pause);
                 }
             }
 
@@ -155,6 +185,7 @@ public class FullVideoActivity extends Activity implements SurfaceHolder.Callbac
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         VideoService.videoService.play(CurrentPlayingVideoKeeper.getCurrentPlayingVideo());
+        setUpUpdates();
     }
 
     @Override
@@ -168,9 +199,17 @@ public class FullVideoActivity extends Activity implements SurfaceHolder.Callbac
     }
 
     private void finishActivity() {
+        if (isRegistered) {
+            try {
+                unregisterReceiver(broadcastReceiver);
+                isRegistered = false;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        VideoService.videoService.disableHandler();
         CurrentPlayingVideoKeeper.resetCurrentPlayingVideo();
         VideoService.videoService.stopVideo();
-        // disableHandler();
         finish();
     }
 
@@ -226,27 +265,8 @@ public class FullVideoActivity extends Activity implements SurfaceHolder.Callbac
 //        };
 //        countDownTimer.start();
 //    }
-//
-//    public void setUpHandler() {
-//        handler.removeCallbacks(updateSeekBar);
-//        handler.postDelayed(updateSeekBar, 1000);
-//    }
-//
-//    public void disableHandler() {
-//        handler.removeCallbacks(updateSeekBar);
-//    }
-//
-//    private Runnable updateSeekBar = new Runnable() {
-//        @Override
-//        public void run() {
-//            updateUI();
-//            handler.postDelayed(this, 1000);
-//        }
-//    };
-//
-//    private void updateUI() {
-//        seekBar.setMax(videoMediaPlayer.getDuration());
-//        seekBar.setProgress(videoMediaPlayer.getCurrentPosition());
-//    }
-//
+
+    // seekBar.setMax(videoMediaPlayer.getDuration());
+    // seekBar.setProgress(videoMediaPlayer.getCurrentPosition());
+
 }
