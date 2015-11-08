@@ -7,6 +7,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.PowerManager;
 import android.support.annotation.Nullable;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -87,6 +88,8 @@ public class VideoService extends Service implements MediaPlayer.OnPreparedListe
 
     private void analyzeIncomingVideo(Video video) {
         setMediaPlayerListeners();
+        videoMediaPlayer.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
+        videoMediaPlayer.setWakeMode(getApplicationContext(), PowerManager.SCREEN_DIM_WAKE_LOCK);
         try {
             if (currentVideoUri != null && currentVideoUri.toString().equals(video.getUri().toString())) {
                 // same video is coming in, maybe orientation just changed, continue playing video

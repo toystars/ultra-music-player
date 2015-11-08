@@ -9,7 +9,6 @@ import android.content.pm.ActivityInfo;
 import android.graphics.PixelFormat;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -21,6 +20,7 @@ import android.widget.TextView;
 import com.bmustapha.ultramediaplayer.R;
 import com.bmustapha.ultramediaplayer.services.VideoService;
 import com.bmustapha.ultramediaplayer.shared.CurrentPlayingVideoKeeper;
+import com.bmustapha.ultramediaplayer.utilities.TimeFormatter;
 
 public class FullVideoActivity extends Activity implements SurfaceHolder.Callback {
 
@@ -30,11 +30,13 @@ public class FullVideoActivity extends Activity implements SurfaceHolder.Callbac
     private boolean controlVisible = true;
     private SeekBar seekBar;
 
-    private final Handler handler = new Handler();
     private LinearLayout videoDetailsLayout;
     private ImageView playPauseButton;
     private ImageView rotateScreenButton;
     private boolean isRegistered = false;
+
+    private TextView currentTime;
+    private TextView totalTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +67,7 @@ public class FullVideoActivity extends Activity implements SurfaceHolder.Callbac
         int seekProgress = Integer.parseInt(counter);
         int seekMax = Integer.parseInt(mediaMax);
 
-
+        currentTime.setText(formattedTime);
         seekBar.setMax(seekMax);
         seekBar.setProgress(seekProgress);
     }
@@ -84,6 +86,14 @@ public class FullVideoActivity extends Activity implements SurfaceHolder.Callbac
         playPauseButton = (ImageView) findViewById(R.id.video_play_pause_button);
         seekBar = (SeekBar) findViewById(R.id.video_seek_bar);
         rotateScreenButton = (ImageView) findViewById(R.id.full_screen_video_rotate_button);
+        currentTime = (TextView) findViewById(R.id.video_current_time);
+        totalTime = (TextView) findViewById(R.id.video_total_time);
+
+        if (VideoService.videoService.getVideoMediaPlayer().isPlaying()) {
+            seekBar.setMax(VideoService.videoService.getVideoMediaPlayer().getDuration());
+            seekBar.setProgress(VideoService.videoService.getVideoMediaPlayer().getCurrentPosition());
+            currentTime.setText(TimeFormatter.getTimeString(VideoService.videoService.getVideoMediaPlayer().getCurrentPosition()));
+        }
 
         VideoService.videoService.setActivityParams(this, surfaceView, videoNameTextView,
                 CurrentPlayingVideoKeeper.getCurrentPlayingVideo(), surfaceHolder);
@@ -104,6 +114,7 @@ public class FullVideoActivity extends Activity implements SurfaceHolder.Callbac
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (fromUser) {
                     VideoService.videoService.getVideoMediaPlayer().seekTo(progress);
+                    currentTime.setText(TimeFormatter.getTimeString(VideoService.videoService.getVideoMediaPlayer().getCurrentPosition()));
                     playPauseButton.setImageResource(R.drawable.ic_video_pause);
                 }
             }
@@ -138,6 +149,15 @@ public class FullVideoActivity extends Activity implements SurfaceHolder.Callbac
                 if (VideoService.videoService.getVideoMediaPlayer().isPlaying()) {
                     VideoService.videoService.pause();
                 }
+                if (isRegistered) {
+                    try {
+                        unregisterReceiver(broadcastReceiver);
+                        isRegistered = false;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                VideoService.videoService.disableHandler();
                 final int orientation = getResources().getConfiguration().orientation;
                 switch (orientation) {
                     case 1:
