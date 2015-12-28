@@ -1,116 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <android.support.v4.widget.DrawerLayout
-        android:id="@+id/drawer_layout"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark" />
+
+    <FrameLayout
+        android:id="@+id/content_frame"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <LinearLayout
+            android:id="@+id/main_controls"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary"
-                android:theme="@style/ThemeOverlay.AppCompat.Dark"/>
 
-            <FrameLayout
-                android:id="@+id/content_frame"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"/>
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
 
-            <android.support.v7.widget.CardView
-                android:id="@+id/cv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/album_art"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="10dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:contentDescription="@string/main_activity_playback_album_art" />
 
-                <LinearLayout
-                    android:id="@+id/main_controls"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/track_name"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_marginTop="10dp"
+                    android:layout_toEndOf="@+id/album_art"
+                    android:layout_toRightOf="@+id/album_art"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:scrollHorizontally="true"
+                    android:singleLine="true"
+                    android:textColor="@color/ColorPrimaryText" />
 
+                <TextView
+                    android:id="@+id/track_artist"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/track_name"
+                    android:layout_toEndOf="@+id/album_art"
+                    android:layout_toRightOf="@+id/album_art"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:scrollHorizontally="true"
+                    android:singleLine="true"
+                    android:textColor="@color/ColorPrimaryText" />
 
-                    <RelativeLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1">
+            </RelativeLayout>
 
-                        <ImageView
-                            android:id="@+id/album_art"
-                            android:layout_width="45dp"
-                            android:layout_height="45dp"
-                            android:layout_centerVertical="true"
-                            android:layout_margin="10dp"
-                            android:layout_marginEnd="5dp"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="5dp"
-                            android:contentDescription="@string/main_activity_playback_album_art"/>
+            <ImageView
+                android:id="@+id/play_pause_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/main_activity_playback_control"
+                android:padding="5dp"
+                android:src="@drawable/ic_activity_play" />
 
-                        <TextView
-                            android:id="@+id/track_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:layout_toEndOf="@+id/album_art"
-                            android:layout_toRightOf="@+id/album_art"
-                            android:ellipsize="end"
-                            android:maxLines="1"
-                            android:scrollHorizontally="true"
-                            android:singleLine="true"
-                            android:textColor="@color/ColorPrimaryText"/>
-
-                        <TextView
-                            android:id="@+id/track_artist"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/track_name"
-                            android:layout_toEndOf="@+id/album_art"
-                            android:layout_toRightOf="@+id/album_art"
-                            android:ellipsize="end"
-                            android:maxLines="1"
-                            android:scrollHorizontally="true"
-                            android:singleLine="true"
-                            android:textColor="@color/ColorPrimaryText"/>
-
-                    </RelativeLayout>
-
-                    <ImageView
-                        android:id="@+id/play_pause_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:contentDescription="@string/main_activity_playback_control"
-                        android:padding="5dp"
-                        android:src="@drawable/ic_activity_play"/>
-
-
-                </LinearLayout>
-
-            </android.support.v7.widget.CardView>
 
         </LinearLayout>
 
-        <android.support.design.widget.NavigationView
-            android:id="@+id/navigation_view"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            app:headerLayout="@layout/drawer_header"
-            app:menu="@menu/drawer"/>
+    </android.support.v7.widget.CardView>
 
-    </android.support.v4.widget.DrawerLayout>
-
-</RelativeLayout>
+</LinearLayout>

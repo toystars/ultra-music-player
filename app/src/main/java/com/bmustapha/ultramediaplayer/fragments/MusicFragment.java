@@ -20,7 +20,7 @@ public class MusicFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        getActivity().setTitle("Music");
+        getActivity().setTitle("Ultra Music");
     }
 
     @Nullable

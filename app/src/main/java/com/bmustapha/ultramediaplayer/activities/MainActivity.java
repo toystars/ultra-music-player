@@ -2,10 +2,7 @@ package com.bmustapha.ultramediaplayer.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -15,12 +12,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bmustapha.ultramediaplayer.R;
 import com.bmustapha.ultramediaplayer.database.PlayListDB;
 import com.bmustapha.ultramediaplayer.fragments.MusicFragment;
-import com.bmustapha.ultramediaplayer.fragments.VideoFragment;
 import com.bmustapha.ultramediaplayer.modals.PlayListModal;
 import com.bmustapha.ultramediaplayer.models.Song;
 import com.bmustapha.ultramediaplayer.services.MusicService;
@@ -29,8 +24,6 @@ import com.bmustapha.ultramediaplayer.utilities.AlbumArtLoader;
 import com.squareup.picasso.Picasso;
 
 public class MainActivity extends AppCompatActivity {
-
-    private DrawerLayout mDrawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,24 +82,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
-                menuItem.setChecked(true);
-                displayView((String) menuItem.getTitle());
-                return true;
-            }
-        });
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         assert actionBar != null;
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
-        actionBar.setDisplayHomeAsUpEnabled(true);
 
         if (savedInstanceState == null) {
             // on first time display view for first nav item
@@ -129,9 +108,6 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         switch (id) {
-            case android.R.id.home:
-                mDrawerLayout.openDrawer(GravityCompat.START);
-                return true;
             case R.id.playlist_add:
                 View view = getLayoutInflater().inflate(R.layout.add_playlist, null);
                 new PlayListModal(this).showDialog(view);
@@ -143,39 +119,21 @@ public class MainActivity extends AppCompatActivity {
     private void displayView(String title) {
         // update the main content by replacing fragments
         Fragment fragment = null;
-        boolean isActivityStart = false;
+
         switch (title) {
             case "Music":
                 fragment = new MusicFragment();
-                // PlayListSync.updateAdapter(null);
-                break;
-            case "Videos":
-                fragment = new VideoFragment();
-                break;
-            case "Deezer":
-                isActivityStart = true;
-                // Intent deezerIntent = new Intent(this, DeezerActivity.class);
-                Toast.makeText(MainActivity.this, "Deezer!", Toast.LENGTH_SHORT).show();
-                // fragment = new VideoFragment();
-                // PlayListSync.updateAdapter(null);
-                break;
-            case "Youtube":
-                isActivityStart = true;
-                // fragment = new VideoFragment();
                 // PlayListSync.updateAdapter(null);
                 break;
             default:
                 break;
         }
 
-        if (!isActivityStart) {
-            try {
-                getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
-                // close drawer
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        try {
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
+            // close drawer
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        mDrawerLayout.closeDrawers();
     }
 }

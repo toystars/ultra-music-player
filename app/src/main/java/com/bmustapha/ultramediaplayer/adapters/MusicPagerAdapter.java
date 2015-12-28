@@ -16,7 +16,7 @@ import com.bmustapha.ultramediaplayer.fragments.InternalMusicFragments.PlayListF
 import com.bmustapha.ultramediaplayer.utilities.ContextProvider;
 
 /**
- * Created by andela on 10/19/15.
+ * Created by toystars on 10/19/15.
  */
 public class MusicPagerAdapter extends FragmentPagerAdapter {
 
