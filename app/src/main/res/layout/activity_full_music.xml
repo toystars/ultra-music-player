@@ -15,6 +15,7 @@
         android:layout_weight="2">
 
         <LinearLayout
+            android:orientation="horizontal"
             android:id="@+id/full_screen_album_art"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -39,7 +40,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/full_music_screen_song_title"
@@ -47,6 +48,17 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="1"
+                android:text="Hero"
+                android:scrollHorizontally="true"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/ColorPrimaryText"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text=" - "
                 android:scrollHorizontally="true"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/ColorPrimaryText"/>
@@ -57,41 +69,46 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="1"
+                android:text="Mariah Carey"
                 android:scrollHorizontally="true"
                 android:textAppearance="?android:attr/textAppearanceSmall"/>
         </LinearLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal">
+            android:layout_marginTop="10dp"
+            android:layout_height="wrap_content">
 
             <TextView
+                android:text="02:55"
                 android:id="@+id/full_music_screen_current_time"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"/>
-
-            <SeekBar
-                android:id="@+id/full_screen_seek_bar"
-                style="@style/SeekBarSeekBarTheme"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"/>
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_height="wrap_content"/>
 
             <TextView
+                android:text="05:44"
                 android:id="@+id/full_music_screen_total_time"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"/>
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_height="wrap_content"/>
 
-        </LinearLayout>
+        </RelativeLayout>
+
+        <SeekBar
+            android:id="@+id/full_screen_seek_bar"
+            style="@style/SeekBarSeekBarTheme"
+            android:layout_width="match_parent"
+            android:layout_marginTop="5dp"
+            android:layout_height="wrap_content"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:baselineAligned="false">
 
             <RelativeLayout
                 android:layout_width="0dp"

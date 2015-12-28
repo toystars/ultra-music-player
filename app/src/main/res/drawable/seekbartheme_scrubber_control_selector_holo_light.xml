@@ -19,5 +19,5 @@
     <!--<item android:state_pressed="true" android:drawable="@drawable/seekbartheme_scrubber_control_pressed_holo" />-->
     <!--<item android:state_selected="true" android:drawable="@drawable/seekbartheme_scrubber_control_focused_holo" />-->
     <!--<item android:drawable="@drawable/seekbartheme_scrubber_control_normal_holo" />-->
-    <item android:drawable="@drawable/seekbartheme_scrubber_control_focused_holo" />
+    <!--<item android:drawable="@drawable/seekbartheme_scrubber_control_focused_holo" />-->
 </selector>
