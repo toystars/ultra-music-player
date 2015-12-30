@@ -5,14 +5,14 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
 import com.bmustapha.ultramediaplayer.R;
-import com.bmustapha.ultramediaplayer.adapters.song.SongAdapter;
+import com.bmustapha.ultramediaplayer.adapters.song.RecyclerSongAdapter;
 import com.bmustapha.ultramediaplayer.models.Song;
 import com.bmustapha.ultramediaplayer.services.MusicService;
 import com.bmustapha.ultramediaplayer.utilities.MediaQuery;
@@ -25,7 +25,7 @@ import java.util.Collections;
  */
 public class AllMusicFragment extends Fragment {
 
-    private ListView songView;
+    private RecyclerView songRecyclerView;
     private ArrayList<Song> songList;
     private Typeface face;
     private MusicService musicService;
@@ -38,31 +38,18 @@ public class AllMusicFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_song_list, container, false);
 
         musicService = MusicService.musicService;
-
-        songView = (ListView) view.findViewById(R.id.song_list);
-
         songList = new ArrayList<>();
+        songRecyclerView = (RecyclerView) view.findViewById(R.id.song_recycler_view);
+        songRecyclerView.setHasFixedSize(true);
+        songRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
         face = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Lato-Regular.ttf");
-        songView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                selectSong(position);
-            }
-        });
 
         new getAllSongs().execute();
 
         return view;
-    }
-
-    private void selectSong(int position) {
-        musicService.setSongList(songList);
-        musicService.startSong(position);
-        musicService.getPlayPauseButton().setImageResource(R.drawable.ic_activity_pause);
     }
 
     // helper method to help get song info
@@ -87,9 +74,8 @@ public class AllMusicFragment extends Fragment {
 
         @Override
         protected void onPostExecute(Void result) {
-            // Locate the listview in listview_main.xml
-            SongAdapter songAdapter = new SongAdapter(getActivity(), songList, face, true, false);
-            songView.setAdapter(songAdapter);
+            RecyclerSongAdapter recyclerSongAdapter = new RecyclerSongAdapter(getActivity(), songList, face, musicService);
+            songRecyclerView.setAdapter(recyclerSongAdapter);
         }
     }
 }

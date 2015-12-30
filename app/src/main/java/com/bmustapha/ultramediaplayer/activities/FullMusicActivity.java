@@ -72,11 +72,13 @@ public class FullMusicActivity extends AppCompatActivity {
         fullScreenShuffleButton = (ImageView) findViewById(R.id.full_music_screen_shuffle_button);
         fullScreenAlbumName = (TextView) findViewById(R.id.full_music_screen_album);
 
+        fullScreenSeekBar.setPadding(0,0,0,0);
+
 //        fullScreenSongTitle.setTypeface(face);
 //        fullScreenArtistName.setTypeface(face);
 //        fullScreenAlbumName.setTypeface(face);
 
-        String albumName = "Album: " + currentSong.getAlbum();
+        String albumName = currentSong.getAlbum();
         fullScreenAlbumName.setText(albumName);
         fullScreenSongTitle.setText(currentSong.getTitle());
         fullScreenArtistName.setText(currentSong.getArtist());
@@ -272,7 +274,7 @@ public class FullMusicActivity extends AppCompatActivity {
         }
 
         if (!fullScreenAlbumName.getText().toString().contains(albumName)) {
-            String name = "Album: " + albumName;
+            String name = albumName;
             fullScreenAlbumName.setText(name);
         }
     }

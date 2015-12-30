@@ -33,54 +33,78 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:layout_marginBottom="5dp"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <TextView
+                android:paddingTop="5dp"
+                android:paddingLeft="16dp"
+                android:paddingStart="16dp"
+                android:paddingRight="16dp"
+                android:paddingEnd="16dp"
                 android:id="@+id/full_music_screen_song_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="Hero"
                 android:scrollHorizontally="true"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/ColorPrimaryText"/>
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text=" - "
-                android:scrollHorizontally="true"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/ColorPrimaryText"/>
-
-            <TextView
+                android:paddingTop="0dp"
+                android:paddingLeft="16dp"
+                android:paddingStart="16dp"
+                android:paddingRight="16dp"
+                android:paddingEnd="16dp"
                 android:id="@+id/full_music_screen_artist_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="Mariah Carey"
                 android:scrollHorizontally="true"
                 android:textAppearance="?android:attr/textAppearanceSmall"/>
+
+            <TextView
+                android:paddingTop="0dp"
+                android:paddingLeft="16dp"
+                android:paddingStart="16dp"
+                android:paddingRight="16dp"
+                android:paddingEnd="16dp"
+                android:id="@+id/full_music_screen_album"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginTop="5dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:scrollHorizontally="true"
+                android:textAppearance="?android:attr/textAppearanceSmall"/>
+
         </LinearLayout>
+
+        <SeekBar
+            android:id="@+id/full_screen_seek_bar"
+            android:layout_width="match_parent"
+            android:layout_marginTop="5dp"
+            android:padding="0dp"
+            android:layout_height="wrap_content"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_marginTop="10dp"
+            android:layout_margin="0dp"
             android:layout_height="wrap_content">
 
             <TextView
-                android:text="02:55"
+                android:paddingLeft="8dp"
+                android:paddingStart="8dp"
+                android:paddingRight="8dp"
+                android:paddingEnd="8dp"
                 android:id="@+id/full_music_screen_current_time"
                 android:layout_width="wrap_content"
                 android:layout_alignParentStart="true"
@@ -88,7 +112,10 @@
                 android:layout_height="wrap_content"/>
 
             <TextView
-                android:text="05:44"
+                android:paddingLeft="8dp"
+                android:paddingStart="8dp"
+                android:paddingRight="8dp"
+                android:paddingEnd="8dp"
                 android:id="@+id/full_music_screen_total_time"
                 android:layout_width="wrap_content"
                 android:layout_alignParentRight="true"
@@ -97,14 +124,8 @@
 
         </RelativeLayout>
 
-        <SeekBar
-            android:id="@+id/full_screen_seek_bar"
-            style="@style/SeekBarSeekBarTheme"
-            android:layout_width="match_parent"
-            android:layout_marginTop="5dp"
-            android:layout_height="wrap_content"/>
-
         <LinearLayout
+            android:padding="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -185,17 +206,6 @@
             </RelativeLayout>
 
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/full_music_screen_album"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginTop="5dp"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:scrollHorizontally="true"
-            android:textAppearance="?android:attr/textAppearanceSmall"/>
 
 
     </LinearLayout>
