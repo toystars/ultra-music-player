@@ -199,7 +199,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
             case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
                 // Lost focus for a short time, but it's ok to keep playing
                 // at an attenuated level
-                if (mediaPlayer.isPlaying()) mediaPlayer.setVolume(0.1f, 0.1f);
+                // if (mediaPlayer.isPlaying()) mediaPlayer.setVolume(0.1f, 0.1f);
                 break;
         }
     }
