@@ -1,9 +1,7 @@
 package com.bmustapha.ultramediaplayer.adapters.playlist;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
 import android.graphics.Typeface;
-import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -19,6 +17,7 @@ import com.bmustapha.ultramediaplayer.R;
 import com.bmustapha.ultramediaplayer.models.Song;
 import com.bmustapha.ultramediaplayer.shared.PlayListSync;
 import com.bmustapha.ultramediaplayer.utilities.AlbumArtLoader;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -44,7 +43,7 @@ public class FullScreenPlayListSongsAdapter extends BaseAdapter implements Popup
     }
 
     public class ViewHolder {
-        ImageView albumArt;
+        SimpleDraweeView albumArt;
         TextView songTitle;
         TextView songArtist;
         ImageView moreButton;
@@ -62,7 +61,7 @@ public class FullScreenPlayListSongsAdapter extends BaseAdapter implements Popup
             holder.songTitle.setTypeface(face);
             holder.songArtist = (TextView) view.findViewById(R.id.song_artist);
             holder.songArtist.setTypeface(face);
-            holder.albumArt = (ImageView) view.findViewById(R.id.song_album_art);
+            holder.albumArt = (SimpleDraweeView) view.findViewById(R.id.song_album_art);
             holder.moreButton = (ImageView) view.findViewById(R.id.more_button);
             view.setTag(holder);
         } else {
@@ -75,12 +74,7 @@ public class FullScreenPlayListSongsAdapter extends BaseAdapter implements Popup
         holder.songTitle.setText(song.getTitle());
         holder.songArtist.setText(song.getArtist());
 
-        Bitmap fullPlayListBitmap = AlbumArtLoader.getTrackCoverArt(activity, song.getAlbumArtUri());
-        if (fullPlayListBitmap != null) {
-            holder.albumArt.setBackgroundDrawable(new BitmapDrawable(fullPlayListBitmap));
-        } else {
-            holder.albumArt.setBackgroundDrawable(AlbumArtLoader.getDefaultArt());
-        }
+        AlbumArtLoader.setImage(song.getAlbumArtUri(), holder.albumArt);
 
         holder.moreButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -4,9 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Bitmap;
 import android.graphics.Typeface;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
@@ -15,7 +13,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -24,6 +21,7 @@ import com.bmustapha.ultramediaplayer.models.Song;
 import com.bmustapha.ultramediaplayer.services.MusicService;
 import com.bmustapha.ultramediaplayer.utilities.AlbumArtLoader;
 import com.bmustapha.ultramediaplayer.utilities.TimeFormatter;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 public class FullMusicActivity extends AppCompatActivity {
 
@@ -34,7 +32,7 @@ public class FullMusicActivity extends AppCompatActivity {
     private TextView fullScreenArtistName;
     private TextView fullScreenCurrentTime;
     private TextView fullScreenTotalTime;
-    private LinearLayout fullScreenAlbumArt;
+    private SimpleDraweeView fullScreenAlbumArt;
     private FloatingActionButton fullScreenPausePlay;
     private ImageView fullScreenRepeatButton;
     private ImageView fullScreenPreviousButton;
@@ -59,7 +57,7 @@ public class FullMusicActivity extends AppCompatActivity {
         actionBar.setTitle("");
 
         Typeface face = Typeface.createFromAsset(this.getAssets(), "fonts/Lato-Regular.ttf");
-        fullScreenAlbumArt = (LinearLayout) findViewById(R.id.full_screen_album_art);
+        fullScreenAlbumArt = (SimpleDraweeView) findViewById(R.id.full_screen_album_art);
         fullScreenSongTitle = (TextView) findViewById(R.id.full_music_screen_song_title);
         fullScreenArtistName = (TextView) findViewById(R.id.full_music_screen_artist_name);
         fullScreenCurrentTime = (TextView) findViewById(R.id.full_music_screen_current_time);
@@ -99,12 +97,7 @@ public class FullMusicActivity extends AppCompatActivity {
             fullScreenShuffleButton.setImageResource(R.drawable.ic_full_music_shuffle_disabled);
         }
 
-        Bitmap fullPlayListBitmap = AlbumArtLoader.getTrackCoverArt(this, currentSong.getAlbumArtUri());
-        if (fullPlayListBitmap != null) {
-            fullScreenAlbumArt.setBackgroundDrawable(new BitmapDrawable(fullPlayListBitmap));
-        } else {
-            fullScreenAlbumArt.setBackgroundDrawable(getResources().getDrawable(R.drawable.default_art));
-        }
+        AlbumArtLoader.setImage(currentSong.getAlbumArtUri(), fullScreenAlbumArt);
 
         setUpUpdates();
         setUpButtonClicks();

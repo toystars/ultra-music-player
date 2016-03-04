@@ -26,7 +26,7 @@ import com.bmustapha.ultramediaplayer.services.MusicService;
 import com.bmustapha.ultramediaplayer.shared.PlayListSync;
 import com.bmustapha.ultramediaplayer.utilities.AlbumArtLoader;
 import com.bmustapha.ultramediaplayer.utilities.MediaQuery;
-import com.squareup.picasso.Picasso;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -68,10 +68,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
                 showMenu(view);
             }
         });
-        Picasso.with(activity)
-                .load(album.getArt())
-                .error(AlbumArtLoader.getDefaultArt())
-                .into(holder.albumArt);
+        AlbumArtLoader.setImage(album.getArt(), holder.albumArt);
     }
 
     @Override
@@ -84,7 +81,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
         public TextView albumName;
         public TextView artistName;
         public ImageView moreButton;
-        public ImageView albumArt;
+        public SimpleDraweeView albumArt;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -93,7 +90,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
             artistName = (TextView) itemView.findViewById(R.id.playlist_description);
             artistName.setTypeface(face);
             moreButton = (ImageView) itemView.findViewById(R.id.playlist_more_button);
-            albumArt = (ImageView) itemView.findViewById(R.id.playlist_art);
+            albumArt = (SimpleDraweeView) itemView.findViewById(R.id.playlist_art);
         }
     }
 

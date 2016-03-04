@@ -21,7 +21,7 @@ import com.bmustapha.ultramediaplayer.models.Song;
 import com.bmustapha.ultramediaplayer.services.MusicService;
 import com.bmustapha.ultramediaplayer.shared.PlayListSync;
 import com.bmustapha.ultramediaplayer.utilities.AlbumArtLoader;
-import com.squareup.picasso.Picasso;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,11 +33,10 @@ public class MainActivity extends AppCompatActivity {
         final MusicService musicService = MusicService.musicService;
         PlayListDB playListDB = new PlayListDB(this);
         PlayListSync.updateDatabaseHandler(playListDB);
-        AlbumArtLoader.setDefaultArt(getResources().getDrawable(R.drawable.default_art));
 
         LinearLayout controlLayout = (LinearLayout) findViewById(R.id.main_controls);
         ImageView playPauseButton = (ImageView) findViewById(R.id.play_pause_button);
-        ImageView albumArt = (ImageView) findViewById(R.id.album_art);
+        SimpleDraweeView albumArt = (SimpleDraweeView) findViewById(R.id.album_art);
         TextView trackName = (TextView) findViewById(R.id.track_name);
         TextView artistName = (TextView) findViewById(R.id.track_artist);
 
@@ -60,10 +59,7 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 playPauseButton.setImageResource(R.drawable.ic_activity_play);
             }
-            Picasso.with(this)
-                    .load(song.getAlbumArtUri())
-                    .error(AlbumArtLoader.getDefaultArt())
-                    .into(albumArt);
+            AlbumArtLoader.setImage(song.getAlbumArtUri(), albumArt);
             controlLayout.setEnabled(true);
         }
 

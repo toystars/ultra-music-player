@@ -18,7 +18,7 @@ import com.bmustapha.ultramediaplayer.models.Song;
 import com.bmustapha.ultramediaplayer.services.MusicService;
 import com.bmustapha.ultramediaplayer.shared.PlayListSync;
 import com.bmustapha.ultramediaplayer.utilities.AlbumArtLoader;
-import com.squareup.picasso.Picasso;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -62,10 +62,7 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.Vi
                 showMenu(view);
             }
         });
-        Picasso.with(context)
-                .load(song.getAlbumArtUri())
-                .error(AlbumArtLoader.getDefaultArt())
-                .into(holder.favouriteAlbumArt);
+        AlbumArtLoader.setImage(song.getAlbumArtUri(), holder.favouriteAlbumArt);
         holder.favouriteAlbumArt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,7 +81,7 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.Vi
         public TextView songName;
         public TextView artistName;
         public ImageView moreButton;
-        public ImageView favouriteAlbumArt;
+        public SimpleDraweeView favouriteAlbumArt;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -93,7 +90,7 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.Vi
             artistName = (TextView) itemView.findViewById(R.id.playlist_description);
             artistName.setTypeface(face);
             moreButton = (ImageView) itemView.findViewById(R.id.playlist_more_button);
-            favouriteAlbumArt = (ImageView) itemView.findViewById(R.id.playlist_art);
+            favouriteAlbumArt = (SimpleDraweeView) itemView.findViewById(R.id.playlist_art);
         }
     }
 

@@ -10,7 +10,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -23,7 +22,6 @@ import android.support.v4.app.NotificationCompat;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.RemoteViews;
 import android.widget.TextView;
 
@@ -33,7 +31,7 @@ import com.bmustapha.ultramediaplayer.broadcasts.NotificationBroadcast;
 import com.bmustapha.ultramediaplayer.models.Song;
 import com.bmustapha.ultramediaplayer.utilities.AlbumArtLoader;
 import com.bmustapha.ultramediaplayer.utilities.TimeFormatter;
-import com.squareup.picasso.Picasso;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -64,7 +62,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
 
     private LinearLayout controlLayout;
     private ImageView controlPlayPauseButton;
-    private ImageView controlAlbumArt;
+    private SimpleDraweeView controlAlbumArt;
     private TextView controlTrackName;
     private TextView controlArtistName;
 
@@ -74,7 +72,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
 
     // variables to control full screen
     private boolean isFullScreen = false;
-    private LinearLayout fullScreenAlbumArt;
+    private SimpleDraweeView fullScreenAlbumArt;
 
     private final Handler handler = new Handler();
     public static final String BROADCAST_ACTION = "com.bmustapha.gaimediaplayer.services.seekProgres";
@@ -88,7 +86,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
     private FloatingActionButton pausePlay;
 
 
-    private RelativeLayout playListFullAlbumArt;
+    private SimpleDraweeView playListFullAlbumArt;
     private boolean isFromPlayList = false;
     private int playListId;
     private ImageView fullPlayListPlayPauseButton;
@@ -211,7 +209,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
     }
 
     // method to set control objects
-    public void setParams(LinearLayout controlLayout, ImageView controlPlayPauseButton, ImageView controlAlbumArt, TextView controlTrackName, TextView controlArtistName) {
+    public void setParams(LinearLayout controlLayout, ImageView controlPlayPauseButton, SimpleDraweeView controlAlbumArt, TextView controlTrackName, TextView controlArtistName) {
         this.controlLayout = controlLayout;
         this.controlPlayPauseButton = controlPlayPauseButton;
         this.controlAlbumArt = controlAlbumArt;
@@ -384,33 +382,18 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         controlTrackName.setText(currentSong.getTitle());
         controlArtistName.setText(currentSong.getArtist());
 
-        Picasso.with(this)
-                .load(currentSong.getAlbumArtUri())
-                .error(AlbumArtLoader.getDefaultArt())
-                .into(controlAlbumArt);
+        AlbumArtLoader.setImage(currentSong.getAlbumArtUri(), controlAlbumArt);
 
         if (controlLayout.getVisibility() != View.VISIBLE) {
             controlLayout.setVisibility(View.VISIBLE);
         }
 
-        // check if in full screen mode
-
         mediaPlayer.start();
         controlPlayPauseButton.setImageResource(R.drawable.ic_activity_pause);
 
+        // check if in full screen mode
         if (isFullScreen) {
-            // set layout image
-            Bitmap albumArt = null;
-            try {
-                albumArt = AlbumArtLoader.getTrackCoverArt(this, currentSong.getAlbumArtUri());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            if (albumArt != null) {
-                // set from bitmap
-                fullScreenAlbumArt.setBackgroundDrawable(new BitmapDrawable(albumArt));
-            }
-
+            AlbumArtLoader.setImage(currentSong.getAlbumArtUri(), fullScreenAlbumArt);
             if (mediaPlayer.isPlaying()) {
                 pausePlay.setImageResource(R.drawable.ic_pause);
             } else {
@@ -419,12 +402,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         }
 
         if (isFromPlayList) {
-            Bitmap fullPlayListBitmap = AlbumArtLoader.getTrackCoverArt(this, currentSong.getAlbumArtUri());
-            if (fullPlayListBitmap != null) {
-                playListFullAlbumArt.setBackgroundDrawable(new BitmapDrawable(fullPlayListBitmap));
-            } else {
-                playListFullAlbumArt.setBackgroundDrawable(AlbumArtLoader.getDefaultArt());
-            }
+            AlbumArtLoader.setImage(currentSong.getAlbumArtUri(), playListFullAlbumArt);
 
             if (mediaPlayer.isPlaying()) {
                 fullPlayListPlayPauseButton.setImageResource(R.drawable.ic_playlist_full_pause);
@@ -444,7 +422,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         return controlPlayPauseButton;
     }
 
-    public void setFullScreenParams(LinearLayout fullMusicLayout, FloatingActionButton pausePlay) {
+    public void setFullScreenParams(SimpleDraweeView fullMusicLayout, FloatingActionButton pausePlay) {
         isFullScreen = true;
         this.fullScreenAlbumArt = fullMusicLayout;
         this.pausePlay = pausePlay;
@@ -466,7 +444,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
     }
 
     public void setSongListFromPlayList(ArrayList<Song> songList, boolean isFromPlayList,
-                                        int playListId, RelativeLayout currentAlbumArt, ImageView fullPlayListPlayPauseButton) {
+                                        int playListId, SimpleDraweeView currentAlbumArt, ImageView fullPlayListPlayPauseButton) {
         songs = songList;
         this.isFromPlayList = isFromPlayList;
         this.playListId = playListId;
@@ -474,7 +452,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         this.fullPlayListPlayPauseButton = fullPlayListPlayPauseButton;
     }
 
-    public void setSongListFromPlayList(boolean isFromPlayList, RelativeLayout currentAlbumArt, ImageView fullPlayListPlayPauseButton) {
+    public void setSongListFromPlayList(boolean isFromPlayList, SimpleDraweeView currentAlbumArt, ImageView fullPlayListPlayPauseButton) {
         this.isFromPlayList = isFromPlayList;
         this.playListFullAlbumArt = currentAlbumArt;
         this.fullPlayListPlayPauseButton = fullPlayListPlayPauseButton;

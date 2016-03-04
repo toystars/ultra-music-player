@@ -17,13 +17,13 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <ImageView
+            <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/playlist_art"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:contentDescription="@string/playlist_album_art"
-                android:scaleType="fitXY"
-                android:src="@drawable/default_art"/>
+                android:scaleType="fitXY" />
+
 
             <LinearLayout
                 android:layout_width="match_parent"

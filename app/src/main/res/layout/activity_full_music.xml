@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -14,21 +13,24 @@
         android:layout_height="0dp"
         android:layout_weight="2">
 
-        
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/full_screen_album_art"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
-        <LinearLayout
-            android:orientation="horizontal"
+       <!-- <LinearLayout
             android:id="@+id/full_screen_album_art"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/default_art"/>
+            android:background="@drawable/default_art"
+            android:orientation="horizontal" />-->
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@android:color/transparent"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark"/>
+            android:theme="@style/ThemeOverlay.AppCompat.Dark" />
 
     </FrameLayout>
 
@@ -44,40 +46,35 @@
             android:orientation="vertical">
 
             <TextView
-                android:paddingTop="5dp"
-                android:paddingLeft="16dp"
-                android:paddingStart="16dp"
-                android:paddingRight="16dp"
-                android:paddingEnd="16dp"
                 android:id="@+id/full_music_screen_song_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="1"
+                android:paddingEnd="16dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingStart="16dp"
+                android:paddingTop="5dp"
                 android:scrollHorizontally="true"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/ColorPrimaryText"/>
+                android:textColor="@color/ColorPrimaryText" />
 
             <TextView
-                android:paddingTop="0dp"
-                android:paddingLeft="16dp"
-                android:paddingStart="16dp"
-                android:paddingRight="16dp"
-                android:paddingEnd="16dp"
                 android:id="@+id/full_music_screen_artist_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="1"
+                android:paddingEnd="16dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingStart="16dp"
+                android:paddingTop="0dp"
                 android:scrollHorizontally="true"
-                android:textAppearance="?android:attr/textAppearanceSmall"/>
+                android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <TextView
-                android:paddingTop="0dp"
-                android:paddingLeft="16dp"
-                android:paddingStart="16dp"
-                android:paddingRight="16dp"
-                android:paddingEnd="16dp"
                 android:id="@+id/full_music_screen_album"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -85,53 +82,58 @@
                 android:layout_marginTop="5dp"
                 android:ellipsize="end"
                 android:maxLines="1"
+                android:paddingEnd="16dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingStart="16dp"
+                android:paddingTop="0dp"
                 android:scrollHorizontally="true"
-                android:textAppearance="?android:attr/textAppearanceSmall"/>
+                android:textAppearance="?android:attr/textAppearanceSmall" />
 
         </LinearLayout>
 
         <SeekBar
             android:id="@+id/full_screen_seek_bar"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:padding="0dp"
-            android:layout_height="wrap_content"/>
+            android:padding="0dp" />
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_margin="0dp"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_margin="0dp">
 
             <TextView
-                android:paddingLeft="8dp"
-                android:paddingStart="8dp"
-                android:paddingRight="8dp"
-                android:paddingEnd="8dp"
                 android:id="@+id/full_music_screen_current_time"
                 android:layout_width="wrap_content"
-                android:layout_alignParentStart="true"
+                android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:layout_height="wrap_content"/>
+                android:layout_alignParentStart="true"
+                android:paddingEnd="8dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:paddingStart="8dp" />
 
             <TextView
-                android:paddingLeft="8dp"
-                android:paddingStart="8dp"
-                android:paddingRight="8dp"
-                android:paddingEnd="8dp"
                 android:id="@+id/full_music_screen_total_time"
                 android:layout_width="wrap_content"
-                android:layout_alignParentRight="true"
+                android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_height="wrap_content"/>
+                android:layout_alignParentRight="true"
+                android:paddingEnd="8dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:paddingStart="8dp" />
 
         </RelativeLayout>
 
         <LinearLayout
-            android:padding="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:baselineAligned="false"
             android:orientation="horizontal"
-            android:baselineAligned="false">
+            android:padding="16dp">
 
             <RelativeLayout
                 android:layout_width="0dp"
@@ -145,7 +147,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
-                    android:src="@drawable/ic_full_music_repeat_enabled"/>
+                    android:src="@drawable/ic_full_music_repeat_enabled" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -159,7 +161,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/ic_full_music_previous"/>
+                    android:src="@drawable/ic_full_music_previous" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -175,7 +177,7 @@
                     android:layout_centerInParent="true"
                     android:src="@drawable/ic_play_arrow"
                     app:backgroundTint="@color/ColorPrimary"
-                    app:borderWidth="0dp"/>
+                    app:borderWidth="0dp" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -189,7 +191,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/ic_full_music_next"/>
+                    android:src="@drawable/ic_full_music_next" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -204,7 +206,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
-                    android:src="@drawable/ic_full_music_shuffle_enabled"/>
+                    android:src="@drawable/ic_full_music_shuffle_enabled" />
             </RelativeLayout>
 
         </LinearLayout>

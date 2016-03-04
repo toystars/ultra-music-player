@@ -4,9 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Bitmap;
 import android.graphics.Typeface;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
@@ -19,7 +17,6 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -29,6 +26,7 @@ import com.bmustapha.ultramediaplayer.models.Song;
 import com.bmustapha.ultramediaplayer.services.MusicService;
 import com.bmustapha.ultramediaplayer.shared.PlayListSync;
 import com.bmustapha.ultramediaplayer.utilities.AlbumArtLoader;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
 
@@ -40,7 +38,7 @@ public class PlayListSongs extends AppCompatActivity {
     MusicService musicService;
     ListView listView;
     int currentPosition;
-    private RelativeLayout currentAlbumArt;
+    private SimpleDraweeView currentAlbumArt;
     private boolean isRegistered = false;
     private SeekBar fullPlayListSeekBar;
     private ImageView fullPlayListPlayPauseButton;
@@ -62,7 +60,7 @@ public class PlayListSongs extends AppCompatActivity {
         playListName = getIntent().getStringExtra("PLAYLIST_NAME");
         playListId = getIntent().getIntExtra("PLAYLIST_ID", 0);
 
-        currentAlbumArt = (RelativeLayout) findViewById(R.id.current_album_art);
+        currentAlbumArt = (SimpleDraweeView) findViewById(R.id.current_album_art);
         listView = (ListView) findViewById(R.id.full_playlist_song_list_view);
         fullPlayListSeekBar = (SeekBar) findViewById(R.id.full_playlist_seekbar);
         ImageView fullPlayListPreviousButton = (ImageView) findViewById(R.id.full_playlist_previous);
@@ -109,12 +107,7 @@ public class PlayListSongs extends AppCompatActivity {
                 fullPlayListPlayPauseButton.setImageResource(R.drawable.ic_playlist_full_play_pause);
             }
 
-            Bitmap fullPlayListBitmap = AlbumArtLoader.getTrackCoverArt(this, currentSong.getAlbumArtUri());
-            if (fullPlayListBitmap != null) {
-                currentAlbumArt.setBackgroundDrawable(new BitmapDrawable(fullPlayListBitmap));
-            } else {
-                currentAlbumArt.setBackgroundDrawable(getResources().getDrawable(R.drawable.default_art));
-            }
+            AlbumArtLoader.setImage(currentSong.getAlbumArtUri(), currentAlbumArt);
 
             fullPlayListSongName.setText(currentSong.getTitle());
             fullPlayListArtistName.setText(currentSong.getArtist());
