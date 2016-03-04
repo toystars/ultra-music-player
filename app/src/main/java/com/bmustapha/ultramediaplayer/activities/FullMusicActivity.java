@@ -274,8 +274,7 @@ public class FullMusicActivity extends AppCompatActivity {
         }
 
         if (!fullScreenAlbumName.getText().toString().contains(albumName)) {
-            String name = albumName;
-            fullScreenAlbumName.setText(name);
+            fullScreenAlbumName.setText(albumName);
         }
     }
 }
