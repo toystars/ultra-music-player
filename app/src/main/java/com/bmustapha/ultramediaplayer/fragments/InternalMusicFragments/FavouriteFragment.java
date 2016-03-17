@@ -39,13 +39,13 @@ public class FavouriteFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_favourite, container, false);
 
-        favouriteSongs = new ArrayList<Song>();
+        favouriteSongs = new ArrayList<>();
         playListDB = PlayListSync.getDataBaseHandler();
         face = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Lato-Regular.ttf");
 
         favouritesRecyclerView = (RecyclerView) view.findViewById(R.id.fav_recycler_view);
         favouritesRecyclerView.setHasFixedSize(true);
-        favouritesRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+        favouritesRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
 
         new getFavouriteSongs().execute();
 

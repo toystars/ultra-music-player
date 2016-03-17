@@ -2,21 +2,17 @@ package com.bmustapha.ultramediaplayer.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bmustapha.ultramediaplayer.R;
+import com.bmustapha.ultramediaplayer.adapters.MusicPagerAdapter;
 import com.bmustapha.ultramediaplayer.database.PlayListDB;
-import com.bmustapha.ultramediaplayer.fragments.MusicFragment;
-import com.bmustapha.ultramediaplayer.modals.PlayListModal;
 import com.bmustapha.ultramediaplayer.models.Song;
 import com.bmustapha.ultramediaplayer.services.MusicService;
 import com.bmustapha.ultramediaplayer.shared.PlayListSync;
@@ -33,12 +29,27 @@ public class MainActivity extends AppCompatActivity {
         final MusicService musicService = MusicService.musicService;
         PlayListDB playListDB = new PlayListDB(this);
         PlayListSync.updateDatabaseHandler(playListDB);
+        AlbumArtLoader.initializeDefaultArt();
 
         LinearLayout controlLayout = (LinearLayout) findViewById(R.id.main_controls);
         ImageView playPauseButton = (ImageView) findViewById(R.id.play_pause_button);
         SimpleDraweeView albumArt = (SimpleDraweeView) findViewById(R.id.album_art);
         TextView trackName = (TextView) findViewById(R.id.track_name);
         TextView artistName = (TextView) findViewById(R.id.track_artist);
+
+        MusicPagerAdapter adapter = new MusicPagerAdapter(getSupportFragmentManager(), this);
+        final ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        viewPager.setAdapter(adapter);
+        final TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        tabLayout.setupWithViewPager(viewPager);
+        for (int i = 0; i < tabLayout.getTabCount(); i++) {
+            TabLayout.Tab tab = tabLayout.getTabAt(i);
+            if (tab != null) {
+                tab.setCustomView(adapter.getTabView(i));
+            }
+        }
+
 
         // check if music service contains songs is playing to determine if the control layout should be displayed or not
         if (musicService.getCurrentSong() != null) {
@@ -77,59 +88,5 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(fullMusicActivityIntent);
             }
         });
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        assert actionBar != null;
-
-        if (savedInstanceState == null) {
-            // on first time display view for first nav item
-            displayView("Music");
-        }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        switch (id) {
-            case R.id.playlist_add:
-                View view = getLayoutInflater().inflate(R.layout.add_playlist, null);
-                new PlayListModal(this).showDialog(view);
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void displayView(String title) {
-        // update the main content by replacing fragments
-        Fragment fragment = null;
-
-        switch (title) {
-            case "Music":
-                fragment = new MusicFragment();
-                // PlayListSync.updateAdapter(null);
-                break;
-            default:
-                break;
-        }
-
-        try {
-            getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
-            // close drawer
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }

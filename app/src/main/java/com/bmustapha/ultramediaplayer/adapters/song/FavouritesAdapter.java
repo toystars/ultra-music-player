@@ -46,7 +46,7 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.Vi
 
     @Override
     public FavouritesAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.playlist_recycler, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.song, parent, false);
         return new ViewHolder(view);
     }
 
@@ -55,6 +55,7 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.Vi
         Song song = favouriteSongs.get(position);
         holder.songName.setText(song.getTitle());
         holder.artistName.setText(song.getArtist());
+        holder.songDuration.setText(song.getFormattedTime());
         holder.moreButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -63,9 +64,9 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.Vi
             }
         });
         AlbumArtLoader.setImage(song.getAlbumArtUri(), holder.favouriteAlbumArt);
-        holder.favouriteAlbumArt.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
                 selectSong(position);
             }
         });
@@ -82,15 +83,18 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.Vi
         public TextView artistName;
         public ImageView moreButton;
         public SimpleDraweeView favouriteAlbumArt;
+        public TextView songDuration;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            songName = (TextView) itemView.findViewById(R.id.playlist_name);
+            songName = (TextView) itemView.findViewById(R.id.song_title);
             songName.setTypeface(face);
-            artistName = (TextView) itemView.findViewById(R.id.playlist_description);
+            artistName = (TextView) itemView.findViewById(R.id.song_artist);
             artistName.setTypeface(face);
-            moreButton = (ImageView) itemView.findViewById(R.id.playlist_more_button);
-            favouriteAlbumArt = (SimpleDraweeView) itemView.findViewById(R.id.playlist_art);
+            songDuration = (TextView) itemView.findViewById(R.id.song_duration);
+            songDuration.setTypeface(face);
+            moreButton = (ImageView) itemView.findViewById(R.id.more_button);
+            favouriteAlbumArt = (SimpleDraweeView) itemView.findViewById(R.id.song_album_art);
         }
     }
 

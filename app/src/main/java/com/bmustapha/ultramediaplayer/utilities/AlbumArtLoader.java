@@ -11,8 +11,6 @@ import android.provider.MediaStore;
 import com.bmustapha.ultramediaplayer.R;
 import com.facebook.common.util.UriUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.facebook.imagepipeline.request.ImageRequest;
-import com.facebook.imagepipeline.request.ImageRequestBuilder;
 
 import java.io.File;
 import java.io.InputStream;
@@ -26,8 +24,10 @@ public class AlbumArtLoader {
 
     public static void initializeDefaultArt() {
         try {
-            ImageRequest imageRequest = ImageRequestBuilder.newBuilderWithResourceId(R.drawable.default_art).build();
-            defaultUri = imageRequest.getSourceUri();
+            defaultUri = new Uri.Builder()
+                    .scheme(UriUtil.LOCAL_RESOURCE_SCHEME)
+                    .path(String.valueOf(R.drawable.default_art))
+                    .build();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -51,10 +51,7 @@ public class AlbumArtLoader {
     }
 
     public static void setImage(Uri uri, SimpleDraweeView imageView) {
-        Uri defaultUri = new Uri.Builder()
-                .scheme(UriUtil.LOCAL_RESOURCE_SCHEME) // "res"
-                .path(String.valueOf(R.drawable.default_art))
-                .build();
+
         imageView.setImageURI(defaultUri);
 
         ContentResolver cr = ContextProvider.getContext().getContentResolver();

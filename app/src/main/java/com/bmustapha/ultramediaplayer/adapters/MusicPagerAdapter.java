@@ -1,34 +1,37 @@
 package com.bmustapha.ultramediaplayer.adapters;
 
-import android.graphics.drawable.Drawable;
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.ImageSpan;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.bmustapha.ultramediaplayer.R;
 import com.bmustapha.ultramediaplayer.fragments.InternalMusicFragments.AlbumFragment;
 import com.bmustapha.ultramediaplayer.fragments.InternalMusicFragments.AllMusicFragment;
 import com.bmustapha.ultramediaplayer.fragments.InternalMusicFragments.FavouriteFragment;
 import com.bmustapha.ultramediaplayer.fragments.InternalMusicFragments.PlayListFragment;
-import com.bmustapha.ultramediaplayer.utilities.ContextProvider;
 
 /**
  * Created by toystars on 10/19/15.
  */
-public class MusicPagerAdapter extends FragmentPagerAdapter {
+public class MusicPagerAdapter extends FragmentStatePagerAdapter {
 
     private int[] imageResId = {
             R.drawable.ic_action_music,
-            R.drawable.ic_album,
             R.drawable.ic_favorite,
-            R.drawable.ic_playlist
+            R.drawable.ic_album,
+            R.drawable.ic_playlist,
+            R.drawable.ic_settings_applications
     };
 
-    public MusicPagerAdapter(FragmentManager fragmentManager) {
+    private Context context;
+
+    public MusicPagerAdapter(FragmentManager fragmentManager, Context context) {
         super(fragmentManager);
+        this.context = context;
     }
 
     @Override
@@ -37,10 +40,12 @@ public class MusicPagerAdapter extends FragmentPagerAdapter {
             case 0:
                 return new AllMusicFragment();
             case 1:
-                return new AlbumFragment();
-            case 2:
                 return new FavouriteFragment();
+            case 2:
+                return new AlbumFragment();
             case 3:
+                return new PlayListFragment();
+            case 4:
                 return new PlayListFragment();
         }
         return null;
@@ -48,37 +53,18 @@ public class MusicPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 4;
+        return 5;
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-
-        switch (position) {
-            case 0:
-                return getTitle(position, "All Songs");
-            case 1:
-                return getTitle(position, "Albums");
-            case 2:
-                return getTitle(position, "Favourites");
-            case 3:
-                return getTitle(position, "Playlists");
-            default:
-                return null;
-        }
+        return "";
     }
 
-    private SpannableString getTitle(int position, String title) {
-        SpannableString spannableString = new SpannableString("  " + title);
-        try {
-            Drawable image = ContextProvider.getContext().getResources().getDrawable(imageResId[position]);
-            assert image != null;
-            image.setBounds(0, 0, image.getIntrinsicWidth(), image.getIntrinsicHeight());
-            ImageSpan imageSpan = new ImageSpan(image, ImageSpan.ALIGN_BOTTOM);
-            spannableString.setSpan(imageSpan, 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return spannableString;
+    public View getTabView(int position) {
+        View view = LayoutInflater.from(context).inflate(R.layout.custom_tab, null);
+        ImageView img = (ImageView) view.findViewById(R.id.tab_icon);
+        img.setImageResource(imageResId[position]);
+        return view;
     }
 }
