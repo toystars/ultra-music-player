@@ -21,4 +21,8 @@
     <string name="go_to_artist">Go to Artist</string>
     <string name="full_video_screen_rotation_button">Full Video Screen Screen Rotation Button</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="settings">Settings</string>
+
 </resources>

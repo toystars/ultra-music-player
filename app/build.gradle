@@ -30,4 +30,5 @@ dependencies {
     compile 'com.victor:lib:1.0.1'
     compile 'com.android.support:recyclerview-v7:23.2.0'
     compile 'com.facebook.fresco:fresco:0.9.0+'
+    compile 'com.android.support:support-v4:23.2.0'
 }

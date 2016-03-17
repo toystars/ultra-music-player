@@ -72,9 +72,9 @@ public class FullMusicActivity extends AppCompatActivity {
 
         fullScreenSeekBar.setPadding(0,0,0,0);
 
-//        fullScreenSongTitle.setTypeface(face);
-//        fullScreenArtistName.setTypeface(face);
-//        fullScreenAlbumName.setTypeface(face);
+        fullScreenSongTitle.setTypeface(face);
+        fullScreenArtistName.setTypeface(face);
+        fullScreenAlbumName.setTypeface(face);
 
         String albumName = currentSong.getAlbum();
         fullScreenAlbumName.setText(albumName);

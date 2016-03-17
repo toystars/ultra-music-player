@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.bmustapha.ultramediaplayer"
-          xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.bmustapha.ultramediaplayer">
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION"/>
-    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
 
-    <uses-permission-sdk-23 android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission-sdk-23 android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission-sdk-23 android:name="android.permission.WRITE_SETTINGS"/>
+    <uses-permission-sdk-23 android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission-sdk-23 android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission-sdk-23 android:name="android.permission.WRITE_SETTINGS" />
 
     <application
-        android:name="com.bmustapha.ultramediaplayer.config.UltraMediaPlayerApplication"
+        android:name=".config.UltraMediaPlayerApplication"
         android:allowBackup="true"
         android:fullBackupContent="false"
         android:icon="@drawable/ic_launcher"
@@ -25,43 +25,38 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <service android:name=".services.MusicService" />
+        <service android:name=".services.VideoService" />
 
-        <service android:name="com.bmustapha.ultramediaplayer.services.MusicService"/>
-        <service android:name="com.bmustapha.ultramediaplayer.services.VideoService"/>
-
-        <receiver android:name="com.bmustapha.ultramediaplayer.broadcasts.MediaServiceStartBroadcast">
+        <receiver android:name=".broadcasts.MediaServiceStartBroadcast">
             <intent-filter>
-                <action android:name="android.intent.action.QUICKBOOT_POWERON"/>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 
         <activity
-            android:name="com.bmustapha.ultramediaplayer.activities.MainActivity"
+            android:name=".activities.MainActivity"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait">
-        </activity>
-
+            android:screenOrientation="portrait" />
         <activity
-            android:name="com.bmustapha.ultramediaplayer.activities.LauncherActivity"
+            android:name=".activities.LauncherActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name="com.bmustapha.ultramediaplayer.activities.PlayListSongs">
-        </activity>
-
-        <activity android:name="com.bmustapha.ultramediaplayer.activities.FullMusicActivity">
-        </activity>
-
-        <activity
-            android:name="com.bmustapha.ultramediaplayer.activities.FullVideoActivity">
-        </activity>
+        <activity android:name=".activities.PlayListSongs"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities.FullMusicActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities.FullVideoActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities.UserSettingsActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

@@ -351,12 +351,20 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         shuffle = !shuffle;
     }
 
+    public void toggleShuffle(boolean status) {
+        shuffle = status;
+    }
+
     public boolean getShuffledState() {
         return shuffle;
     }
 
     public void toggleRepeat() {
         repeat = !repeat;
+    }
+
+    public void toggleRepeat(boolean status) {
+        repeat = status;
     }
 
     public boolean getRepeatState() {

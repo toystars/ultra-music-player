@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="Playback">
+
+        <SwitchPreference
+            android:title="Shuffle"
+            android:summary="Play random songs on playback?"
+            android:key="playbackShuffle"
+            android:defaultValue="false" />
+
+        <SwitchPreference
+            android:title="Repeat"
+            android:summary="Repeat current playing song."
+            android:key="playbackRepeat"
+            android:defaultValue="false" />
+
+    </PreferenceCategory>
+
+    <!--<PreferenceCategory
+        android:title="Display">
+
+        <SwitchPreference
+            android:title="Receive Notifications"
+            android:summary="Want to receive Push Notifications ?"
+            android:key="receiveNotifications"
+            android:defaultValue="true" />
+
+    </PreferenceCategory>-->
+
+</PreferenceScreen>

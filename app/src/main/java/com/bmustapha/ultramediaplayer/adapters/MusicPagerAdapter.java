@@ -1,14 +1,9 @@
 package com.bmustapha.ultramediaplayer.adapters;
 
-import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.ImageView;
 
-import com.bmustapha.ultramediaplayer.R;
 import com.bmustapha.ultramediaplayer.fragments.InternalMusicFragments.AlbumFragment;
 import com.bmustapha.ultramediaplayer.fragments.InternalMusicFragments.AllMusicFragment;
 import com.bmustapha.ultramediaplayer.fragments.InternalMusicFragments.FavouriteFragment;
@@ -19,19 +14,8 @@ import com.bmustapha.ultramediaplayer.fragments.InternalMusicFragments.PlayListF
  */
 public class MusicPagerAdapter extends FragmentStatePagerAdapter {
 
-    private int[] imageResId = {
-            R.drawable.ic_action_music,
-            R.drawable.ic_favorite,
-            R.drawable.ic_album,
-            R.drawable.ic_playlist,
-            R.drawable.ic_settings_applications
-    };
-
-    private Context context;
-
-    public MusicPagerAdapter(FragmentManager fragmentManager, Context context) {
+    public MusicPagerAdapter(FragmentManager fragmentManager) {
         super(fragmentManager);
-        this.context = context;
     }
 
     @Override
@@ -45,26 +29,27 @@ public class MusicPagerAdapter extends FragmentStatePagerAdapter {
                 return new AlbumFragment();
             case 3:
                 return new PlayListFragment();
-            case 4:
-                return new PlayListFragment();
         }
         return null;
     }
 
     @Override
     public int getCount() {
-        return 5;
+        return 4;
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return "";
-    }
-
-    public View getTabView(int position) {
-        View view = LayoutInflater.from(context).inflate(R.layout.custom_tab, null);
-        ImageView img = (ImageView) view.findViewById(R.id.tab_icon);
-        img.setImageResource(imageResId[position]);
-        return view;
+        switch (position) {
+            case 0:
+                return "All Songs";
+            case 1:
+                return "Favourites";
+            case 2:
+                return "Albums";
+            case 3:
+                return "Playlists";
+        }
+        return null;
     }
 }
