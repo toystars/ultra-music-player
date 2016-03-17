@@ -4,8 +4,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -39,12 +41,14 @@ public class FullMusicActivity extends AppCompatActivity {
     private ImageView fullScreenNextButton;
     private ImageView fullScreenShuffleButton;
     private TextView fullScreenAlbumName;
+    private SharedPreferences settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_full_music);
 
+        settings = PreferenceManager.getDefaultSharedPreferences(this);
         musicService = MusicService.musicService;
         Song currentSong = musicService.getCurrentSong();
 
@@ -104,6 +108,7 @@ public class FullMusicActivity extends AppCompatActivity {
     }
 
     private void setUpButtonClicks() {
+
         fullScreenRepeatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -113,6 +118,9 @@ public class FullMusicActivity extends AppCompatActivity {
                 } else {
                     fullScreenRepeatButton.setImageResource(R.drawable.ic_full_music_repeat_disabled);
                 }
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putBoolean("playbackRepeat", musicService.getRepeatState());
+                editor.apply();
             }
         });
 
@@ -125,6 +133,9 @@ public class FullMusicActivity extends AppCompatActivity {
                 } else {
                     fullScreenShuffleButton.setImageResource(R.drawable.ic_full_music_shuffle_disabled);
                 }
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putBoolean("playbackShuffle", musicService.getShuffledState());
+                editor.apply();
             }
         });
 
