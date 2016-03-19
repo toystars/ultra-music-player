@@ -1,5 +1,7 @@
 package com.bmustapha.ultramediaplayer.models;
 
+import android.net.Uri;
+
 import com.bmustapha.ultramediaplayer.shared.PlayListSync;
 
 /**
@@ -46,8 +48,13 @@ public class PlayList {
         return dbId;
     }
 
+    public Uri getFirstTrackUri() {
+        Uri songUri = PlayListSync.getDataBaseHandler().getFirstTrackUri(this.getDbId());
+        return songUri != null ? songUri : null;
+    }
+
     public String addSong(Song song) {
-        String message = "";
+        String message;
         // check if song has already been added to database
         if (PlayListSync.getDataBaseHandler().isInPlayList(this.getDbId(), song.getID())) {
             // song present in database

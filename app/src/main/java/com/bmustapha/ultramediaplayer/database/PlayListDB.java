@@ -224,6 +224,16 @@ public class PlayListDB extends SQLiteOpenHelper {
         return false;
     }
 
+    public Uri getFirstTrackUri(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery("select * from song where playListId=" + id, null );
+        if (res.moveToFirst()) {
+            return Uri.parse(res.getString(res.getColumnIndex(SONG_COLUMN_ALBUM_ART_URI)));
+        }
+        res.close();
+        return null;
+    }
+
     public ArrayList<Song> getAllPlayListSongs(int playListId) {
         ArrayList<Song> allSongs = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();

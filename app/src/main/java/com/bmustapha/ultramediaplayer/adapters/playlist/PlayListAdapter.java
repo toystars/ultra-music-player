@@ -26,7 +26,9 @@ import com.bmustapha.ultramediaplayer.models.PlayList;
 import com.bmustapha.ultramediaplayer.models.Song;
 import com.bmustapha.ultramediaplayer.services.MusicService;
 import com.bmustapha.ultramediaplayer.shared.PlayListSync;
+import com.bmustapha.ultramediaplayer.utilities.AlbumArtLoader;
 import com.bmustapha.ultramediaplayer.utilities.MediaQuery;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -47,8 +49,6 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.ViewHo
     private int playListPosition;
 
     private MusicService musicService;
-
-    private ArrayList<Song> playListSongs;
 
     public PlayListAdapter(ArrayList<PlayList> playLists, Activity context, Typeface face) {
         super();
@@ -77,7 +77,8 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.ViewHo
                 showMenu(view);
             }
         });
-        holder.playListArt.setOnClickListener(new View.OnClickListener() {
+        AlbumArtLoader.setImage(playList.getFirstTrackUri(), holder.playListArt);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 playListPosition = position;
@@ -96,7 +97,7 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.ViewHo
         public TextView name;
         public TextView description;
         public ImageView moreButton;
-        public ImageView playListArt;
+        public SimpleDraweeView playListArt;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -105,7 +106,7 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.ViewHo
             description = (TextView) itemView.findViewById(R.id.playlist_description);
             description.setTypeface(face);
             moreButton = (ImageView) itemView.findViewById(R.id.playlist_more_button);
-            playListArt = (ImageView) itemView.findViewById(R.id.playlist_art);
+            playListArt = (SimpleDraweeView) itemView.findViewById(R.id.playlist_art);
         }
     }
 
@@ -160,7 +161,7 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.ViewHo
     }
 
     private void playPlayListSongs() {
-        playListSongs = playListDB.getAllPlayListSongs(playLists.get(playListPosition).getDbId());
+        ArrayList<Song> playListSongs = playListDB.getAllPlayListSongs(playLists.get(playListPosition).getDbId());
         if (playListSongs.size() > 0) {
             musicService.setSongList(playListSongs, playLists.get(playListPosition).getDbId());
             musicService.startSong(0);

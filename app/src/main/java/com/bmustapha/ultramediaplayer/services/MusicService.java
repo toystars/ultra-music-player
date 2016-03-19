@@ -334,19 +334,6 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         }
     }
 
-    public void pause() {
-        toggleState();
-    }
-
-    public void resume() {
-        toggleState();
-    }
-
-    public void stop() {
-        mediaPlayer.stop();
-        unregisterReceiver(noisyReceiver);
-    }
-
     public void toggleShuffle() {
         shuffle = !shuffle;
     }

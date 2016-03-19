@@ -21,8 +21,7 @@
                 android:id="@+id/playlist_art"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                android:contentDescription="@string/playlist_album_art"
-                android:scaleType="fitXY" />
+                android:contentDescription="@string/playlist_album_art" />
 
 
             <LinearLayout

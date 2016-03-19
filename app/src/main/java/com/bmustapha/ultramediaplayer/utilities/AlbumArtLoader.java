@@ -53,25 +53,26 @@ public class AlbumArtLoader {
     public static void setImage(Uri uri, SimpleDraweeView imageView) {
 
         imageView.setImageURI(defaultUri);
-
-        ContentResolver cr = ContextProvider.getContext().getContentResolver();
-        String[] projection = {MediaStore.MediaColumns.DATA};
-        Cursor cur = cr.query(uri, projection, null, null, null);
-        if (cur != null) {
-            if (cur.moveToFirst()) {
-                String filePath = cur.getString(0);
-                if (!new File(filePath).exists()) {
+        if (uri != null) {
+            ContentResolver cr = ContextProvider.getContext().getContentResolver();
+            String[] projection = {MediaStore.MediaColumns.DATA};
+            Cursor cur = cr.query(uri, projection, null, null, null);
+            if (cur != null) {
+                if (cur.moveToFirst()) {
+                    String filePath = cur.getString(0);
+                    if (!new File(filePath).exists()) {
+                        uri = null;
+                    }
+                } else {
                     uri = null;
                 }
+                cur.close();
             } else {
                 uri = null;
             }
-            cur.close();
-        } else {
-            uri = null;
-        }
-        if (uri != null) {
-            imageView.setImageURI(uri);
+            if (uri != null) {
+                imageView.setImageURI(uri);
+            }
         }
     }
 }
