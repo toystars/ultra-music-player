@@ -4,8 +4,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -45,6 +47,7 @@ public class PlayListSongs extends AppCompatActivity {
     private LinearLayout fullPlayListControlLayout;
     private TextView fullPlayListSongName;
     private TextView fullPlayListArtistName;
+    private SharedPreferences settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +62,7 @@ public class PlayListSongs extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         playListName = getIntent().getStringExtra("PLAYLIST_NAME");
         playListId = getIntent().getIntExtra("PLAYLIST_ID", 0);
+        settings = PreferenceManager.getDefaultSharedPreferences(this);
 
         currentAlbumArt = (SimpleDraweeView) findViewById(R.id.current_album_art);
         listView = (ListView) findViewById(R.id.full_playlist_song_list_view);
@@ -115,6 +119,7 @@ public class PlayListSongs extends AppCompatActivity {
             setUpUpdates();
             setUpControls();
         } else {
+            AlbumArtLoader.setImage(PlayListSync.getDataBaseHandler().getFirstTrackUri(playListId), currentAlbumArt);
             musicService.setSongListFromPlayList(true, currentAlbumArt, fullPlayListPlayPauseButton);
             fullPlayListControlLayout.setVisibility(View.GONE);
             fullPlayListSeekBar.setVisibility(View.GONE);
@@ -140,6 +145,9 @@ public class PlayListSongs extends AppCompatActivity {
                 } else {
                     fullPlayListRepeatButton.setImageResource(R.drawable.ic_playlist_full_repeat_disabled);
                 }
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putBoolean("playbackRepeat", musicService.getRepeatState());
+                editor.apply();
             }
         });
 
@@ -152,6 +160,9 @@ public class PlayListSongs extends AppCompatActivity {
                 } else {
                     fullPlayListShuffleButton.setImageResource(R.drawable.ic_playlist_full_shuffle_disabled);
                 }
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putBoolean("playbackShuffle", musicService.getShuffledState());
+                editor.apply();
             }
         });
 

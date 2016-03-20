@@ -15,6 +15,7 @@ import com.bmustapha.ultramediaplayer.R;
 import com.bmustapha.ultramediaplayer.adapters.song.RecyclerSongAdapter;
 import com.bmustapha.ultramediaplayer.models.Song;
 import com.bmustapha.ultramediaplayer.services.MusicService;
+import com.bmustapha.ultramediaplayer.shared.PlayListSync;
 import com.bmustapha.ultramediaplayer.utilities.MediaQuery;
 
 import java.util.ArrayList;
@@ -76,6 +77,7 @@ public class AllMusicFragment extends Fragment {
         protected void onPostExecute(Void result) {
             RecyclerSongAdapter recyclerSongAdapter = new RecyclerSongAdapter(getActivity(), songList, face, musicService);
             songRecyclerView.setAdapter(recyclerSongAdapter);
+            PlayListSync.updateSongAdapter(recyclerSongAdapter);
         }
     }
 }

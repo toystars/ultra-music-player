@@ -18,15 +18,40 @@
 
     </PreferenceCategory>
 
-    <!--<PreferenceCategory
+    <PreferenceCategory
         android:title="Display">
 
+        <ListPreference
+            android:key="playListDisplayMode"
+            android:title="Playlist Display Mode (List or Grid)"
+            android:summary="%s"
+            android:dialogTitle="Playlists Display Mode"
+            android:entries="@array/displayArray"
+            android:entryValues="@array/displayArray"
+            android:defaultValue="List" />
+
+        <ListPreference
+            android:key="albumDisplayMode"
+            android:title="Album Display Mode (List or Grid)"
+            android:summary="%s"
+            android:dialogTitle="Playlists Display Mode"
+            android:entries="@array/displayArray"
+            android:entryValues="@array/displayArray"
+            android:defaultValue="List" />
+
         <SwitchPreference
-            android:title="Receive Notifications"
-            android:summary="Want to receive Push Notifications ?"
-            android:key="receiveNotifications"
+            android:title="All Songs Album Art"
+            android:summary="Display Album Art for All Songs."
+            android:key="allSongsAlbumArt"
             android:defaultValue="true" />
 
-    </PreferenceCategory>-->
+        <SwitchPreference
+            android:title="Favourites Album Art"
+            android:summary="Display Album Art for Favourites."
+            android:key="favouritesAlbumArt"
+            android:defaultValue="true" />
+
+
+    </PreferenceCategory>
 
 </PreferenceScreen>

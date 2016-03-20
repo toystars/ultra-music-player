@@ -2,9 +2,9 @@ package com.bmustapha.ultramediaplayer.shared;
 
 import android.widget.RelativeLayout;
 
-import com.bmustapha.ultramediaplayer.adapters.song.FavouritesAdapter;
 import com.bmustapha.ultramediaplayer.adapters.playlist.PlayListAdapter;
-import com.bmustapha.ultramediaplayer.adapters.song.SongAdapter;
+import com.bmustapha.ultramediaplayer.adapters.song.FavouritesAdapter;
+import com.bmustapha.ultramediaplayer.adapters.song.RecyclerSongAdapter;
 import com.bmustapha.ultramediaplayer.database.PlayListDB;
 
 /**
@@ -15,7 +15,7 @@ public class PlayListSync {
     public static PlayListAdapter mPlayListAdapter;
     public static FavouritesAdapter mFavouritesAdapter;
     public static PlayListDB mPlayListDB;
-    public static SongAdapter mSongAdapter;
+    public static RecyclerSongAdapter mSongAdapter;
     public static RelativeLayout songDetail;
 
     public static void updateDatabaseHandler(PlayListDB playListDB) {
@@ -43,13 +43,21 @@ public class PlayListSync {
         mFavouritesAdapter = favouritesAdapter;
     }
 
+    public static void refreshAllFavourites() {
+        mFavouritesAdapter.notifyDataSetChanged();
+    }
+
     public static void refreshFavouritesSongs() {
         mFavouritesAdapter.setFavouriteSongs(mPlayListDB.getAllFavSongs());
         mFavouritesAdapter.notifyDataSetChanged();
     }
 
-    public static void updateSongAdapter(SongAdapter songAdapter) {
+    public static void updateSongAdapter(RecyclerSongAdapter songAdapter) {
         mSongAdapter = songAdapter;
+    }
+
+    public static void refreshAllSongs() {
+        mSongAdapter.notifyDataSetChanged();
     }
 
     public static void loadSongs(int position) {

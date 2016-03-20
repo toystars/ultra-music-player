@@ -10,6 +10,7 @@ import android.view.MenuItem;
 
 import com.bmustapha.ultramediaplayer.R;
 import com.bmustapha.ultramediaplayer.services.MusicService;
+import com.bmustapha.ultramediaplayer.shared.PlayListSync;
 
 public class UserSettingsActivity extends AppCompatActivity {
 
@@ -67,6 +68,12 @@ public class UserSettingsActivity extends AppCompatActivity {
                     if (MusicService.musicService != null) {
                         MusicService.musicService.toggleRepeat(repeat);
                     }
+                    break;
+                case "allSongsAlbumArt":
+                    PlayListSync.refreshAllSongs();
+                    break;
+                case "favouritesAlbumArt":
+                    PlayListSync.refreshAllFavourites();
                     break;
             }
         }

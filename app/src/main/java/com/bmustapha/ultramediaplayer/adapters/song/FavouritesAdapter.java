@@ -1,7 +1,9 @@
 package com.bmustapha.ultramediaplayer.adapters.song;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +20,7 @@ import com.bmustapha.ultramediaplayer.models.Song;
 import com.bmustapha.ultramediaplayer.services.MusicService;
 import com.bmustapha.ultramediaplayer.shared.PlayListSync;
 import com.bmustapha.ultramediaplayer.utilities.AlbumArtLoader;
+import com.bmustapha.ultramediaplayer.utilities.ContextProvider;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.lang.reflect.Field;
@@ -63,7 +66,16 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.Vi
                 showMenu(view);
             }
         });
-        AlbumArtLoader.setImage(song.getAlbumArtUri(), holder.favouriteAlbumArt);
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ContextProvider.getContext());
+        boolean displayFavouritesAlbumArt = sharedPreferences.getBoolean("favouritesAlbumArt", true);
+        if (displayFavouritesAlbumArt) {
+            holder.favouriteAlbumArt.setVisibility(View.VISIBLE);
+            AlbumArtLoader.setImage(song.getAlbumArtUri(), holder.favouriteAlbumArt);
+        } else {
+            holder.favouriteAlbumArt.setVisibility(View.GONE);
+        }
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

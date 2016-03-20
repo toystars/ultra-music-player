@@ -4,8 +4,10 @@ package com.bmustapha.ultramediaplayer.adapters.song;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.media.RingtoneManager;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -27,6 +29,7 @@ import com.bmustapha.ultramediaplayer.models.Song;
 import com.bmustapha.ultramediaplayer.services.MusicService;
 import com.bmustapha.ultramediaplayer.shared.PlayListSync;
 import com.bmustapha.ultramediaplayer.utilities.AlbumArtLoader;
+import com.bmustapha.ultramediaplayer.utilities.ContextProvider;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.lang.reflect.Field;
@@ -68,7 +71,14 @@ public class RecyclerSongAdapter extends RecyclerView.Adapter<RecyclerSongAdapte
         holder.songArtist.setText(song.getArtist());
         holder.songDuration.setText(song.getFormattedTime());
 
-        AlbumArtLoader.setImage(song.getAlbumArtUri(), holder.albumArt);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ContextProvider.getContext());
+        boolean displaySongAlbumArt = sharedPreferences.getBoolean("allSongsAlbumArt", true);
+        if (displaySongAlbumArt) {
+            holder.albumArt.setVisibility(View.VISIBLE);
+            AlbumArtLoader.setImage(song.getAlbumArtUri(), holder.albumArt);
+        } else {
+            holder.albumArt.setVisibility(View.GONE);
+        }
 
         holder.moreButton.setOnClickListener(new View.OnClickListener() {
             @Override
