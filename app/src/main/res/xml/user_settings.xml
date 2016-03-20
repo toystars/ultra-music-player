@@ -21,24 +21,6 @@
     <PreferenceCategory
         android:title="Display">
 
-        <ListPreference
-            android:key="playListDisplayMode"
-            android:title="Playlist Display Mode (List or Grid)"
-            android:summary="%s"
-            android:dialogTitle="Playlists Display Mode"
-            android:entries="@array/displayArray"
-            android:entryValues="@array/displayArray"
-            android:defaultValue="List" />
-
-        <ListPreference
-            android:key="albumDisplayMode"
-            android:title="Album Display Mode (List or Grid)"
-            android:summary="%s"
-            android:dialogTitle="Playlists Display Mode"
-            android:entries="@array/displayArray"
-            android:entryValues="@array/displayArray"
-            android:defaultValue="List" />
-
         <SwitchPreference
             android:title="All Songs Album Art"
             android:summary="Display Album Art for All Songs."

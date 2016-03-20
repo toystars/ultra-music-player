@@ -1,7 +1,5 @@
 package com.bmustapha.ultramediaplayer.shared;
 
-import android.widget.RelativeLayout;
-
 import com.bmustapha.ultramediaplayer.adapters.playlist.PlayListAdapter;
 import com.bmustapha.ultramediaplayer.adapters.song.FavouritesAdapter;
 import com.bmustapha.ultramediaplayer.adapters.song.RecyclerSongAdapter;
@@ -16,7 +14,6 @@ public class PlayListSync {
     public static FavouritesAdapter mFavouritesAdapter;
     public static PlayListDB mPlayListDB;
     public static RecyclerSongAdapter mSongAdapter;
-    public static RelativeLayout songDetail;
 
     public static void updateDatabaseHandler(PlayListDB playListDB) {
         mPlayListDB = playListDB;
@@ -58,9 +55,5 @@ public class PlayListSync {
 
     public static void refreshAllSongs() {
         mSongAdapter.notifyDataSetChanged();
-    }
-
-    public static void loadSongs(int position) {
-        mSongAdapter.setSongs(mPlayListDB.getAllPlayListSongs(position));
     }
 }
