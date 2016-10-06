@@ -11,6 +11,7 @@ import com.bmustapha.ultramediaplayer.fragments.InternalMusicFragments.PlayListF
 
 /**
  * Created by toystars on 10/19/15.
+ *
  */
 public class MusicPagerAdapter extends FragmentStatePagerAdapter {
 
