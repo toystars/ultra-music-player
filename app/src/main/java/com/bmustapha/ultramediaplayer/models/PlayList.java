@@ -5,8 +5,10 @@ import android.net.Uri;
 import com.bmustapha.ultramediaplayer.shared.PlayListSync;
 
 /**
- * Created by tunde on 9/11/15.
+ * Created by toystars on 9/11/15.
+ *
  */
+
 public class PlayList {
 
     private int dbId;

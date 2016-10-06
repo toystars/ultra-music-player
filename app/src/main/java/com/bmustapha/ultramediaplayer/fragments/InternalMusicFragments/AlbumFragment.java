@@ -19,8 +19,10 @@ import com.bmustapha.ultramediaplayer.utilities.MediaQuery;
 import java.util.ArrayList;
 
 /**
- * Created by tunde on 10/25/15.
+ * Created by toystars on 10/25/15.
+ *
  */
+
 public class AlbumFragment extends Fragment {
 
     private ArrayList<Album> albums;

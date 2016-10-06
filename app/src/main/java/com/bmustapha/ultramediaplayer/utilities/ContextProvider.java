@@ -3,8 +3,10 @@ package com.bmustapha.ultramediaplayer.utilities;
 import android.content.Context;
 
 /**
- * Created by tunde on 10/11/15.
+ * Created by toystars on 10/11/15.
+ *
  */
+
 public class ContextProvider {
 
     private static Context context;

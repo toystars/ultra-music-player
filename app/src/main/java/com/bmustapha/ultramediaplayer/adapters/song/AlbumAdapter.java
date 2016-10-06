@@ -32,7 +32,8 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 /**
- * Created by tunde on 10/25/15.
+ * Created by toystars on 10/25/15.
+ *
  */
 public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> implements PopupMenu.OnMenuItemClickListener {
 

@@ -27,7 +27,8 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 /**
- * Created by tunde on 10/21/15.
+ * Created by toystars on 10/21/15.
+ *
  */
 public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.ViewHolder> implements PopupMenu.OnMenuItemClickListener {
 

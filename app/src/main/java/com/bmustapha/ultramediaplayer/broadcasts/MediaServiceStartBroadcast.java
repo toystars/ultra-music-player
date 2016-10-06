@@ -9,7 +9,8 @@ import com.bmustapha.ultramediaplayer.services.VideoService;
 
 
 /**
- * Created by andela on 9/30/15.
+ * Created by toystars on 9/30/15.
+ *
  */
 public class MediaServiceStartBroadcast extends BroadcastReceiver {
     @Override

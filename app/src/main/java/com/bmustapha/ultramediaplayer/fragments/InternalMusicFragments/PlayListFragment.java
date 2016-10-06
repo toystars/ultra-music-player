@@ -21,8 +21,10 @@ import com.bmustapha.ultramediaplayer.shared.PlayListSync;
 import java.util.ArrayList;
 
 /**
- * Created by tunde on 10/19/15.
+ * Created by toystars on 10/19/15.
+ *
  */
+
 public class PlayListFragment extends Fragment {
 
     private ArrayList<PlayList> playLists;

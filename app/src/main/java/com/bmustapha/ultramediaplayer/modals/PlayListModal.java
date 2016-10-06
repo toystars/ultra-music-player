@@ -13,8 +13,10 @@ import com.bmustapha.ultramediaplayer.models.PlayList;
 import com.bmustapha.ultramediaplayer.shared.PlayListSync;
 
 /**
- * Created by tunde on 9/11/15.
+ * Created by toystars on 9/11/15.
+ *
  */
+
 public class PlayListModal {
 
     PlayList playlist;

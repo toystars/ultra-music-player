@@ -20,8 +20,10 @@ import com.bmustapha.ultramediaplayer.shared.PlayListSync;
 import java.util.ArrayList;
 
 /**
- * Created by andela on 10/19/15.
+ * Created by toystars on 10/19/15.
+ *
  */
+
 public class FavouriteFragment extends Fragment {
 
     private ArrayList<Song> favouriteSongs;

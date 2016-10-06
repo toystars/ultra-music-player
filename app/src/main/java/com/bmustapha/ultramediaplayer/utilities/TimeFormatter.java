@@ -1,8 +1,10 @@
 package com.bmustapha.ultramediaplayer.utilities;
 
 /**
- * Created by andela on 9/16/15.
+ * Created by toystars on 9/16/15.
+ *
  */
+
 public class TimeFormatter {
 
     public static String getTimeString(long millis) {

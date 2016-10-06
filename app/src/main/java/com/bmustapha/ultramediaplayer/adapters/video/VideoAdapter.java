@@ -19,7 +19,8 @@ import com.bmustapha.ultramediaplayer.utilities.ContextProvider;
 import java.util.ArrayList;
 
 /**
- * Created by tunde on 10/27/15.
+ * Created by toystars on 10/27/15.
+ *
  */
 public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> {
 

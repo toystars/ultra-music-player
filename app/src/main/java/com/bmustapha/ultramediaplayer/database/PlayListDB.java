@@ -14,8 +14,10 @@ import com.bmustapha.ultramediaplayer.models.Song;
 import java.util.ArrayList;
 
 /**
- * Created by tunde on 9/13/15.
+ * Created by toystars on 9/13/15.
+ *
  */
+
 public class PlayListDB extends SQLiteOpenHelper {
 
     // define database name

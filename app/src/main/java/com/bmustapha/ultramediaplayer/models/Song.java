@@ -6,8 +6,10 @@ import android.support.annotation.NonNull;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by tunde on 8/25/15.
+ * Created by toystars on 8/25/15.
+ *
  */
+
 public class Song implements Comparable<Song> {
 
     private long id;

@@ -4,8 +4,10 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 
 /**
- * Created by andela on 10/25/15.
+ * Created by toystars on 10/25/15.
+ *
  */
+
 public class Album implements Comparable<Album> {
 
     private String name;

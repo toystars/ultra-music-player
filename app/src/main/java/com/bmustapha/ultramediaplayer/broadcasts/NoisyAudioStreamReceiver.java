@@ -9,7 +9,8 @@ import com.bmustapha.ultramediaplayer.services.MusicService;
 
 
 /**
- * Created by tunde on 10/1/15.
+ * Created by toystars on 10/1/15.
+ *
  */
 public class NoisyAudioStreamReceiver extends BroadcastReceiver {
     @Override

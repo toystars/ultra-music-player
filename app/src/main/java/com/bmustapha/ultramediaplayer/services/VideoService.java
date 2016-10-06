@@ -18,7 +18,9 @@ import com.bmustapha.ultramediaplayer.utilities.TimeFormatter;
 
 /**
  * Created by toystars on 11/8/15.
+ *
  */
+
 public class VideoService extends Service implements MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener,
         MediaPlayer.OnCompletionListener, MediaPlayer.OnSeekCompleteListener {
 
@@ -31,7 +33,7 @@ public class VideoService extends Service implements MediaPlayer.OnPreparedListe
     private Uri currentVideoUri = null;
     private SurfaceHolder surfaceHolder;
 
-    public static final String BROADCAST_ACTION = "com.bmustapha.gaimediaplayer.services.seekProgres";
+    public static final String BROADCAST_ACTION = "com.bmustapha.ultramediaplayer.services.seekProgress";
     Intent seekIntent;
     private final Handler handler = new Handler();
 

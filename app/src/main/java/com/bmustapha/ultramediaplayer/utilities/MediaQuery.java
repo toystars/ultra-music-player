@@ -16,8 +16,10 @@ import com.bmustapha.ultramediaplayer.models.Video;
 import java.util.ArrayList;
 
 /**
- * Created by tunde on 9/12/15.
+ * Created by toystars on 9/12/15.
+ *
  */
+
 public class MediaQuery {
 
     /*

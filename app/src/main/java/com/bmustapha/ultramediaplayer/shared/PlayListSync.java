@@ -6,8 +6,10 @@ import com.bmustapha.ultramediaplayer.adapters.song.RecyclerSongAdapter;
 import com.bmustapha.ultramediaplayer.database.PlayListDB;
 
 /**
- * Created by tunde on 9/12/15.
+ * Created by toystars on 9/12/15.
+ *
  */
+
 public class PlayListSync {
 
     public static PlayListAdapter mPlayListAdapter;

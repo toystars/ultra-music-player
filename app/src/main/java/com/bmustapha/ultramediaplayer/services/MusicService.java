@@ -37,7 +37,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * Created by tunde on 8/25/15.
+ * Created by toystars on 8/25/15.
+ *
  */
 
 public class MusicService extends Service implements MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener,

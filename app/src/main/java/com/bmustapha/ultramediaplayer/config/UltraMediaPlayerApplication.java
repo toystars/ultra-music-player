@@ -9,7 +9,8 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 
 
 /**
- * Created by kamiye on 10/12/15.
+ * Created by toystars on 10/12/15.
+ *
  */
 public class UltraMediaPlayerApplication extends Application {
 

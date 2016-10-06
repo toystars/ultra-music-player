@@ -16,8 +16,10 @@ import java.io.File;
 import java.io.InputStream;
 
 /**
- * Created by tunde on 8/30/15.
+ * Created by toystars on 8/30/15.
+ *
  */
+
 public class AlbumArtLoader {
 
     private static Uri defaultUri;
