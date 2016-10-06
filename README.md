@@ -1,6 +1,6 @@
-# Ultra Media Player #
+# Ultra Music Player #
 
-Android Media Player
+Android Music Player
 
 # Current App Images
 
