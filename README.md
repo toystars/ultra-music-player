@@ -9,6 +9,10 @@ Android Music Player
 ![fourth](https://cloud.githubusercontent.com/assets/16062709/19145970/56ac2236-8ba9-11e6-8a7b-ed45e684694b.png) ![first](https://cloud.githubusercontent.com/assets/16062709/19145971/56b5958c-8ba9-11e6-8afa-b337282790ee.png) 
 ![fifth](https://cloud.githubusercontent.com/assets/16062709/19145969/56a8bff6-8ba9-11e6-95b7-1e2c8a9db3db.png) ![eight](https://cloud.githubusercontent.com/assets/16062709/19145967/56a88216-8ba9-11e6-81fc-d46f3202be0b.png)
 
+
+# App Link
+[Download on Playstore](https://play.google.com/store/apps/details?id=com.bmustapha.ultramediaplayer&hl=en)
+
 # Usage and Contributing
 
 Contributions are welcome and will be fully credited. 
